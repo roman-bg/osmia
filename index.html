@@ -12,7 +12,7 @@
         }
 
         body {
-            background: #9e9e9e; /* неутрален фон */
+            background: #9e9e9e;
             font-family: 'Helvetica Neue', 'Arial', 'Roboto', sans-serif;
             display: flex;
             justify-content: center;
@@ -22,9 +22,8 @@
             margin: 0;
         }
 
-        /* модерен "лист" – вече по-тесен за мобилни, с по-малки подложки */
         .guide-card {
-            max-width: 600px; /* ограничение за по-добра четимост на телефон */
+            max-width: 600px;
             width: 100%;
             background: #ffffff;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 0 1px #c0c0c0 inset;
@@ -32,11 +31,10 @@
             padding: 1.2rem 1.2rem 1.5rem 1.2rem;
             position: relative;
             background-image: linear-gradient(0deg, #f5f5f5 1px, transparent 1px);
-            background-size: 100% 20px; /* по-фина текстура за малък екран */
+            background-size: 100% 20px;
             border-left: 5px solid #2c7a4d;
         }
 
-        /* перфориран ръб – по-деликатен */
         .guide-card::after {
             content: '';
             position: absolute;
@@ -48,7 +46,6 @@
             opacity: 0.6;
         }
 
-        /* по-малък шрифт за мобилни, но все така четлив */
         h1 {
             font-size: 2.2rem;
             font-weight: 700;
@@ -80,12 +77,33 @@
 
         .subhead {
             display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem 0.8rem;
+            flex-direction: column;
             margin: 0.8rem 0 1.5rem 0;
             border-bottom: 1px dashed #aaa;
             padding-bottom: 0.6rem;
+        }
+
+        /* нов стил за горния ред – Световен ден на пчелите */
+        .bee-day {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #d48d2b; /* златисто-меден цвят, напомнящ пчелен мед */
+            background: #fff1d6;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            margin-bottom: 0.5rem;
+            align-self: flex-start;
+            letter-spacing: 0.3px;
+            border: 1px solid #f0b27a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .subhead-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.8rem;
         }
 
         .latin-name {
@@ -105,7 +123,6 @@
             white-space: nowrap;
         }
 
-        /* инфо-панел – пренарежда се за телефон */
         .info-panel {
             display: flex;
             flex-direction: column;
@@ -139,7 +156,6 @@
             width: 100px;
         }
 
-        /* изображението вече е външен файл bombus.png */
         .simple-ill {
             background: #ffffff;
             border: 1px solid #cddac4;
@@ -171,7 +187,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* определител – стъпките стават по-компактни */
         .key-title {
             font-size: 1.4rem;
             font-weight: 600;
@@ -248,7 +263,6 @@
             color: #325e23;
         }
 
-        /* допълнителна информация – подредена за мобилни */
         .extra-info {
             display: flex;
             flex-wrap: wrap;
@@ -311,15 +325,14 @@
             font-weight: 500;
             font-size: 0.85rem;
             text-align: right;
-            width: 100%; /* на нов ред при нужда */
+            width: 100%;
             word-break: break-word;
         }
 
-        /* мобилни корекции за много тесни екрани */
         @media (max-width: 420px) {
             h1 { font-size: 1.8rem; }
             .badge { font-size: 0.7rem; margin-left: 0; }
-            .subhead { flex-direction: column; align-items: flex-start; }
+            .subhead-row { flex-direction: column; align-items: flex-start; }
             .family-tag { white-space: normal; }
             .step-row { border-radius: 20px; }
             .step-marker { min-width: 30px; height: 30px; font-size: 1rem; }
@@ -327,14 +340,12 @@
             .extra-info { flex-direction: column; align-items: flex-start; }
         }
 
-        /* осигуряваме четливост на много малки екрани */
         @media (max-width: 320px) {
             .guide-card { padding: 0.8rem; }
             .taxonomy-modern td { font-size: 0.8rem; }
             .scale-bar { width: 60px; }
         }
 
-        /* изображението bombus.png – гарантираме, че няма да излезе извън контейнера */
         .bombus-img {
             max-width: 100%;
             height: auto;
@@ -344,15 +355,22 @@
 <body>
     <div class="guide-card">
 
-        <!-- заглавен блок, адаптиран -->
+        <!-- заглавен блок -->
         <div style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem 0.8rem;">
             <h1>Bombus terrestris</h1>
             <div class="badge">земна пчела</div>
         </div>
 
+        <!-- ПОДЗАГЛАВИЕ с новия надпис "Световен ден на пчелите 20 май 2026 г" -->
         <div class="subhead">
-            <span class="latin-name">Linnaeus, 1758</span>
-            <span class="family-tag">Apidae · Hymenoptera</span>
+            <!-- Вмъкнат надпис над Linnaeus, 1758 Apidae · Hymenoptera -->
+            <div class="bee-day">🐝 Световен ден на пчелите 20 май 2026 г 🐝</div>
+            
+            <!-- Това е оригиналният ред, който остава непроменен -->
+            <div class="subhead-row">
+                <span class="latin-name">Linnaeus, 1758</span>
+                <span class="family-tag">Apidae · Hymenoptera</span>
+            </div>
         </div>
 
         <!-- панел с илюстрация (bombus.png) и систематика -->
@@ -367,14 +385,13 @@
                 </table>
             </div>
             <div class="simple-ill">
-                <!-- изображението е сменено с bombus.png -->
                 <img src="bombus.png" alt="Bombus terrestris, земна пчела" class="bombus-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <div class="ill-caption" style="display:none;">⚠️ bombus.png не е намерен</div>
                 <div class="ill-caption">♀ царица (типична форма) · снимка: bombus.png</div>
             </div>
         </div>
 
-        <!-- определител – 10 стъпки, вече по-компактен -->
+        <!-- определител – 10 стъпки -->
         <div class="key-title">
             ⚡ Определител <span>10 стъпки</span>
         </div>
@@ -392,7 +409,7 @@
             <div class="step-row"><div class="step-marker">10</div><div class="step-content"><strong>Потвърждение</strong>: подземно гнездо, активен пролет–есен. <strong>Bombus terrestris</strong>.</div></div>
         </div>
 
-        <!-- полеви бележки, събрани за мобилно -->
+        <!-- полеви бележки -->
         <div style="background: #ecf3e8; border-radius: 18px; padding: 0.8rem 1.2rem; margin: 1.2rem 0 0.5rem;">
             <div style="display: flex; gap: 0.8rem 1.2rem; flex-wrap: wrap; align-items: center; font-size: 0.9rem;">
                 <span style="font-weight: 600; color: #2b5935;">🔎 Полеви бележки</span>
@@ -402,7 +419,7 @@
             </div>
         </div>
 
-        <!-- долен колонтитул с проекта (изпълнена заявката) -->
+        <!-- долен колонтитул с проекта -->
         <div class="extra-info">
             <div class="scale">
                 <span>📏</span>
@@ -413,9 +430,8 @@
             <div class="edition">проект на Българската асоциация за биологична растителна защита</div>
         </div>
 
-        <!-- hint за липсващо изображение (js-съвместимо) -->
+        <!-- скрипт за липсващо изображение -->
         <script>
-            // ако bombus.png не се зареди, показваме текстово съобщение, но без да чупим дизайна
             const img = document.querySelector('.bombus-img');
             if (img) {
                 img.addEventListener('error', function() {
