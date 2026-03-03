@@ -3,419 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Определител: Osmia bicornis vs. cornuta</title>
+    <title>Определител: Osmia bicornis vs Osmia cornuta</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f8f0e1;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            background: #f5f3eb;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 12px 10px;
-            line-height: 1.4;
+            padding: 16px 12px 32px;
+            margin: 0;
+            line-height: 1.5;
+            color: #2e3b2e;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 480px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 32px;
-            box-shadow: 0 15px 30px -8px rgba(94, 67, 35, 0.25);
-            padding: 24px 18px;
-            border: 1px solid #efe0c9;
+            background: rgba(255, 255, 250, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 40px 40px 32px 32px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            padding: 20px 18px 26px;
+            border: 1px solid #ece3d5;
         }
 
         h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #3d5a3c;
-            border-left: 8px solid #d4a373;
-            padding-left: 16px;
-            margin-bottom: 12px;
-            line-height: 1.2;
-            word-break: break-word;
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #3c5e3c;
+            padding-bottom: 8px;
+            border-bottom: 3px dashed #e0c9a6;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        h1 span {
+            background: #e6d5b8;
+            font-size: 1rem;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-weight: 400;
+            color: #3b5a3b;
+            letter-spacing: 0.3px;
         }
 
         .subhead {
+            font-style: italic;
+            margin-bottom: 22px;
+            color: #6a5e4e;
+            background: #f0eadb;
+            padding: 12px 16px;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            border-left: 6px solid #b58b5b;
+            box-shadow: inset 0 1px 4px rgba(255,255,255,0.8);
+        }
+
+        /* стилове за визуални карти с изображения */
+        .species-quickview {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .species-card {
+            flex: 1 1 180px;
+            background: white;
+            border-radius: 32px;
+            padding: 14px 10px 12px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+            border: 1px solid #ddd0ba;
+            text-align: center;
+        }
+
+        .species-card img {
+            width: 100%;
+            max-width: 160px;
+            height: auto;
+            border-radius: 28px;
+            background: #f1ede3;
+            padding: 6px;
+            border: 2px solid #dccdb6;
+            object-fit: cover;
+            aspect-ratio: 1/0.9;
+        }
+
+        .img-label {
+            font-weight: 700;
+            margin-top: 8px;
             font-size: 1rem;
-            color: #6b4f3a;
-            margin-bottom: 28px;
-            background: #e6d5b8;
+            background: #e7dfcf;
             display: inline-block;
-            padding: 8px 18px;
-            border-radius: 40px;
-            width: auto;
-            max-width: 100%;
-            box-shadow: inset 0 1px 3px #b2916e;
-            font-weight: 500;
+            padding: 5px 18px;
+            border-radius: 50px;
         }
 
-        .step-container {
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
             counter-reset: step-counter;
+            list-style: none;
+            margin-bottom: 20px;
         }
 
-        .step-card {
+        .step-item {
             counter-increment: step-counter;
             background: white;
             border-radius: 28px;
-            margin-bottom: 16px;
-            padding: 18px 18px 18px 52px;
+            padding: 16px 18px 16px 52px;
             position: relative;
-            box-shadow: 0 5px 12px -5px rgba(80, 60, 30, 0.15);
-            border: 1px solid #eedbba;
-            transition: transform 0.1s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            border: 1px solid #e4d9c6;
+            transition: all 0.1s ease;
+            font-size: 1rem;
         }
 
-        .step-card:active {
-            transform: scale(0.99);
-            background: #fffaf2;
+        .step-item:hover {
+            background: #fefcf7;
+            border-color: #c9af87;
         }
 
-        .step-card::before {
+        .step-item::before {
             content: counter(step-counter);
-            background-color: #2f5230;
-            color: white;
-            font-size: 1.4rem;
-            font-weight: bold;
-            width: 38px;
-            height: 38px;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: absolute;
-            left: -8px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            box-shadow: 0 4px 0 #1d351e, 0 4px 8px rgba(0,0,0,0.1);
-            border: 2px solid #fbd392;
-        }
-
-        .step-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #4b3e2b;
-            margin-bottom: 8px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 8px;
-            line-height: 1.3;
-        }
-
-        .species-tag {
-            font-size: 0.7rem;
-            padding: 4px 12px;
+            background: #7b9e6b;
+            color: white;
+            width: 30px;
+            height: 30px;
             border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .step-item strong {
+            color: #2b5e2b;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        .species-badge {
+            display: inline-block;
+            background: #f3e1c2;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 0.3px;
-            color: white;
-            display: inline-block;
+            margin: 6px 4px 0 0;
             white-space: nowrap;
-            box-shadow: inset 0 -1px 0 rgba(0,0,0,0.2);
+            border: 1px solid #cfb386;
+            color: #3f3a2b;
         }
 
-        .bicornis-tag { background: #1e5f5a; }
-        .cornuta-tag { background: #aa4e39; }
-        .both-tag { background: #7d5e4a; }
-
-        .description {
-            font-size: 0.95rem;
-            color: #2d2d2d;
-            line-height: 1.4;
-            margin-bottom: 6px;
-            word-break: break-word;
+        .bicornis-badge {
+            background: #d9e3c5;
+            border-color: #7f9f6b;
+            color: #1f4a1f;
         }
 
-        .highlight {
-            background: #fbebb5;
-            padding: 2px 6px;
-            border-radius: 16px;
-            font-weight: 600;
-            color: #3f2f1b;
-            display: inline-block;
+        .cornuta-badge {
+            background: #efd6b0;
+            border-color: #b7864b;
+            color: #5e3d1e;
         }
 
-        .comparison-badge {
-            display: inline-block;
-            background: #edf1d6;
-            border-radius: 30px;
-            padding: 3px 12px;
-            font-size: 0.8rem;
-            color: #4f5e2e;
-            border: 1px dashed #a5b86c;
-            margin-top: 5px;
-            line-height: 1.3;
+        .both-badge {
+            background: #e0cfbc;
+            border-color: #9b8b74;
+            color: #3d3529;
         }
 
-        .image-gallery {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .bee-card {
-            width: 100%;
-            background: white;
-            border-radius: 28px;
-            padding: 18px 15px 15px;
-            box-shadow: 0 12px 20px -8px #7a623f;
-            border: 2px solid #e7cba5;
-            text-align: center;
-        }
-
-        .bee-image {
-            width: 100%;
-            height: auto;
-            max-height: 180px;
-            object-fit: contain;
+        .comparison-note {
+            background: #e9e2d3;
             border-radius: 24px;
-            background: #f5ede1;
-            padding: 10px;
+            padding: 14px 18px;
+            margin: 22px 0 12px;
+            border-left: 6px solid #b39264;
+            font-size: 0.95rem;
         }
 
-        .bee-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 10px 0 4px;
-            color: #2f4d2b;
-            line-height: 1.2;
-        }
-
-        .bee-subtitle {
-            font-style: italic;
-            color: #7c5f41;
-            background: #f7e9d7;
-            display: inline-block;
-            padding: 5px 18px;
-            border-radius: 40px;
-            font-size: 1rem;
-            border: 1px solid #dbbd94;
+        .comparison-note p {
             margin-bottom: 8px;
         }
 
-        .bee-desc {
-            color: #3d3529;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            text-align: left;
-            background: #fcf8f0;
-            padding: 10px 12px;
-            border-radius: 20px;
-            margin-top: 8px;
-        }
-
-        .bee-desc br {
-            display: none;
-        }
-
-        .bee-desc::before {
-            content: "✓ ";
-            color: #2f5230;
-            font-weight: bold;
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 30px;
-            color: #624c38;
-            background: #ecdcc5;
-            padding: 20px 15px;
-            border-radius: 40px;
-            font-size: 0.95rem;
-            border: 2px solid #dbb68c;
-            line-height: 1.5;
-            word-break: break-word;
-        }
-
-        .footer-note i {
-            font-style: normal;
-            background: #3d5a3c;
-            color: #f9e2b7;
-            padding: 3px 10px;
+        .icon-tip {
+            background: #fff1d2;
             border-radius: 30px;
-            display: inline-block;
-            margin: 4px 2px;
-        }
-
-        .association-name {
-            display: block;
-            margin-top: 15px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #2a4b2a;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 10px 12px;
-            border-radius: 40px;
-            border: 1px dashed #7f684b;
-            word-break: break-word;
-            line-height: 1.4;
-        }
-
-        .decoration {
+            padding: 14px 18px;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid #e7cba9;
+            font-size: 0.95rem;
             margin-top: 18px;
-            color: #ad8b67;
-            font-size: 1.8rem;
-            justify-content: center;
-            flex-wrap: wrap;
         }
 
-        /* Touch-friendly improvements */
-        .step-card, .bee-card, .footer-note {
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+        .icon-tip span {
+            font-size: 2.2rem;
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.1));
+        }
+
+        hr {
+            border: none;
+            border-top: 2px dotted #dacbb4;
+            margin: 24px 0 14px;
+        }
+
+        .footer-species {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .btn-simple {
+            background: #f3efe7;
+            border: 1px solid #cbbca4;
+            border-radius: 40px;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4d5a3d;
+            text-decoration: none;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-simple:hover {
+            background: #e5dac8;
         }
 
         @media (max-width: 380px) {
             h1 { font-size: 1.6rem; }
-            .step-title { font-size: 1.1rem; }
-            .species-tag { font-size: 0.65rem; padding: 3px 8px; }
-            .description { font-size: 0.9rem; }
-            .bee-title { font-size: 1.4rem; }
+            .step-item { padding: 14px 14px 14px 48px; font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🐝 Определител<br>в 10 стъпки</h1>
-        <div class="subhead">Osmia bicornis vs. Osmia cornuta</div>
+        <h1>
+            🐝 определител
+            <span>10 стъпки</span>
+        </h1>
+        <div class="subhead">
+            <span style="font-weight:600;">Osmia bicornis</span> (червеноопашата)  vs  <span style="font-weight:600;">Osmia cornuta</span> (рогата)
+        </div>
 
-        <div class="step-container">
-            <!-- Стъпка 1 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Размер и форма
-                    <span class="species-tag both-tag">и двата</span>
-                </div>
-                <div class="description"><span class="highlight">10–15 mm</span> едри, плътни пчели. <span class="highlight">cornuta</span> по-масивна, <span class="highlight">bicornis</span> по-стройна.</div>
-                <div class="comparison-badge">✅ гъсто окосмени</div>
+        <!-- ВГРАДЕНИ ИЗОБРАЖЕНИЯ -->
+        <div class="species-quickview">
+            <div class="species-card">
+                <img src="bicornis.png" alt="Osmia bicornis – червеноопашата пчела" loading="lazy">
+                <div class="img-label" style="background:#d9e3c5; color:#1f4a1f;">🐝 bicornis</div>
             </div>
-
-            <!-- Стъпка 2 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Цвят на коремче
-                    <span class="species-tag both-tag">основно</span>
-                </div>
-                <div class="description"><span class="highlight">bicornis</span> → червеникаво-кафяво. <span class="highlight">cornuta</span> → черно със синкав блясък.</div>
-                <div class="comparison-badge">📌 bicornis = червеникаво | cornuta = черно</div>
-            </div>
-
-            <!-- Стъпка 3 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Гръдно окосмяване
-                    <span class="species-tag both-tag">отчетливо</span>
-                </div>
-                <div class="description"><span class="highlight">cornuta</span> – гъста ръждива козина. <span class="highlight">bicornis</span> – сиво-жълтеникава.</div>
-            </div>
-
-            <!-- Стъпка 4 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Рогчета на главата
-                    <span class="species-tag cornuta-tag">cornuta</span>
-                </div>
-                <div class="description">Само при <span class="highlight">O. cornuta</span> – две ясни рогчета на клипеуса.</div>
-            </div>
-
-            <!-- Стъпка 5 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Четчици (кошнички)
-                    <span class="species-tag bicornis-tag">bicornis</span>
-                </div>
-                <div class="description">Женските <span class="highlight">bicornis</span> имат червеникаво-жълти четчици по корема. При <span class="highlight">cornuta</span> – по-тъмни.</div>
-            </div>
-
-            <!-- Стъпка 6 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Лице (мъжки)
-                    <span class="species-tag both-tag">♂</span>
-                </div>
-                <div class="description"><span class="highlight">bicornis ♂</span> – бяло/жълтеникаво лице. <span class="highlight">cornuta ♂</span> – черно лице с два светли туфа.</div>
-            </div>
-
-            <!-- Стъпка 7 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Антени
-                    <span class="species-tag both-tag">дребно</span>
-                </div>
-                <div class="description"><span class="highlight">bicornis</span> – по-дълги антени. <span class="highlight">cornuta</span> – по-къси и по-дебели.</div>
-            </div>
-
-            <!-- Стъпка 8 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Цвят на краката
-                    <span class="species-tag both-tag">нюанс</span>
-                </div>
-                <div class="description"><span class="highlight">bicornis</span> – светлокафяви до червеникави. <span class="highlight">cornuta</span> – предимно черни.</div>
-            </div>
-
-            <!-- Стъпка 9 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Гнездене
-                    <span class="species-tag both-tag">екология</span>
-                </div>
-                <div class="description"><span class="highlight">bicornis</span> – всякакви кухини (тръстика). <span class="highlight">cornuta</span> – по-широки входове, цепнатини.</div>
-            </div>
-
-            <!-- Стъпка 10 -->
-            <div class="step-card">
-                <div class="step-title">
-                    Летеж
-                    <span class="species-tag both-tag">фенология</span>
-                </div>
-                <div class="description"><span class="highlight">cornuta</span> – края на февруари/март. <span class="highlight">bicornis</span> – 2-4 седмици по-късно.</div>
-                <div class="comparison-badge">⏳ cornuta по-ранна</div>
+            <div class="species-card">
+                <img src="cornuta.png" alt="Osmia cornuta – рогата пчела" loading="lazy">
+                <div class="img-label" style="background:#efd6b0; color:#5e3d1e;">🐝 cornuta</div>
             </div>
         </div>
 
-        <!-- ГАЛЕРИЯ (оптимизирана за мобилни) -->
-        <div class="image-gallery">
-            <!-- Osmia bicornis -->
-            <div class="bee-card">
-                <img src="bicornis.png"
-                     alt="Osmia bicornis" class="bee-image" loading="lazy">
-                <div class="bee-title">🐝 bicornis</div>
-                <div class="bee-subtitle">червеноопашата</div>
-                <div class="bee-desc">червеникав корем, светли четчици, гнезди в тръстика</div>
-            </div>
+        <ol class="step-list">
+            <!-- стъпка 1 -->
+            <li class="step-item">
+                <strong>Общ вид и размери:</strong> приблизително еднакви – 10–14 mm. <br>
+                <span class="species-badge both-badge">⚖️ двата вида сходни</span>
+            </li>
+            <!-- стъпка 2 -->
+            <li class="step-item">
+                <strong>Цвят на коремчето (метасома):</strong> <br>
+                <span class="species-badge bicornis-badge">🐝 Osmia bicornis</span> коремът е ръждивочервен до червеникав, особено отгоре.<br>
+                <span class="species-badge cornuta-badge">🐝 Osmia cornuta</span> коремът е черен, често с метален син/виолетов блясък.
+            </li>
+            <!-- стъпка 3 -->
+            <li class="step-item">
+                <strong>Четчица за събиране на прашец (скопа):</strong> отдолу по коремчето – при двата вида е оранжево-жълта. <br>
+                <span class="species-badge both-badge">✔️ обща черта</span>
+            </li>
+            <!-- стъпка 4 -->
+            <li class="step-item">
+                <strong>Лице и глава (при женските):</strong> <br>
+                <span class="species-badge bicornis-badge">♀ bicornis</span> черна глава, антенни четчици черни. Между пипалата има две малки рогчета (почти незабележими).<br>
+                <span class="species-badge cornuta-badge">♀ cornuta</span> челото (клипеус) с гъсти жълти/светли косми – образува жълтеникаво петно. Същински рогца на главата липсват.
+            </li>
+            <!-- стъпка 5 -->
+            <li class="step-item">
+                <strong>Мъжки – разпознаване по лицето:</strong> <br>
+                <span class="species-badge bicornis-badge">♂ bicornis</span> лицето е покрито с дълги жълтеникави косми (прилича на кафеникав мустак). Долната част на главата светла.<br>
+                <span class="species-badge cornuta-badge">♂ cornuta</span> лицето е с гъсти бели/жълти косми, но с характерен черен гланц по клипеуса. Има две ясни рогца (издатини) на върха на главата.
+            </li>
+            <!-- стъпка 6 -->
+            <li class="step-item">
+                <strong>Рогца – име "cornuta":</strong> <br>
+                <span class="species-badge cornuta-badge">♂ + ♀ cornuta</span> женските нямат рогца, но мъжките имат два малки рога на върха на главата. При двата пола предният край на главата е прав. <br>
+                <span class="species-badge bicornis-badge">O. bicornis</span> нито един пол няма рогца – името "bicornis" идва от две микроскопични рогчета при женската, които се виждат само под силно увеличение.
+            </li>
+            <!-- стъпка 7 -->
+            <li class="step-item">
+                <strong>Коремни косми (тергити):</strong> <br>
+                <span class="species-badge bicornis-badge">bicornis</span> върхът на корема (пигидий) е с червени косми – оттам името "червеноопашата". <br>
+                <span class="species-badge cornuta-badge">cornuta</span> червени косми няма – коремът изцяло тъмен, понякога със сини нюанси.
+            </li>
+            <!-- стъпка 8 -->
+            <li class="step-item">
+                <strong>Косми по гърдите (мезосома):</strong> <br>
+                <span class="species-badge bicornis-badge">bicornis</span> гърдите са покрити с ръждиво-жълтеникави косми, по-скромни. <br>
+                <span class="species-badge cornuta-badge">cornuta</span> гъст оранжево-червеникав пух по гърдите, много по-ярък и контрастен.
+            </li>
+            <!-- стъпка 9 -->
+            <li class="step-item">
+                <strong>Време на летеж (фенология):</strong> <br>
+                <span class="species-badge cornuta-badge">cornuta</span> излита по-рано – често в края на февруари, март. <br>
+                <span class="species-badge bicornis-badge">bicornis</span> малко по-късно (от март до юни). С известни припокривания.
+            </li>
+            <!-- стъпка 10 -->
+            <li class="step-item">
+                <strong>Гнездене и предпочитани кухини:</strong> и двата вида гнездят в хралупи, тръстика, гнездови блокчета. <br>
+                <span class="species-badge bicornis-badge">bicornis</span> по-често използва съществуващи дупки в дърво и стени, по-малко взискателна. <br>
+                <span class="species-badge cornuta-badge">cornuta</span> предпочита по-широки цепнатини, често гнезди в стари гнезда на диви пчели.
+            </li>
+        </ol>
 
-            <!-- Osmia cornuta -->
-            <div class="bee-card">
-                <img src="cornuta.png"
-                     alt="Osmia cornuta" class="bee-image" loading="lazy">
-                <div class="bee-title">🐝 cornuta</div>
-                <div class="bee-subtitle">рогата</div>
-                <div class="bee-desc">черен корем, две рогчета, ранна пролет</div>
+        <div class="comparison-note">
+            <p style="font-weight:700; margin-bottom:6px;">📌 Бърз ориентир в полето:</p>
+            <p>🔸 <strong>Osmia cornuta</strong> – черен корем, ярко оранжеви гърди, мъжките с два рога; главата на женската с жълто петно.</p>
+            <p>🔸 <strong>Osmia bicornis</strong> – червеникав корем (отгоре), червени косми на върха, лице без жълто, по-скромно окосмяване.</p>
+        </div>
+
+        <div class="icon-tip">
+            <span>🔎</span>
+            <div>
+                <strong>Съвет за снимане с телефон</strong><br>
+                Заснемете главата и корема отгоре. При лошо осветление огледайте цвета на върха на корема – червено = bicornis, черно/синьо = cornuta.
             </div>
         </div>
 
-        <div class="footer-note">
-            <i>Osmia bicornis</i> (червеноопашата) vs <i>Osmia cornuta</i> (рогата)<br>
-            🔍 За женски; мъжките имат допълнителни различия.
-            <span class="association-name">🐝 това е проект на Българската асоциация за биологична растителна защита</span>
-        </div>
-    </div>
+        <hr>
 
-    <div class="decoration">
-        <span>🐝</span> <span>🌸</span> <span>🐝</span>
+        <div style="font-size:0.9rem; background: #fcf9f2; border-radius: 30px; padding: 16px;">
+            <p style="margin-bottom:10px;"><strong>⭐ Десетте стъпки накратко (таблица):</strong></p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <div style="flex: 1 1 180px; background:#eef2e6; border-radius:20px; padding:12px;">
+                    <span style="font-weight:700; color:#5e8146;">O. bicornis</span>
+                    <ul style="margin-top:6px; padding-left:18px; font-size:0.85rem;">
+                        <li>червеникав корем</li>
+                        <li>червени косми на върха</li>
+                        <li>лице без жълто</li>
+                        <li>мъжки: жълтеникав "мустак"</li>
+                        <li>без видими рога</li>
+                    </ul>
+                </div>
+                <div style="flex: 1 1 180px; background:#fbefdd; border-radius:20px; padding:12px;">
+                    <span style="font-weight:700; color:#a4662b;">O. cornuta</span>
+                    <ul style="margin-top:6px; padding-left:18px; font-size:0.85rem;">
+                        <li>черен / метален корем</li>
+                        <li>гъсто червени гърди</li>
+                        <li>♀ с жълт клипеус</li>
+                        <li>♂ с два рога</li>
+                        <li>ранен летеж (февруари)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-species">
+            <span class="btn-simple">🐝 bicornis ♀</span>
+            <span class="btn-simple">🐝 bicornis ♂</span>
+            <span class="btn-simple">🐝 cornuta ♀</span>
+            <span class="btn-simple">🐝 cornuta ♂</span>
+        </div>
+
+        <!-- Променен текст във футъра -->
+        <p style="text-align:center; margin-top:24px; color:#9b8e78; font-size:0.75rem;">
+            проект на Българската асоциация за биологична растителна защита<br>
+            📅 2025 • мобилен определитель
+        </p>
     </div>
 </body>
 </html>
