@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Bombus terrestris · полеви определител · мобилна версия</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #9e9e9e; /* неутрален фон */
+            font-family: 'Helvetica Neue', 'Arial', 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0.5rem;
+            margin: 0;
+        }
+
+        /* модерен "лист" – вече по-тесен за мобилни, с по-малки подложки */
+        .guide-card {
+            max-width: 600px; /* ограничение за по-добра четимост на телефон */
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 0 1px #c0c0c0 inset;
+            border-radius: 4px 16px 16px 4px;
+            padding: 1.2rem 1.2rem 1.5rem 1.2rem;
+            position: relative;
+            background-image: linear-gradient(0deg, #f5f5f5 1px, transparent 1px);
+            background-size: 100% 20px; /* по-фина текстура за малък екран */
+            border-left: 5px solid #2c7a4d;
+        }
+
+        /* перфориран ръб – по-деликатен */
+        .guide-card::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            bottom: 15px;
+            right: -2px;
+            width: 4px;
+            background: repeating-linear-gradient(0deg, #aaa, #aaa 5px, transparent 5px, transparent 10px);
+            opacity: 0.6;
+        }
+
+        /* по-малък шрифт за мобилни, но все така четлив */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #1e3b2c;
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+            font-family: 'Inter', 'Helvetica Neue', sans-serif;
+            border-bottom: 3px solid #2c7a4d;
+            padding-bottom: 0.2rem;
+            display: inline-block;
+            line-height: 1.1;
+            word-break: break-word;
+        }
+
+        .badge {
+            background: #2c7a4d;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .subhead {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.8rem;
+            margin: 0.8rem 0 1.5rem 0;
+            border-bottom: 1px dashed #aaa;
+            padding-bottom: 0.6rem;
+        }
+
+        .latin-name {
+            font-style: italic;
+            font-size: 1.3rem;
+            color: #1e4d2e;
+            font-weight: 500;
+        }
+
+        .family-tag {
+            background: #e9ece3;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2d4b2d;
+            white-space: nowrap;
+        }
+
+        /* инфо-панел – пренарежда се за телефон */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .taxonomy-modern {
+            background: #f2f7f0;
+            border-radius: 20px;
+            padding: 1rem 1.2rem;
+            box-shadow: 0 4px 6px rgba(0,40,0,0.05);
+            border: 1px solid #bdd6b4;
+            width: 100%;
+        }
+
+        .taxonomy-modern table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .taxonomy-modern td {
+            padding: 0.5rem 0.2rem;
+            border-bottom: 1px solid #cbdcc2;
+        }
+
+        .taxonomy-modern td:first-child {
+            font-weight: 600;
+            color: #1e4d2e;
+            width: 100px;
+        }
+
+        /* изображението вече е външен файл bombus.png */
+        .simple-ill {
+            background: #ffffff;
+            border: 1px solid #cddac4;
+            border-radius: 24px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 0 #e1eadd;
+            width: 100%;
+        }
+
+        .simple-ill img {
+            max-width: 100%;
+            height: auto;
+            max-height: 160px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .ill-caption {
+            font-size: 0.75rem;
+            color: #556b4d;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* определител – стъпките стават по-компактни */
+        .key-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3b2c;
+            margin: 1.5rem 0 1.2rem 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .key-title span {
+            background: #2c7a4d;
+            color: white;
+            padding: 0.2rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            counter-reset: modern-step;
+            margin-bottom: 1.8rem;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            background: #fafbf9;
+            border-radius: 30px 10px 10px 30px;
+            border: 1px solid #d4e0cd;
+            padding: 0.6rem 1rem 0.6rem 0.3rem;
+        }
+
+        .step-marker {
+            background: #2c7a4d;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            min-width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 0 #1b4a2f;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            font-size: 0.92rem;
+            line-height: 1.45;
+            color: #242424;
+        }
+
+        .step-content strong {
+            color: #21633e;
+            font-weight: 700;
+            background: #e1efda;
+            padding: 0.1rem 0.25rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .step-content em {
+            background-color: #f3f1e0;
+            font-style: italic;
+            padding: 0.1rem 0.3rem;
+            border-radius: 10px;
+            color: #325e23;
+        }
+
+        /* допълнителна информация – подредена за мобилни */
+        .extra-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.8rem 1rem;
+            margin-top: 1.8rem;
+            border-top: 2px solid #bdcfb2;
+            padding-top: 1.2rem;
+            justify-content: space-between;
+        }
+
+        .scale {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #eef3ea;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .scale-bar {
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, #555, #aaa, #555);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .scale-bar::after {
+            content: '10mm';
+            position: absolute;
+            right: -28px;
+            top: -7px;
+            font-size: 0.65rem;
+            color: #2d572d;
+            white-space: nowrap;
+        }
+
+        .qr-mock {
+            background: repeating-linear-gradient(45deg, #2d2d2d 0px, #2d2d2d 3px, #f0f0f0 3px, #f0f0f0 6px);
+            width: 40px;
+            height: 40px;
+            border: 1px solid #3e6b47;
+            opacity: 0.5;
+            flex-shrink: 0;
+        }
+
+        .barcode {
+            font-family: 'Libre Barcode 39', 'Courier New', monospace;
+            font-size: 1.5rem;
+            color: #2a4b2a;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+
+        .edition {
+            color: #2d4b2d;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-align: right;
+            width: 100%; /* на нов ред при нужда */
+            word-break: break-word;
+        }
+
+        /* мобилни корекции за много тесни екрани */
+        @media (max-width: 420px) {
+            h1 { font-size: 1.8rem; }
+            .badge { font-size: 0.7rem; margin-left: 0; }
+            .subhead { flex-direction: column; align-items: flex-start; }
+            .family-tag { white-space: normal; }
+            .step-row { border-radius: 20px; }
+            .step-marker { min-width: 30px; height: 30px; font-size: 1rem; }
+            .step-content { font-size: 0.85rem; }
+            .extra-info { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* осигуряваме четливост на много малки екрани */
+        @media (max-width: 320px) {
+            .guide-card { padding: 0.8rem; }
+            .taxonomy-modern td { font-size: 0.8rem; }
+            .scale-bar { width: 60px; }
+        }
+
+        /* изображението bombus.png – гарантираме, че няма да излезе извън контейнера */
+        .bombus-img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-card">
+
+        <!-- заглавен блок, адаптиран -->
+        <div style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem 0.8rem;">
+            <h1>Bombus terrestris</h1>
+            <div class="badge">земна пчела</div>
+        </div>
+
+        <div class="subhead">
+            <span class="latin-name">Linnaeus, 1758</span>
+            <span class="family-tag">Apidae · Hymenoptera</span>
+        </div>
+
+        <!-- панел с илюстрация (bombus.png) и систематика -->
+        <div class="info-panel">
+            <div class="taxonomy-modern">
+                <table>
+                    <tr><td>РАЗРЕД</td><td>Hymenoptera (ципокрили)</td></tr>
+                    <tr><td>СЕМЕЙСТВО</td><td>Apidae (пчели)</td></tr>
+                    <tr><td>РОД</td><td>Bombus (земни пчели)</td></tr>
+                    <tr><td>ВИД</td><td>Bombus terrestris</td></tr>
+                    <tr><td>СТАТУС</td><td>много често срещан</td></tr>
+                </table>
+            </div>
+            <div class="simple-ill">
+                <!-- изображението е сменено с bombus.png -->
+                <img src="bombus.png" alt="Bombus terrestris, земна пчела" class="bombus-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="ill-caption" style="display:none;">⚠️ bombus.png не е намерен</div>
+                <div class="ill-caption">♀ царица (типична форма) · снимка: bombus.png</div>
+            </div>
+        </div>
+
+        <!-- определител – 10 стъпки, вече по-компактен -->
+        <div class="key-title">
+            ⚡ Определител <span>10 стъпки</span>
+        </div>
+
+        <div class="step-list">
+            <div class="step-row"><div class="step-marker">1</div><div class="step-content"><strong>Гръдна част</strong> – черна; <em>преднегръб</em> с жълта ивица. <strong>Скутелум</strong> също с жълти косми. → 2</div></div>
+            <div class="step-row"><div class="step-marker">2</div><div class="step-content"><strong>Тергити 1-2</strong> изцяло черни. Тергит 3 – <em>широка бяла/жълта ивица</em> (контрастира).</div></div>
+            <div class="step-row"><div class="step-marker">3</div><div class="step-content"><strong>Връх на коремчето</strong> (пигидий) с оранжево-кафяви косми – отличава от <em>B. lucorum</em>.</div></div>
+            <div class="step-row"><div class="step-marker">4</div><div class="step-content"><strong>Глава</strong> – царица: теме с жълти косми; работнички: черноглави. Антени 12(♀)/13(♂).</div></div>
+            <div class="step-row"><div class="step-marker">5</div><div class="step-content"><strong>Крила</strong> – леко опушени, светлокафяви жилки. Дължина: царица 16–20 mm, работничка 10–15 mm.</div></div>
+            <div class="step-row"><div class="step-marker">6</div><div class="step-content"><strong>Хоботче</strong> средно (8–9 mm) – не достига задните тарзи (<em>B. hortorum</em> е по-дълъг).</div></div>
+            <div class="step-row"><div class="step-marker">7</div><div class="step-content"><strong>Задни крака</strong> – женски: лъскав пищял с <em>кошничка за прашец</em>; мъжки: без кошничка.</div></div>
+            <div class="step-row"><div class="step-marker">8</div><div class="step-content"><strong>Мъжки (търтеи)</strong> – очите докосват мандибулите. Корем със 7 видими тергита.</div></div>
+            <div class="step-row"><div class="step-marker">9</div><div class="step-content"><strong>Сравнение B. lucorum</strong>: при <em>lucorum</em> втори тергит с жълто, при <em>terrestris</em> – черен.</div></div>
+            <div class="step-row"><div class="step-marker">10</div><div class="step-content"><strong>Потвърждение</strong>: подземно гнездо, активен пролет–есен. <strong>Bombus terrestris</strong>.</div></div>
+        </div>
+
+        <!-- полеви бележки, събрани за мобилно -->
+        <div style="background: #ecf3e8; border-radius: 18px; padding: 0.8rem 1.2rem; margin: 1.2rem 0 0.5rem;">
+            <div style="display: flex; gap: 0.8rem 1.2rem; flex-wrap: wrap; align-items: center; font-size: 0.9rem;">
+                <span style="font-weight: 600; color: #2b5935;">🔎 Полеви бележки</span>
+                <span>📅 април–септември</span>
+                <span>🌼 полилектик</span>
+                <span>🕸️ подземно гнездене</span>
+            </div>
+        </div>
+
+        <!-- долен колонтитул с проекта (изпълнена заявката) -->
+        <div class="extra-info">
+            <div class="scale">
+                <span>📏</span>
+                <div class="scale-bar"></div>
+            </div>
+            <div class="barcode">||||| ||| ||||</div>
+            <div class="qr-mock" title="mock QR"></div>
+            <div class="edition">проект на Българската асоциация за биологична растителна защита</div>
+        </div>
+
+        <!-- hint за липсващо изображение (js-съвместимо) -->
+        <script>
+            // ако bombus.png не се зареди, показваме текстово съобщение, но без да чупим дизайна
+            const img = document.querySelector('.bombus-img');
+            if (img) {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    const captionDiv = this.parentElement.querySelector('.ill-caption');
+                    if (captionDiv) {
+                        captionDiv.style.display = 'block';
+                        captionDiv.textContent = '⚠️ изображението bombus.png не е намерено';
+                    }
+                });
+            }
+        </script>
+    </div>
+</body>
+</html>
