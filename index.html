@@ -2,10 +2,9 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes">
-    <title>Род Bombus (Земни пчели) в България · Определител</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Определител на земни пчели – България (един под друг)</title>
     <style>
-        /* ----- МИНИМАЛИСТИЧЕН + МОБИЛНА ОПТИМИЗАЦИЯ ----- */
         * {
             margin: 0;
             padding: 0;
@@ -13,451 +12,263 @@
         }
 
         body {
-            background: #eae7e0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f0f7e8;
+            color: #1e2f23;
+            line-height: 1.5;
+            padding: 0.5rem;
             min-height: 100vh;
-            padding: 6px 4px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
         }
 
-        .guide-card {
-            max-width: 100%;
+        .container {
+            max-width: 600px; /* Ограничава ширината за по-добра четимост */
             width: 100%;
-            background: #ffffff;
-            border-radius: 20px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
             padding: 1.2rem 1rem;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-            border: 1px solid #e2ddd5;
+            box-shadow: 0 10px 25px rgba(0, 40, 0, 0.2);
         }
 
         h1 {
             font-size: 1.9rem;
-            font-weight: 450;
-            letter-spacing: -0.5px;
-            color: #2c3e2b;
-            margin-bottom: 0.2rem;
-            border-bottom: 1px solid #dad3c9;
-            padding-bottom: 0.3rem;
-            display: inline-block;
-            line-height: 1.2;
-            word-break: break-word;
-        }
-
-        .badge-min {
-            background: #eae3d9;
-            color: #4f5e47;
-            font-size: 0.75rem;
-            font-weight: 500;
-            padding: 0.15rem 0.8rem;
-            border-radius: 100px;
-            display: inline-block;
-            margin-left: 0.3rem;
-            border: 1px solid #d6cdc0;
-            white-space: nowrap;
-        }
-
-        .header-row {
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 0.3rem 0.5rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .bee-day-min {
-            background: #f8f3ec;
-            color: #a55728;
-            font-size: 0.8rem;
-            font-weight: 400;
-            padding: 0.15rem 1rem;
-            border-radius: 100px;
-            display: inline-block;
-            border: 1px solid #e1cfbb;
-            margin-right: 0.3rem;
-            white-space: nowrap;
-        }
-
-        .subhead-min {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 0.5rem 0.8rem;
-            margin: 0.3rem 0 0.8rem 0;
-            color: #5a5f55;
-            font-size: 0.9rem;
-        }
-
-        .latin-min {
-            font-style: italic;
-            color: #42633b;
-            font-weight: 430;
-            font-size: 1rem;
-        }
-
-        .family-min {
-            background: #f0ede8;
-            padding: 0.15rem 0.9rem;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            color: #595e4b;
-            border: 1px solid #dbd2c6;
-        }
-
-        .intro-min {
-            background: #f7f5f1;
-            border-left: 3px solid #b3a187;
-            padding: 0.7rem 1rem;
-            border-radius: 12px;
-            margin: 1rem 0 1.2rem 0;
-            font-size: 0.9rem;
-            color: #2f3c2a;
-            line-height: 1.4;
-        }
-
-        .stats-min {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem 1rem;
-            background: #fafaf8;
-            border-radius: 16px;
-            padding: 0.8rem 1rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid #e7e1d7;
-            font-size: 0.85rem;
-            color: #374f33;
-        }
-
-        .stats-min span {
-            background: #e2ead9;
-            padding: 0.15rem 0.8rem;
-            border-radius: 100px;
-            font-weight: 450;
-            color: #2b4b2b;
-        }
-
-        .key-title-min {
-            font-size: 1.3rem;
-            font-weight: 400;
-            color: #354f34;
-            margin: 1.5rem 0 0.8rem 0;
-            border-left: 4px solid #b3a187;
-            padding-left: 0.8rem;
-            letter-spacing: -0.2px;
-        }
-
-        /* Стилове за общата статия */
-        .article-section {
-            background: #f9f8f5;
-            border-radius: 18px;
-            padding: 1.2rem 1.2rem;
-            margin: 1.8rem 0 1.2rem 0;
-            border: 1px solid #e0d9cf;
-        }
-
-        .article-section h2 {
-            font-size: 1.2rem;
-            font-weight: 450;
-            color: #2b4a2b;
-            margin-bottom: 1rem;
-            border-left: 4px solid #b3a187;
-            padding-left: 0.8rem;
-        }
-
-        .article-section h3 {
-            font-size: 1rem;
-            font-weight: 550;
-            color: #5f4e38;
-            margin: 1rem 0 0.5rem 0;
-        }
-
-        .article-section p {
-            font-size: 0.9rem;
-            color: #3d423b;
-            margin-bottom: 0.8rem;
-            line-height: 1.5;
-        }
-
-        .article-section ul, .article-section ol {
-            margin: 0.5rem 0 1rem 1.5rem;
-            font-size: 0.9rem;
-            color: #3d423b;
-        }
-
-        .article-section li {
+            font-weight: 600;
+            color: #1f4f2b;
+            border-left: 6px solid #ffb347;
+            padding-left: 1rem;
             margin-bottom: 0.3rem;
+            line-height: 1.2;
         }
 
-        .article-section strong {
-            color: #926e46;
-            font-weight: 550;
+        .subhead {
+            font-size: 1rem;
+            color: #2f5e3a;
+            margin-bottom: 1.5rem;
+            padding-left: 1.3rem;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .highlight-box {
-            background: #eef2e9;
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-left: 4px solid #a58e72;
+        .intro {
+            background: #e6f0da;
+            border-radius: 1.5rem;
+            padding: 1rem 1.3rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            border: 1px solid #bcd0a8;
         }
 
-        /* Списък с видове */
-        .species-list-min {
+        /* Винаги една колона */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.8rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 6px 14px rgba(40, 70, 30, 0.2);
+            border: 1px solid #cfdfc0;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1.8rem;
         }
 
-        .species-item-min {
+        .card-header {
+            background: linear-gradient(135deg, #3f6844, #2b4d31);
+            color: white;
+            padding: 1rem 1.2rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+        }
+
+        .card-header .sci-name {
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px; /* Малко по-високи снимки за по-добра видимост */
+            overflow: hidden;
+            background: #d9d0b5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-bottom: 2px solid #cfdfc0;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card-image img:hover {
+            transform: scale(1.03);
+        }
+
+        .card-body {
+            padding: 1.4rem 1.2rem 1.2rem;
+            background: #fefef9;
+        }
+
+        .badge-habitat {
+            display: inline-block;
+            background: #ffecb3;
+            color: #4a5c3a;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid #d4b97a;
+        }
+
+        .desc-line {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 0.7rem;
+            font-size: 0.95rem;
+        }
+
+        .desc-line i {
+            color: #3f6844;
+            width: 1.3rem;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .features {
+            background: #ecf3e5;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid #9fbb8d;
+        }
+
+        .features p {
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: #1e4f2b;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .features ul {
+            list-style-type: none;
+            padding-left: 0.2rem;
+        }
+
+        .features li {
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: flex-start;
-            gap: 0.8rem;
-            border-bottom: 1px solid #e5dfd6;
-            padding-bottom: 1rem;
+            gap: 6px;
+            font-size: 0.95rem;
         }
 
-        .species-item-min:last-child {
-            border-bottom: none;
-        }
-
-        @media (max-width: 480px) {
-            .species-item-min {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-            .number-min {
-                width: 100%;
-                font-size: 1rem;
-                color: #b29d84;
-                margin-bottom: 0.2rem;
-            }
-            .species-img {
-                margin-left: 0;
-                width: 50px;
-                height: 50px;
-            }
-        }
-
-        .number-min {
-            font-size: 1.1rem;
-            font-weight: 350;
-            color: #b29d84;
-            min-width: 30px;
-            line-height: 1.3;
-        }
-
-        .species-img {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            border-radius: 10px;
-            background: #f8f3ed;
-            padding: 5px;
-            border: 1px solid #dad0c2;
-            flex-shrink: 0;
-            cursor: pointer;
-            transition: opacity 0.1s ease;
-        }
-
-        .species-img:active {
-            opacity: 0.7;
-        }
-
-        .content-min {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .name-min {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #1e3d2a;
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 0.4rem 0.6rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .name-min em {
-            font-style: italic;
-            font-weight: 400;
-            color: #7c705a;
+        .features li::before {
+            content: "🐝";
+            color: #a97c4b;
             font-size: 0.9rem;
+            margin-right: 5px;
+            flex-shrink: 0;
         }
 
-        .subgenus-min {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            color: #9a8b78;
-            background: #f0ede8;
-            padding: 0.15rem 0.8rem;
-            border-radius: 100px;
-            border: 1px solid #ddd2c4;
+        .color-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem 0.6rem;
+            margin: 1rem 0 0.6rem;
+            background: #faf6ea;
+            padding: 0.7rem 0.8rem;
+            border-radius: 40px;
+            border: 1px dashed #b3a577;
+        }
+
+        .color-chip {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border-radius: 28px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border: 2px solid white;
+            flex-shrink: 0;
+        }
+
+        .color-label {
+            font-size: 0.8rem;
+            background: white;
+            padding: 0.1rem 0.7rem;
+            border-radius: 20px;
+            border: 1px solid #ccc;
             white-space: nowrap;
         }
 
-        .features-min {
+        .note-mimic {
             font-size: 0.85rem;
-            color: #3d423b;
-            margin: 0.3rem 0 0.3rem 0;
-            line-height: 1.4;
+            background: #fff3d6;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            color: #5b4b2a;
+            display: inline-block;
+            margin-top: 0.6rem;
         }
 
-        .features-min strong {
-            font-weight: 550;
-            color: #926e46;
+        hr {
+            border: none;
+            border-top: 2px dotted #a6c48a;
+            margin: 1.2rem 0;
         }
 
-        .dist-min {
-            font-size: 0.75rem;
-            color: #80877a;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.2rem;
-            background: #f4f2ee;
-            padding: 0.15rem 0.8rem;
-            border-radius: 100px;
-            border: 1px solid #ddd6cb;
-        }
-
-        .note-min {
-            background: #f3f1ed;
-            border-radius: 18px;
-            padding: 0.8rem 1.2rem;
-            font-size: 0.85rem;
-            color: #40553b;
-            border: 1px solid #cfc9be;
-            margin: 0.5rem 0 1.5rem 0;
-        }
-
-        .anatomy-section {
-            background: #f0f1ec;
-            border-radius: 22px;
-            padding: 1.2rem 1.2rem;
-            margin: 1.5rem 0 1.2rem 0;
-            border: 1px solid #ced7c2;
-        }
-
-        .anatomy-title {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: #3b5436;
-            margin-bottom: 1rem;
-            border-left: 4px solid #a58e72;
-            padding-left: 0.8rem;
-        }
-
-        .anatomy-grid {
+        .flex-row-mobile {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem;
+            background: #dde8d0;
+            border-radius: 1.8rem;
+            padding: 1.3rem;
+            margin: 1rem 0;
         }
 
-        @media (min-width: 500px) {
-            .anatomy-grid {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 1rem 1.5rem;
-            }
-            .anatomy-part {
-                flex: 1 1 160px;
-            }
-        }
-
-        .anatomy-part h4 {
-            font-size: 0.95rem;
-            font-weight: 550;
-            color: #5f4e38;
-            border-bottom: 1px dotted #b9af9b;
-            padding-bottom: 0.2rem;
+        .flex-row-mobile h3 {
+            color: #1f4f2b;
             margin-bottom: 0.5rem;
+            font-size: 1.2rem;
         }
 
-        .anatomy-part ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .anatomy-part li {
-            font-size: 0.8rem;
-            color: #4b5443;
-            margin-bottom: 0.3rem;
-            display: flex;
-            align-items: baseline;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-        }
-
-        .anatomy-part li strong {
-            font-weight: 550;
-            color: #7b613f;
-            min-width: 60px;
-        }
-
-        .anatomy-note {
-            font-size: 0.75rem;
-            color: #6e7665;
-            margin-top: 1rem;
-            background: #e3e6db;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
             text-align: center;
-        }
-
-        .footer-min {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.8rem;
-            padding-top: 1rem;
-            border-top: 1px solid #d9d1c5;
-            color: #7b7e72;
-            font-size: 0.75rem;
-        }
-
-        .assoc-min {
-            background: #2e452e;
-            color: #f0ede4;
-            padding: 0.2rem 1.2rem;
-            border-radius: 100px;
-            font-weight: 400;
-            font-size: 0.75rem;
-            white-space: nowrap;
-        }
-
-        .scale-min {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: #f0ede8;
-            padding: 0.15rem 0.8rem;
-            border-radius: 100px;
-            border: 1px solid #cfc5b7;
-        }
-
-        .scale-bar-min {
-            width: 40px;
-            height: 3px;
-            background: #a7a99e;
-            border-radius: 4px;
-        }
-
-        @media (max-width: 360px) {
-            h1 { font-size: 1.7rem; }
-            .bee-day-min { font-size: 0.7rem; }
-            .latin-min { font-size: 0.9rem; }
-            .species-img { width: 45px; height: 45px; }
-            .name-min { font-size: 1rem; }
-            .footer-min { flex-direction: column; align-items: flex-start; }
-            .assoc-min { white-space: normal; }
+            color: #3c5e3e;
+            border-top: 2px solid #bcd5a8;
+            font-size: 0.85rem;
         }
 
         /* Lightbox стилове */
-        .lightbox-overlay {
+        .lightbox {
             display: none;
             position: fixed;
             top: 0;
@@ -465,324 +276,331 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            z-index: 9999;
+            z-index: 1000;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            padding: 20px;
-            cursor: pointer;
+            padding: 2rem;
         }
 
-        .lightbox-overlay.active {
+        .lightbox.active {
             display: flex;
         }
 
         .lightbox-content {
             max-width: 90%;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-        }
-
-        .lightbox-img {
-            max-width: 100%;
-            max-height: 70vh;
+            max-height: 80%;
             object-fit: contain;
-            border-radius: 16px;
-            background: #f8f3ed;
-            padding: 12px;
-            border: 2px solid #e2d5c2;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .lightbox-caption {
-            color: #f0e7d8;
-            margin-top: 16px;
-            font-size: 1rem;
-            background: rgba(40, 40, 30, 0.7);
-            padding: 8px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(4px);
-            border: 1px solid #a58e72;
+            border: 3px solid white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .lightbox-close {
             position: absolute;
-            top: 25px;
+            top: 20px;
             right: 30px;
+            font-size: 3rem;
             color: white;
-            font-size: 40px;
-            font-weight: 300;
             cursor: pointer;
-            background: rgba(0,0,0,0.3);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
+            background: transparent;
+            border: none;
+            text-shadow: 0 2px 5px black;
+            z-index: 1010;
         }
 
-        .lightbox-close:hover {
-            background: rgba(255,255,255,0.2);
+        .lightbox-caption {
+            color: white;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-style: italic;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+        }
+
+        /* Малка оптимизация за много тесни екрани */
+        @media (max-width: 400px) {
+            h1 { font-size: 1.6rem; }
+            .card-header h2 { font-size: 1.4rem; }
+            .color-chip { width: 24px; height: 24px; }
+            .card-image { height: 160px; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="guide-card">
+<div class="container">
+    <h1>🐝 Определител на земни пчели <span style="font-weight:300;">(Bombus spp.)</span></h1>
+    <div class="subhead">
+        <i class="fas fa-tree"></i> най-често срещаните в градски условия – България
+        <span class="key-icon"><i class="far fa-compass"></i> теренен</span>
+    </div>
 
-        <!-- Заглавна част -->
-        <div class="header-row">
-            <h1>Земни пчели</h1>
-            <div class="badge-min">България</div>
+    <div class="intro">
+        <strong>🟢 Всеки вид е на отделен ред – преглеждайте един по един.</strong><br>
+        Кликнете върху снимката за увеличен изглед (lightbox). Сравнявайте цветовете по кръгчетата (отпред назад).
+    </div>
+
+    <div class="grid">
+        <!-- 1. Bombus terrestris -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Обикновена земна пчела</h2>
+                <div class="sci-name">Bombus terrestris</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/bombus.png" alt="Bombus terrestris" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-home"></i> градини, паркове, тревни площи</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> queen 20–25 mm, workers 11–17 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> март – октомври</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>черно тяло с <strong>две жълти ивици</strong> – преден гръб и втората половина на корема</li>
+                        <li>опашката <strong>белезникава до светлобежова</strong></li>
+                        <li>гнезди под земята</li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#e6c229;" title="жълто (преден гръб)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черно (среден гръб)"></span>
+                    <span class="color-chip" style="background:#e6c229;" title="жълто (корем, втори сегмент)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черно (край на корема)"></span>
+                    <span class="color-chip" style="background:#f2e9d0;" title="бежово-бяла опашка"></span>
+                    <span class="color-label">отпред назад</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-info-circle"></i> при работничките ивиците може да са по-слаби</div>
+            </div>
         </div>
 
-        <!-- Подзаглавие -->
-        <div class="subhead-min">
-            <div class="bee-day-min">🐝 Род Bombus · 2026</div>
-            <span class="latin-min">Bombus spp. Linnaeus, 1758</span>
-            <span class="family-min">Apidae</span>
+        <!-- 2. Bombus lucorum -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Светлоопашата земна пчела</h2>
+                <div class="sci-name">Bombus lucorum</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/lycorum.jpeg" alt="Bombus lucorum" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-tree"></i> паркове, храсталаци, градини</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> queen 18–22 mm, workers 10–16 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> април – септември</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>почти идентичен с <em>B. terrestris</em>, но <strong>опашката е чисто бяла</strong></li>
+                        <li>жълтите ивици по-ярки, лимоненожълти</li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#f0d43a;" title="ярко жълто (гръб)"></span>
+                    <span class="color-chip" style="background:#222;" title="черно"></span>
+                    <span class="color-chip" style="background:#f0d43a;" title="ярко жълто (корем)"></span>
+                    <span class="color-chip" style="background:#222;" title="черно"></span>
+                    <span class="color-chip" style="background:#ffffff; border:1px solid #aaa;" title="чисто бяла опашка"></span>
+                    <span class="color-label">последователност</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-flask"></i> сигурно различаване с лупа</div>
+            </div>
         </div>
 
-        <!-- Кратък увод от статията -->
-        <div class="intro-min">
-            <span style="font-weight:450;">Род <em>Bombus</em></span> (земни пчели или търтеи) са едри, космати пчели с характерно жълто-черно оцветяване. Те са сред най-важните опрашители в българската природа — от морското равнище до високите планини.
+        <!-- 3. Bombus lapidarius -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Червеноопашата земна пчела</h2>
+                <div class="sci-name">Bombus lapidarius</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/lapidarius.jpg" alt="Bombus lapidarius" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-mountain"></i> каменни зидове, стари сгради, цветни градини</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> queen 20–22 mm, workers 11–16 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> април – септември</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>тялото <strong>изцяло черно</strong> (кадифено)</li>
+                        <li>ярко <strong>червено-оранжева опашка</strong> (последните 2-3 сегмента)</li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#1e1e1e;" title="черно (цялото тяло)"></span>
+                    <span class="color-chip" style="background:#1e1e1e;" title="черно"></span>
+                    <span class="color-chip" style="background:#cc5500;" title="червена опашка"></span>
+                    <span class="color-chip" style="background:#cc5500;" title="червена опашка"></span>
+                    <span class="color-label">черно + червено</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-camera"></i> много лесен за разпознаване!</div>
+            </div>
         </div>
 
-        <!-- Статистика -->
-        <div class="stats-min">
-            <span>35 вида</span> <span>11 подрода</span> <span>7 вида Psithyrus</span>
+        <!-- 4. Bombus hortorum -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Градинска земна пчела</h2>
+                <div class="sci-name">Bombus hortorum</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/hortorum.jpg" alt="Bombus hortorum" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-flower"></i> градини, паркове, овощни градини</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> queen 18–22 mm, workers 11–16 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> март – септември</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li><strong>дълго лице</strong> (издължена глава)</li>
+                        <li><strong>три жълти ивици:</strong> гръб, първи коремен, трети коремен</li>
+                        <li>опашката <strong>бяла</strong></li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#e6c229;" title="жълт (гръб)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черен"></span>
+                    <span class="color-chip" style="background:#e6c229;" title="жълт (първи коремен)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черен"></span>
+                    <span class="color-chip" style="background:#e6c229;" title="жълт (трети коремен)"></span>
+                    <span class="color-chip" style="background:#f8f8f8; border:1px solid #ccc;" title="бяла опашка"></span>
+                    <span class="color-label">3 жълти / бял край</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-seedling"></i> обича камбанкови цветя</div>
+            </div>
         </div>
 
-        <!-- ===== СЕКЦИЯ ОТ СТАТИЯТА ===== -->
-        <div class="article-section">
-            <h2>📋 Характеристики</h2>
+        <!-- 5. Bombus pascuorum -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Полска земна пчела</h2>
+                <div class="sci-name">Bombus pascuorum</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/pratorum.jpeg" alt="Bombus pascuorum" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-leaf"></i> ливади, градини, храсти</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> queen 15–18 mm, workers 9–15 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> март – октомври</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>най-често <strong>кафяво-ръждива</strong>, без ясни ивици</li>
+                        <li>гръб и корем в различни нюанси на кафявото</li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#b85e1a;" title="ръждивокафяв (гръб)"></span>
+                    <span class="color-chip" style="background:#8b5a2b;" title="тъмно кафяв"></span>
+                    <span class="color-chip" style="background:#b87c4b;" title="светлокафяв (корем)"></span>
+                    <span class="color-chip" style="background:#a67b5b;" title="сиво-кафяв връх"></span>
+                    <span class="color-label">варира</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-paw"></i> няма контрастни ивици – "рунтава"</div>
+            </div>
+        </div>
+
+        <!-- 6. Bombus hypnorum -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Дървесна земна пчела</h2>
+                <div class="sci-name">Bombus hypnorum</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/hypnorum.jpeg" alt="Bombus hypnorum" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-tree"></i> паркове, хралупи, птичи гнездилки</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> queen 18–20 mm, workers 10–15 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> април – август</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li><strong>ръждивокафяв гръден кош</strong> (оранжев)</li>
+                        <li>коремът <strong>черен с бял връх</strong></li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#c96c2c;" title="ръждив гръб"></span>
+                    <span class="color-chip" style="background:#1f1f1f;" title="черен корем"></span>
+                    <span class="color-chip" style="background:#1f1f1f;" title="черен"></span>
+                    <span class="color-chip" style="background:#ffffff; border:1px solid #999;" title="бял връх"></span>
+                    <span class="color-label">кафяв гръб, бяло дъно</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-crow"></i> често в птичи касетки</div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="flex-row-mobile">
+        <div>
+            <h3><i class="fas fa-search"></i> Бърз ключ по цвят на опашката:</h3>
             <ul>
-                <li><strong>Социална структура:</strong> Живеят на колонии с царица, работнички и търтеи.</li>
-                <li><strong>Хранене:</strong> Хранят се с нектар и прашец — сред най-ефективните опрашители.</li>
-                <li><strong>Гнездене:</strong> В земята (често в изоставени дупки на гризачи), в кухини на дървета или сред треви.</li>
-                <li><strong>Оцветяване:</strong> Видовете се различават по шарките на космиците по тялото.</li>
+                <li>🔴 <strong>червена/оранжева опашка</strong> – Bombus lapidarius</li>
+                <li>⚪ <strong>чисто бяла опашка</strong> – Bombus lucorum / Bombus hortorum (три ивици) / Bombus hypnorum (кафяв гръб)</li>
+                <li>🟡⭕ <strong>бежово-бяла опашка</strong> – Bombus terrestris</li>
+                <li>🟤 <strong>кафява, без ясна граница</strong> – Bombus pascuorum</li>
             </ul>
-
-            <h2>🌍 Разпространение в България</h2>
-            <p>Земните пчели се срещат в цялата страна. Някои видове са специализирани за високопланинските райони (Рила, Пирин, Стара планина), докато други са често срещани в низините, градините и парковете. Те играят ключова роля за опрашването на дивата флора и земеделските култури като домати, пипер и детелина.</p>
-
-            <div class="highlight-box">
-                <strong>📅 Жизнен цикъл:</strong>
-                <ol style="margin-top: 0.5rem;">
-                    <li>Цариците презимуват в почвата.</li>
-                    <li>Напролет (март-април) всяка царица започва да изгражда гнездо и отглежда първите работнички.</li>
-                    <li>През лятото колонията нараства и произвежда нови царици и търтеи.</li>
-                    <li>Към есента колонията загива, а младите оплодени царици търсят място за зимуване.</li>
-                </ol>
-            </div>
         </div>
-
-        <!-- Определител заглавие -->
-        <div class="key-title-min">
-            ⚡ Видов определител · 10 ключови вида
+        <div>
+            <h3><i class="fas fa-info-circle"></i> Съвет:</h3>
+            <p>Земните пчели са рунтави, миролюбиви и важни опрашители. Ако видите гнездо, не го безпокойте!</p>
         </div>
-
-        <!-- Списък с видове (комбиниран) -->
-        <div class="species-list-min">
-            <!-- 1. Bombus terrestris -->
-            <div class="species-item-min">
-                <div class="number-min">01</div>
-                <img src="bb/bombus.png" alt="Bombus terrestris" class="species-img" onclick="openLightbox(this.src, 'Bombus terrestris - земна пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus terrestris <em>земна пчела</em> <span class="subgenus-min">Bombus s.str.</span></div>
-                    <div class="features-min"><strong>Черен гръден кош</strong> с жълта ивица; T1–T2 черни, T3 бяла ивица, връх оранжев. Царица 20–23 mm.</div>
-                    <div class="dist-min">📍 цялата страна</div>
-                </div>
-            </div>
-            <!-- 2. Bombus lapidarius -->
-            <div class="species-item-min">
-                <div class="number-min">02</div>
-                <img src="bb/lapidarius.jpg" alt="Bombus lapidarius" class="species-img" onclick="openLightbox(this.src, 'Bombus lapidarius - каменарска пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus lapidarius <em>каменарска</em> <span class="subgenus-min">Melanobombus</span></div>
-                    <div class="features-min"><strong>Черно тяло</strong>, последните 3–4 сегмента червени. Мъжките с жълта яка.</div>
-                    <div class="dist-min">📍 из цялата страна до 2000 m</div>
-                </div>
-            </div>
-            <!-- 3. Bombus pascuorum -->
-            <div class="species-item-min">
-                <div class="number-min">03</div>
-                <img src="bb/pratorum.jpeg" alt="Bombus pascuorum" class="species-img" onclick="openLightbox(this.src, 'Bombus pascuorum - полска земна пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus pascuorum <em>полска</em> <span class="subgenus-min">Thoracobombus</span></div>
-                    <div class="features-min"><strong>Ръждивокафяв</strong> гръден кош и корем. Среща се в цветни ливади и градини.</div>
-                    <div class="dist-min">📍 цялата страна</div>
-                </div>
-            </div>
-            <!-- 4. Bombus hortorum -->
-            <div class="species-item-min">
-                <div class="number-min">04</div>
-                <img src="bb/hortorum.jpg" alt="Bombus hortorum" class="species-img" onclick="openLightbox(this.src, 'Bombus hortorum - градинска пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus hortorum <em>градинска</em> <span class="subgenus-min">Megabombus</span></div>
-                    <div class="features-min"><strong>Три жълти ивици:</strong> гърди, T1 и T3. Дълго лице, специализирана за цветя с дълги венчета.</div>
-                    <div class="dist-min">📍 планински райони</div>
-                </div>
-            </div>
-            <!-- 5. Bombus pratorum -->
-            <div class="species-item-min">
-                <div class="number-min">05</div>
-                <img src="bb/pratorum.jpeg" alt="Bombus pratorum" class="species-img" onclick="openLightbox(this.src, 'Bombus pratorum - ливадна пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus pratorum <em>ливадна</em> <span class="subgenus-min">Pyrobombus</span></div>
-                    <div class="features-min"><strong>Дребен</strong> (15–17 mm), гръд с жълта яка, корем черен с оранжев връх. Появява се рано напролет.</div>
-                    <div class="dist-min">📍 от морското до субалпийски пояс</div>
-                </div>
-            </div>
-            <!-- 6. Bombus sylvarum -->
-            <div class="species-item-min">
-                <div class="number-min">06</div>
-                <img src="bb/sylvarum.jpeg" alt="Bombus sylvarum" class="species-img" onclick="openLightbox(this.src, 'Bombus sylvarum - горска пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus sylvarum <em>горска</em> <span class="subgenus-min">Thoracobombus</span></div>
-                    <div class="features-min"><strong>Сивкаво-жълти косми</strong>, коремът отпред сив, отзад бял. Обитава открити местности.</div>
-                    <div class="dist-min">📍 поляни, паркове</div>
-                </div>
-            </div>
-            <!-- 7. Bombus lucorum (добавен) -->
-            <div class="species-item-min">
-                <div class="number-min">07</div>
-                <img src="bb/lycorum.jpeg" alt="Bombus lucorum" class="species-img" onclick="openLightbox(this.src, 'Bombus lucorum - планинска земна пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus lucorum <em>планинска</em> <span class="subgenus-min">Bombus s.str.</span></div>
-                    <div class="features-min"><strong>T2 с жълти косми</strong> (при terrestris T2 черен). По-високи части.</div>
-                    <div class="dist-min">📍 Рила, Пирин, Стара планина</div>
-                </div>
-            </div>
-            <!-- 8. Bombus argillaceus -->
-            <div class="species-item-min">
-                <div class="number-min">08</div>
-                <img src="bb/argillaceus.jpg" alt="Bombus argillaceus" class="species-img" onclick="openLightbox(this.src, 'Bombus argillaceus - глинена пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus argillaceus <em>глинена</em> <span class="subgenus-min">Megabombus</span></div>
-                    <div class="features-min"><strong>Гръб</strong> светложълта ивица, корем T1–T2 жълти.</div>
-                    <div class="dist-min">📍 Бургаско, Странджа, Черноморие</div>
-                </div>
-            </div>
-            <!-- 9. Bombus hypnorum -->
-            <div class="species-item-min">
-                <div class="number-min">09</div>
-                <img src="bb/hypnorum.jpeg" alt="Bombus hypnorum" class="species-img" onclick="openLightbox(this.src, 'Bombus hypnorum - горска стреха')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus hypnorum <em>горска стреха</em> <span class="subgenus-min">Pyrobombus</span></div>
-                    <div class="features-min"><strong>Гръден кош рижаво-кафяв</strong>, корем черен с бял връх.</div>
-                    <div class="dist-min">📍 планини, паркове</div>
-                </div>
-            </div>
-            <!-- 10. Bombus mlokosievitzii -->
-            <div class="species-item-min">
-                <div class="number-min">10</div>
-                <img src="bb/mlokosievitzii.jpg" alt="Bombus mlokosievitzii" class="species-img" onclick="openLightbox(this.src, 'Bombus mlokosievitzii - Млокошевичова пчела')" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2255%22%20viewBox%3D%220%200%2055%2055%22%3E%3Crect%20width%3D%2255%22%20height%3D%2255%22%20fill%3D%22%23f0ede8%22%2F%3E%3Ctext%20x%3D%228%22%20y%3D%2232%22%20font-family%3D%22Arial%22%20font-size%3D%228%22%20fill%3D%22%2392826b%22%3Ebombus.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
-                <div class="content-min">
-                    <div class="name-min">Bombus mlokosievitzii <em>Млокошевичова</em> <span class="subgenus-min">Thoracobombus</span></div>
-                    <div class="features-min">Тъмен, белезникави косми в края. <strong>Балкански ендемит.</strong></div>
-                    <div class="dist-min">📍 Стара планина, Пирин (рядък)</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Бележка за Psithyrus -->
-        <div class="note-min">
-            🪺 <strong>Подрод Psithyrus:</strong> 7 вида (B. bohemicus, B. vestalis) – кукувици, нямат работнички, паразитират в гнезда на други земни пчели.
-        </div>
-
-        <!-- АНАТОМИЯ (добавена от оригиналния bombus.html) -->
-        <div class="anatomy-section">
-            <div class="anatomy-title">🔬 Анатомия на Bombus</div>
-            <div class="anatomy-grid">
-                <div class="anatomy-part">
-                    <h4>Глава</h4>
-                    <ul>
-                        <li><strong>Антени</strong> 12/13-членни</li>
-                        <li><strong>Очи</strong> фасетни + 3 прости</li>
-                        <li><strong>Мандибули</strong> захапващи</li>
-                        <li><strong>Хоботче</strong> смучещо</li>
-                    </ul>
-                </div>
-                <div class="anatomy-part">
-                    <h4>Гръден кош</h4>
-                    <ul>
-                        <li><strong>Преднегръб</strong> с ивици</li>
-                        <li><strong>Скутелум</strong> заден дял</li>
-                        <li><strong>Крила</strong> 2 чифта</li>
-                        <li><strong>Крака</strong> 3 чифта, кошничка</li>
-                    </ul>
-                </div>
-                <div class="anatomy-part">
-                    <h4>Коремче</h4>
-                    <ul>
-                        <li><strong>Тергити</strong> T1–T6</li>
-                        <li><strong>Стернити</strong> вентрални</li>
-                        <li><strong>Пигидий</strong> връх</li>
-                        <li><strong>Жилка</strong> при женските</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="anatomy-note">
-                ⚡ T1–T2 = първи два коремни сегмента. Оцветяването им е диагностично за видовете.
-            </div>
-        </div>
-
-        <!-- Допълнителна защитна бележка от статията -->
-        <div class="note-min" style="background: #fef7e9;">
-            <strong>⚠️ Защита и значение:</strong> Всички видове земни пчели са защитени от българското законодателство. Те са сред най-ефективните опрашители поради способността си да "жужат" (buzz pollination), което е от съществено значение за култури като домати, патладжани и боровинки.
-        </div>
-
-        <!-- Footer -->
-        <div class="footer-min">
-            <div class="assoc-min">БАБРЗ · 2026</div>
-            <div class="scale-min">
-                <span>📏 10 mm</span>
-                <div class="scale-bar-min"></div>
-            </div>
-            <div>Наблюдавайте без да безпокоите</div>
-        </div>
-
     </div>
 
-    <!-- Lightbox структура -->
-    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
-        <div class="lightbox-content" onclick="event.stopPropagation()">
-            <img src="" alt="" class="lightbox-img" id="lightboxImg">
-            <div class="lightbox-caption" id="lightboxCaption"></div>
-        </div>
-        <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+    <div class="footer">
+        <i class="fas fa-leaf"></i> Определител за градски условия – България <br>
+        <span style="opacity: 0.7;">Проект на Българската асоциация за биологична растителна защита</span>
     </div>
+</div>
 
-    <script>
-        function openLightbox(imgSrc, captionText) {
-            const overlay = document.getElementById('lightboxOverlay');
-            const img = document.getElementById('lightboxImg');
-            const caption = document.getElementById('lightboxCaption');
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
 
-            img.src = imgSrc;
-            caption.textContent = captionText;
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+<script>
+    function openLightbox(element) {
+        const img = element.querySelector('img');
+        if (!img) return;
 
-        function closeLightbox() {
-            const overlay = document.getElementById('lightboxOverlay');
-            overlay.classList.remove('active');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const caption = document.getElementById('lightbox-caption');
+
+        lightboxImg.src = img.src;
+        caption.innerText = img.alt || 'Земна пчела';
+
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(event) {
+        const lightbox = document.getElementById('lightbox');
+        if (event.target === lightbox || event.target.classList.contains('lightbox-close')) {
+            lightbox.classList.remove('active');
             document.body.style.overflow = '';
         }
+    }
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
             }
-        });
-    </script>
+        }
+    });
+</script>
 </body>
 </html>
