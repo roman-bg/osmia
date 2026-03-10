@@ -3,48 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Температура (MQTT over WSS)</title>
-    <!-- Chart.js за графика -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- MQTT.js (с поддръжка на WebSocket Secure) -->
+    <title>Ден градуси (MQTT)</title>
+    <!-- MQTT.js -->
     <script src="https://unpkg.com/mqtt@5.0.0/dist/mqtt.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: #0b1a2e; /* тъмен фон за по-добър контраст */
+            background: #0b1a2e;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             padding: 12px;
         }
         .container {
-            max-width: 550px;
+            max-width: 500px;
             width: 100%;
             background: #ffffff;
-            border-radius: 32px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            padding: 22px 18px;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            padding: 30px 20px;
+            text-align: center;
         }
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 300;
             color: #1e3a5f;
-            text-align: center;
-            margin-bottom: 18px;
-            letter-spacing: -0.5px;
+            margin-bottom: 20px;
         }
         .status-bar {
             background: #eef2f6;
-            border-radius: 60px;
-            padding: 14px 20px;
-            margin-bottom: 20px;
+            border-radius: 50px;
+            padding: 12px 20px;
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
             font-size: 1rem;
         }
         .connection-status {
@@ -66,33 +61,19 @@
         .led.disconnected {
             background: #e74c3c;
         }
-        .last-message {
-            background: #1e3a5f;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.5rem;
-            font-weight: 600;
-            white-space: nowrap;
+        .temperature-display {
+            font-size: 7rem;
+            font-weight: 700;
+            color: #1e3a5f;
+            line-height: 1.2;
+            margin: 20px 0 10px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .chart-container {
-            position: relative;
-            height: 280px;
-            margin: 12px 0 10px;
-            border: 1px solid #d0dbe8;
-            border-radius: 28px;
-            padding: 8px;
-            background: #ffffff;
-            touch-action: pan-y;
-        }
-        .info-note {
-            text-align: center;
-            font-size: 0.7rem;
+        .unit {
+            font-size: 1.8rem;
+            font-weight: 300;
             color: #5f7d9c;
-            margin-top: 16px;
-            border-top: 1px solid #d0dbe8;
-            padding-top: 14px;
+            margin-top: 5px;
         }
         .error-message {
             color: #a82323;
@@ -100,50 +81,35 @@
             background: #ffe5e5;
             padding: 12px 16px;
             border-radius: 40px;
-            margin-bottom: 16px;
+            margin: 20px 0 10px;
             text-align: center;
             font-size: 0.9rem;
             border: 1px solid #ffb3b3;
         }
-        .info-note code {
-            background: #eef2f6;
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-        }
         .debug {
             font-size: 0.65rem;
             color: #5f7d9c;
-            margin-top: 8px;
-            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌡️ MQTT климат</h1>
+        <h1>🌡️ Ден градуси</h1>
 
         <div class="status-bar">
             <div class="connection-status">
                 <span class="led" id="ledIndicator"></span>
                 <span id="connectionState">Изключен</span>
             </div>
-            <div>
-                <span style="color:#2c5778;">посл.</span>
-                <span id="lastValue" class="last-message">---</span>
-            </div>
+            <div id="lastUpdate" style="color:#2c5778;">--:--:--</div>
         </div>
 
         <div id="errorContainer" style="display: none;" class="error-message"></div>
 
-        <div class="chart-container">
-            <canvas id="temperatureChart"></canvas>
-        </div>
+        <div class="temperature-display" id="temperatureValue">---</div>
+        <div class="unit">Ден градуси</div>
 
-        <div class="info-note">
-            🔐 Защитена връзка (WSS) с HiveMQ Cloud <br>
-            <code>31399ad3a86a46c38410448612635137.s1.eu.hivemq.cloud:8884</code>
-        </div>
         <div id="debug" class="debug"></div>
     </div>
 
@@ -153,25 +119,21 @@
             const BROKER = {
                 host: '31399ad3a86a46c38410448612635137.s1.eu.hivemq.cloud',
                 port: 8884,
-                path: '/mqtt',          // HiveMQ Cloud използва /mqtt за WebSocket
+                path: '/mqtt',
                 topic: 'romanbg/dd',
                 username: 'romanbg',
                 password: 'R@man1967'
             };
 
             let client = null;
-            let chart = null;
-            let chartData = [];
-            let chartLabels = [];
-            const MAX_POINTS = 25;
 
             const led = document.getElementById('ledIndicator');
             const connState = document.getElementById('connectionState');
-            const lastValueSpan = document.getElementById('lastValue');
+            const lastUpdateSpan = document.getElementById('lastUpdate');
+            const temperatureSpan = document.getElementById('temperatureValue');
             const errorDiv = document.getElementById('errorContainer');
             const debugDiv = document.getElementById('debug');
 
-            // --- помощни функции ---
             function logDebug(msg) {
                 console.log(msg);
                 debugDiv.textContent = msg;
@@ -198,51 +160,8 @@
                 }
             }
 
-            // --- инициализация на графиката ---
-            function initChart() {
-                const ctx = document.getElementById('temperatureChart').getContext('2d');
-                chart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: chartLabels,
-                        datasets: [{
-                            label: 'температура °C',
-                            data: chartData,
-                            borderColor: '#e67e22',
-                            backgroundColor: 'rgba(230,126,34,0.08)',
-                            borderWidth: 3,
-                            pointRadius: 2.5,
-                            pointHoverRadius: 6,
-                            tension: 0.2,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { ticks: { font: { size: 9 } }, grid: { display: false } },
-                            y: { ticks: { font: { size: 9 } } }
-                        }
-                    }
-                });
-            }
-
-            function updateChart(value, timeLabel) {
-                chartLabels.push(timeLabel);
-                chartData.push(value);
-                if (chartData.length > MAX_POINTS) {
-                    chartData.shift();
-                    chartLabels.shift();
-                }
-                chart.update();
-            }
-
-            // --- парсване на температура от съобщение (число или JSON) ---
             function parseTemperature(payload) {
                 if (typeof payload === 'string') {
-                    // опит като JSON
                     try {
                         const json = JSON.parse(payload);
                         if (json.temperature !== undefined) return parseFloat(json.temperature);
@@ -255,14 +174,12 @@
                 return null;
             }
 
-            // --- свързване към брокера ---
             function connect() {
                 if (typeof mqtt === 'undefined') {
                     showError('MQTT библиотеката не се зареди. Опреснете страницата.');
                     return;
                 }
 
-                // Формираме WSS URL (винаги използваме защитен WebSocket)
                 const brokerUrl = `wss://${BROKER.host}:${BROKER.port}${BROKER.path}`;
                 logDebug(`Свързване към ${brokerUrl}`);
 
@@ -271,7 +188,7 @@
                     username: BROKER.username,
                     password: BROKER.password,
                     clean: true,
-                    reconnectPeriod: 5000,        // автоматично пресвързване на всеки 5 сек
+                    reconnectPeriod: 5000,
                     connectTimeout: 15 * 1000,
                 };
 
@@ -295,9 +212,9 @@
                     const temp = parseTemperature(payload);
                     if (temp !== null) {
                         const now = new Date();
-                        const timeLabel = now.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                        lastValueSpan.textContent = temp.toFixed(1) + ' °C';
-                        updateChart(temp, timeLabel);
+                        const timeStr = now.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                        temperatureSpan.textContent = temp.toFixed(1);
+                        lastUpdateSpan.textContent = timeStr;
                     }
                 });
 
@@ -312,14 +229,10 @@
                 });
             }
 
-            // --- стартиране след зареждане на страницата ---
             window.addEventListener('load', () => {
-                initChart();
-                // кратко забавяне, за да се заредят всички скриптове
                 setTimeout(connect, 500);
             });
 
-            // --- затваряне на връзката при напускане ---
             window.addEventListener('beforeunload', () => {
                 if (client && client.connected) {
                     client.end(true);
