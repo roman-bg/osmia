@@ -117,12 +117,12 @@
         (function() {
             // --- Конфигурация на брокера (скрита) ---
             const BROKER = {
-                host: '31399ad3a86a46c38410448612635137.s1.eu.hivemq.cloud',
-                port: 8884,
+                host: 'b37.mqtt.one',
+                port: 8083,
                 path: '/mqtt',
-                topic: 'romanbg/dd',
-                username: 'romanbg',
-                password: 'R@man1967'
+                topic: 'chosyz9864/dd',
+                username: 'chosyz9864',
+                password: '390aclmprv'
             };
 
             let client = null;
@@ -180,7 +180,7 @@
                     return;
                 }
 
-                const brokerUrl = `wss://${BROKER.host}:${BROKER.port}${BROKER.path}`;
+                const brokerUrl = `ws://${BROKER.host}:${BROKER.port}${BROKER.path}`;
                 logDebug(`Свързване към ${brokerUrl}`);
 
                 const options = {
