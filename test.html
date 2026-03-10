@@ -6,7 +6,7 @@
     <title>Температура (MQTT)</title>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- MQTT.js (алтернатива на Paho) -->
+    <!-- MQTT.js -->
     <script src="https://unpkg.com/mqtt@5.0.0/dist/mqtt.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,13 +110,18 @@
             border-radius: 30px;
             font-size: 0.7rem;
         }
+        .debug-info {
+            font-size: 0.65rem;
+            color: #7f8c8d;
+            margin-top: 8px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🌡️ MQTT термометър</h1>
 
-        <!-- Статус лента -->
         <div class="status-bar">
             <div class="connection-status">
                 <span class="led" id="ledIndicator"></span>
@@ -130,29 +135,34 @@
 
         <div id="errorContainer" style="display: none;" class="error-message"></div>
 
-        <!-- Графика -->
         <div class="chart-container">
             <canvas id="temperatureChart"></canvas>
         </div>
 
         <div class="info-note">
-            ⚡ автоматично свързване с <code>b37.mqtt.one:8083</code> (topic <code>chosyz9864/dd</code>)
+            ⚡ автоматично свързване с <code>b37.mqtt.one:8083/mqtt</code> (topic <code>chosyz9864/dd</code>)<br>
+            <span style="color:#e67e22;">🔄 при грешка опитва с wss:// (порт 8084)</span>
         </div>
+        <div id="debug" class="debug-info"></div>
     </div>
 
     <script>
         (function() {
-            const MQTT_CONFIG = {
+            // ---- конфигурация ----
+            const CONFIG = {
                 host: 'b37.mqtt.one',
-                port: 8083,
+                wsPort: 8083,
+                wssPort: 8084,        // стандартен wss порт за HiveMQ
+                path: '/mqtt',         // брокерът очаква /mqtt
                 topic: 'chosyz9864/dd',
                 username: 'chosyz9864',
-                password: '390aclmprv',
-                useSSL: false      // ако не се свързва, опитайте с true (wss://)
+                password: '390aclmprv'
             };
 
             let client = null;
             let chart = null;
+            let reconnectTimer = null;
+            let connectionAttempts = 0;
             const maxDataPoints = 25;
             let chartData = [];
             let chartLabels = [];
@@ -161,6 +171,12 @@
             const connState = document.getElementById('connectionState');
             const lastValueSpan = document.getElementById('lastValue');
             const errorDiv = document.getElementById('errorContainer');
+            const debugDiv = document.getElementById('debug');
+
+            function logDebug(msg) {
+                console.log(msg);
+                debugDiv.textContent = msg;
+            }
 
             function showError(msg) {
                 errorDiv.style.display = 'block';
@@ -233,34 +249,64 @@
                     hideError();
                 } else {
                     led.className = 'led disconnected';
-                    connState.textContent = 'Изключен';
+                    connState.textBody = 'Изключен';
                 }
             }
 
-            function connect() {
-                if (typeof mqtt === 'undefined') {
-                    showError('MQTT библиотеката не се зареди. Опреснете страницата.');
-                    return;
+            function disconnectClient() {
+                if (client) {
+                    client.end(true);
+                    client = null;
                 }
+            }
 
-                const protocol = MQTT_CONFIG.useSSL ? 'wss' : 'ws';
-                const brokerUrl = `${protocol}://${MQTT_CONFIG.host}:${MQTT_CONFIG.port}`;
-                
+            // ---- опит за свързване с даден протокол ----
+            function connectWithProtocol(useSSL) {
+                const protocol = useSSL ? 'wss' : 'ws';
+                const port = useSSL ? CONFIG.wssPort : CONFIG.wsPort;
+                // НЯКОИ БРОКЕРИ ИЗИСКВАТ path ДА Е ЧАСТ ОТ URL
+                const brokerUrl = `${protocol}://${CONFIG.host}:${port}${CONFIG.path}`;
+                logDebug(`Опит с ${brokerUrl}`);
+
                 const options = {
                     clientId: 'web_' + Math.random().toString(36).substring(2, 12),
-                    username: MQTT_CONFIG.username,
-                    password: MQTT_CONFIG.password,
+                    username: CONFIG.username,
+                    password: CONFIG.password,
                     clean: true,
-                    reconnectPeriod: 5000,  // автоматично пресвързване на всеки 5 сек
-                    connectTimeout: 30 * 1000,
+                    reconnectPeriod: -1,          // забраняваме автоматично пресвързване, за да контролираме ние
+                    connectTimeout: 10 * 1000,
                 };
 
-                client = mqtt.connect(brokerUrl, options);
+                try {
+                    client = mqtt.connect(brokerUrl, options);
+                } catch (e) {
+                    showError(`Грешка при създаване на клиент: ${e.message}`);
+                    return false;
+                }
+
+                let connected = false;
+                let timeout = setTimeout(() => {
+                    if (!connected) {
+                        logDebug('Таймаут на свързването');
+                        client.end(true);
+                        client = null;
+                        // ако сме опитвали с ws, пробваме с wss
+                        if (!useSSL) {
+                            logDebug('Опит с wss...');
+                            connectWithProtocol(true);
+                        } else {
+                            showError('Неуспешно свързване и с двата протокола. Проверете дали брокерът е достъпен.');
+                            setConnected(false);
+                        }
+                    }
+                }, 12000);
 
                 client.on('connect', () => {
-                    console.log('Connected to MQTT broker');
+                    clearTimeout(timeout);
+                    connected = true;
+                    logDebug('Свързан успешно');
                     setConnected(true);
-                    client.subscribe(MQTT_CONFIG.topic, (err) => {
+                    client.subscribe(CONFIG.topic, (err) => {
                         if (err) showError('Грешка при абониране: ' + err);
                     });
                 });
@@ -277,27 +323,44 @@
                 });
 
                 client.on('error', (err) => {
-                    console.error('MQTT error:', err);
-                    showError('Грешка: ' + err.message);
-                    setConnected(false);
+                    console.error('MQTT грешка:', err);
+                    // Ако получим грешка за сигурност или други, и още не сме опитвали wss
+                    if (!useSSL && err.message && (err.message.includes('SSL') || err.message.includes('secure') || err.message.includes('insecure'))) {
+                        clearTimeout(timeout);
+                        logDebug('SSL грешка, пробвам с wss...');
+                        client.end(true);
+                        client = null;
+                        connectWithProtocol(true);
+                    } else {
+                        showError('Грешка: ' + err.message);
+                        setConnected(false);
+                    }
                 });
 
                 client.on('close', () => {
                     setConnected(false);
                 });
+
+                return true;
             }
 
-            // Стартиране след зареждане
+            // ---- стартиране на свързване (първо с ws) ----
+            function startConnection() {
+                if (typeof mqtt === 'undefined') {
+                    showError('MQTT библиотеката не се зареди. Опреснете страницата.');
+                    return;
+                }
+                connectWithProtocol(false); // започваме с ws
+            }
+
             window.addEventListener('load', () => {
                 initChart();
-                // малко закъснение, за да се зареди библиотеката
-                setTimeout(connect, 500);
+                setTimeout(startConnection, 500);
             });
 
-            // Затваряне на връзката при напускане
             window.addEventListener('beforeunload', () => {
                 if (client && client.connected) {
-                    client.end();
+                    client.end(true);
                 }
             });
         })();
