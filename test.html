@@ -117,12 +117,12 @@
         (function() {
             // --- Конфигурация на брокера (скрита) ---
             const BROKER = {
-                host: 'b37.mqtt.one',
-                port: 8083,
+                host: 'broker.emqx.io',
+                port: 8084,
                 path: '/mqtt',
-                topic: 'chosyz9864/dd',
-                username: 'chosyz9864',
-                password: '390aclmprv'
+                topic: 'romanbg/dd',
+               // username: 'chosyz9864',
+               // password: '390aclmprv'
             };
 
             let client = null;
@@ -180,13 +180,13 @@
                     return;
                 }
 
-                const brokerUrl = `ws://${BROKER.host}:${BROKER.port}${BROKER.path}`;
+                const brokerUrl = `wss://${BROKER.host}:${BROKER.port}${BROKER.path}`;
                 logDebug(`Свързване към ${brokerUrl}`);
 
                 const options = {
                     clientId: 'web_' + Math.random().toString(36).substring(2, 12),
-                    username: BROKER.username,
-                    password: BROKER.password,
+                   /// username: BROKER.username,
+                  ///  password: BROKER.password,
                     clean: true,
                     reconnectPeriod: 5000,
                     connectTimeout: 15 * 1000,
