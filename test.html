@@ -6,8 +6,8 @@
     <title>Температура (MQTT)</title>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- Paho MQTT (jsDelivr - по-стабилен) -->
-    <script src="https://cdn.jsdelivr.net/npm/paho-mqtt@1.1.0/paho-mqtt.min.js"></script>
+    <!-- MQTT.js (алтернатива на Paho) -->
+    <script src="https://unpkg.com/mqtt@5.0.0/dist/mqtt.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -128,7 +128,6 @@
             </div>
         </div>
 
-        <!-- Място за съобщение за грешка (скрито по подразбиране) -->
         <div id="errorContainer" style="display: none;" class="error-message"></div>
 
         <!-- Графика -->
@@ -143,19 +142,16 @@
 
     <script>
         (function() {
-            // ---- твърдо зададени данни (скрити) ----
             const MQTT_CONFIG = {
                 host: 'b37.mqtt.one',
                 port: 8083,
-                path: '/mqtt',            // често срещан път за WebSocket
                 topic: 'chosyz9864/dd',
                 username: 'chosyz9864',
                 password: '390aclmprv',
-                useSSL: false              // променете на true, ако връзката не успее (някои брокери изискват SSL дори на 8083)
+                useSSL: false      // ако не се свързва, опитайте с true (wss://)
             };
 
-            const clientId = 'web_' + Math.random().toString(36).substring(2, 12);
-            let mqttClient = null;
+            let client = null;
             let chart = null;
             const maxDataPoints = 25;
             let chartData = [];
@@ -166,7 +162,6 @@
             const lastValueSpan = document.getElementById('lastValue');
             const errorDiv = document.getElementById('errorContainer');
 
-            // Помощна функция за показване на грешка
             function showError(msg) {
                 errorDiv.style.display = 'block';
                 errorDiv.textContent = msg;
@@ -177,7 +172,6 @@
                 errorDiv.style.display = 'none';
             }
 
-            // ---- инициализация на графика ----
             function initChart() {
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
@@ -218,16 +212,18 @@
                 chart.update();
             }
 
-            function parseTemperature(message) {
-                const payload = message.payloadString || String.fromCharCode.apply(null, message.payloadBytes);
-                try {
-                    const json = JSON.parse(payload);
-                    if (json.temperature !== undefined) return parseFloat(json.temperature);
-                    if (json.value !== undefined) return parseFloat(json.value);
-                    if (json.temp !== undefined) return parseFloat(json.temp);
-                } catch (e) { /* не е JSON */ }
-                const num = parseFloat(payload);
-                return isNaN(num) ? null : num;
+            function parseTemperature(payload) {
+                if (typeof payload === 'string') {
+                    try {
+                        const json = JSON.parse(payload);
+                        if (json.temperature !== undefined) return parseFloat(json.temperature);
+                        if (json.value !== undefined) return parseFloat(json.value);
+                        if (json.temp !== undefined) return parseFloat(json.temp);
+                    } catch (e) { /* не е JSON */ }
+                    const num = parseFloat(payload);
+                    return isNaN(num) ? null : num;
+                }
+                return null;
             }
 
             function setConnected(connected) {
@@ -241,93 +237,70 @@
                 }
             }
 
-            // ---- MQTT колбеци ----
-            function onConnect() {
-                console.log('Connected to MQTT');
-                setConnected(true);
-                if (mqttClient) {
-                    mqttClient.subscribe(MQTT_CONFIG.topic);
-                }
-            }
-
-            function onConnectionLost(err) {
-                console.warn('Connection lost:', err?.errorMessage);
-                setConnected(false);
-            }
-
-            function onMessageArrived(msg) {
-                const temp = parseTemperature(msg);
-                if (temp !== null) {
-                    const now = new Date();
-                    const timeLabel = now.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                    lastValueSpan.textContent = temp.toFixed(1) + ' °C';
-                    updateChart(temp, timeLabel);
-                } else {
-                    console.debug('Unparsable message:', msg.payloadString);
-                }
-            }
-
-            // ---- свързване с проверка за Paho ----
             function connect() {
-                // Проверка дали Paho е зареден
-                if (typeof Paho === 'undefined' || typeof Paho.MQTT === 'undefined') {
-                    showError('Грешка: MQTT библиотеката не се зареди. Опреснете страницата или проверете интернет връзката.');
+                if (typeof mqtt === 'undefined') {
+                    showError('MQTT библиотеката не се зареди. Опреснете страницата.');
                     return;
                 }
 
-                if (mqttClient && mqttClient.isConnected()) return;
-
-                try {
-                    mqttClient = new Paho.MQTT.Client(MQTT_CONFIG.host, MQTT_CONFIG.port, MQTT_CONFIG.path, clientId);
-                } catch (e) {
-                    showError('Грешка при създаване на клиент: ' + e.message);
-                    return;
-                }
-
-                mqttClient.onConnect = onConnect;
-                mqttClient.onConnectionLost = onConnectionLost;
-                mqttClient.onMessageArrived = onMessageArrived;
-
+                const protocol = MQTT_CONFIG.useSSL ? 'wss' : 'ws';
+                const brokerUrl = `${protocol}://${MQTT_CONFIG.host}:${MQTT_CONFIG.port}`;
+                
                 const options = {
-                    useSSL: MQTT_CONFIG.useSSL,
-                    timeout: 15,
-                    userName: MQTT_CONFIG.username,
+                    clientId: 'web_' + Math.random().toString(36).substring(2, 12),
+                    username: MQTT_CONFIG.username,
                     password: MQTT_CONFIG.password,
-                    onSuccess: onConnect,
-                    onFailure: (e) => {
-                        console.error('Connection failed:', e.errorMessage);
-                        setConnected(false);
-                        showError('Неуспешно свързване: ' + e.errorMessage);
-                    }
+                    clean: true,
+                    reconnectPeriod: 5000,  // автоматично пресвързване на всеки 5 сек
+                    connectTimeout: 30 * 1000,
                 };
 
-                setConnected(false);
-                mqttClient.connect(options);
+                client = mqtt.connect(brokerUrl, options);
+
+                client.on('connect', () => {
+                    console.log('Connected to MQTT broker');
+                    setConnected(true);
+                    client.subscribe(MQTT_CONFIG.topic, (err) => {
+                        if (err) showError('Грешка при абониране: ' + err);
+                    });
+                });
+
+                client.on('message', (topic, message) => {
+                    const payload = message.toString();
+                    const temp = parseTemperature(payload);
+                    if (temp !== null) {
+                        const now = new Date();
+                        const timeLabel = now.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                        lastValueSpan.textContent = temp.toFixed(1) + ' °C';
+                        updateChart(temp, timeLabel);
+                    }
+                });
+
+                client.on('error', (err) => {
+                    console.error('MQTT error:', err);
+                    showError('Грешка: ' + err.message);
+                    setConnected(false);
+                });
+
+                client.on('close', () => {
+                    setConnected(false);
+                });
             }
 
-            // ---- изчакваме всичко да се зареди и опитваме свързване с повторен опит ----
-            function tryConnectWithRetry(attempts = 0) {
-                if (typeof Paho !== 'undefined' && Paho.MQTT) {
-                    connect();
-                } else if (attempts < 10) { // опитваме до 5 секунди (10 * 500ms)
-                    setTimeout(() => tryConnectWithRetry(attempts + 1), 500);
-                } else {
-                    showError('Библиотеката Paho MQTT не се зареди. Моля, опреснете страницата.');
-                }
-            }
-
+            // Стартиране след зареждане
             window.addEventListener('load', () => {
                 initChart();
-                tryConnectWithRetry();
+                // малко закъснение, за да се зареди библиотеката
+                setTimeout(connect, 500);
             });
 
+            // Затваряне на връзката при напускане
             window.addEventListener('beforeunload', () => {
-                if (mqttClient && mqttClient.isConnected()) {
-                    mqttClient.disconnect();
+                if (client && client.connected) {
+                    client.end();
                 }
             });
         })();
     </script>
 </body>
 </html>
-
