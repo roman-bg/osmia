@@ -1,1 +1,333 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Температура (MQTT)</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Paho MQTT (jsDelivr - по-стабилен) -->
+    <script src="https://cdn.jsdelivr.net/npm/paho-mqtt@1.1.0/paho-mqtt.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 12px;
+        }
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            padding: 20px 16px;
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 300;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .status-bar {
+            background: #ecf0f1;
+            border-radius: 60px;
+            padding: 12px 20px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .led {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #95a5a6;
+            transition: background 0.25s, box-shadow 0.25s;
+        }
+        .led.connected {
+            background: #2ecc71;
+            box-shadow: 0 0 12px #2ecc71;
+        }
+        .led.disconnected {
+            background: #e74c3c;
+        }
+        .last-message {
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .chart-container {
+            position: relative;
+            height: 280px;
+            margin: 8px 0 5px;
+            border: 1px solid #e0e7e9;
+            border-radius: 28px;
+            padding: 6px;
+            background: white;
+            touch-action: pan-y;
+        }
+        .info-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #95a5a6;
+            margin-top: 16px;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 14px;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-weight: 500;
+            background: #fadbd8;
+            padding: 8px 12px;
+            border-radius: 40px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .info-note code {
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌡️ MQTT термометър</h1>
+
+        <!-- Статус лента -->
+        <div class="status-bar">
+            <div class="connection-status">
+                <span class="led" id="ledIndicator"></span>
+                <span id="connectionState">Изключен</span>
+            </div>
+            <div>
+                <span style="color:#5d6d7e;">посл.</span>
+                <span id="lastValue" class="last-message">---</span>
+            </div>
+        </div>
+
+        <!-- Място за съобщение за грешка (скрито по подразбиране) -->
+        <div id="errorContainer" style="display: none;" class="error-message"></div>
+
+        <!-- Графика -->
+        <div class="chart-container">
+            <canvas id="temperatureChart"></canvas>
+        </div>
+
+        <div class="info-note">
+            ⚡ автоматично свързване с <code>b37.mqtt.one:8083</code> (topic <code>chosyz9864/dd</code>)
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---- твърдо зададени данни (скрити) ----
+            const MQTT_CONFIG = {
+                host: 'b37.mqtt.one',
+                port: 8083,
+                path: '/mqtt',            // често срещан път за WebSocket
+                topic: 'chosyz9864/dd',
+                username: 'chosyz9864',
+                password: '390aclmprv',
+                useSSL: false              // променете на true, ако връзката не успее (някои брокери изискват SSL дори на 8083)
+            };
+
+            const clientId = 'web_' + Math.random().toString(36).substring(2, 12);
+            let mqttClient = null;
+            let chart = null;
+            const maxDataPoints = 25;
+            let chartData = [];
+            let chartLabels = [];
+
+            const led = document.getElementById('ledIndicator');
+            const connState = document.getElementById('connectionState');
+            const lastValueSpan = document.getElementById('lastValue');
+            const errorDiv = document.getElementById('errorContainer');
+
+            // Помощна функция за показване на грешка
+            function showError(msg) {
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = msg;
+                console.error(msg);
+            }
+
+            function hideError() {
+                errorDiv.style.display = 'none';
+            }
+
+            // ---- инициализация на графика ----
+            function initChart() {
+                const ctx = document.getElementById('temperatureChart').getContext('2d');
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [{
+                            label: 'температура °C',
+                            data: chartData,
+                            borderColor: '#e67e22',
+                            backgroundColor: 'rgba(230,126,34,0.08)',
+                            borderWidth: 3,
+                            pointRadius: 2.5,
+                            pointHoverRadius: 6,
+                            tension: 0.2,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { ticks: { font: { size: 9 } }, grid: { display: false } },
+                            y: { ticks: { font: { size: 9 } }, grid: { color: '#e9ecef' } }
+                        }
+                    }
+                });
+            }
+
+            function updateChart(value, timeLabel) {
+                chartLabels.push(timeLabel);
+                chartData.push(value);
+                if (chartData.length > maxDataPoints) {
+                    chartData.shift();
+                    chartLabels.shift();
+                }
+                chart.update();
+            }
+
+            function parseTemperature(message) {
+                const payload = message.payloadString || String.fromCharCode.apply(null, message.payloadBytes);
+                try {
+                    const json = JSON.parse(payload);
+                    if (json.temperature !== undefined) return parseFloat(json.temperature);
+                    if (json.value !== undefined) return parseFloat(json.value);
+                    if (json.temp !== undefined) return parseFloat(json.temp);
+                } catch (e) { /* не е JSON */ }
+                const num = parseFloat(payload);
+                return isNaN(num) ? null : num;
+            }
+
+            function setConnected(connected) {
+                if (connected) {
+                    led.className = 'led connected';
+                    connState.textContent = 'Свързан';
+                    hideError();
+                } else {
+                    led.className = 'led disconnected';
+                    connState.textContent = 'Изключен';
+                }
+            }
+
+            // ---- MQTT колбеци ----
+            function onConnect() {
+                console.log('Connected to MQTT');
+                setConnected(true);
+                if (mqttClient) {
+                    mqttClient.subscribe(MQTT_CONFIG.topic);
+                }
+            }
+
+            function onConnectionLost(err) {
+                console.warn('Connection lost:', err?.errorMessage);
+                setConnected(false);
+            }
+
+            function onMessageArrived(msg) {
+                const temp = parseTemperature(msg);
+                if (temp !== null) {
+                    const now = new Date();
+                    const timeLabel = now.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    lastValueSpan.textContent = temp.toFixed(1) + ' °C';
+                    updateChart(temp, timeLabel);
+                } else {
+                    console.debug('Unparsable message:', msg.payloadString);
+                }
+            }
+
+            // ---- свързване с проверка за Paho ----
+            function connect() {
+                // Проверка дали Paho е зареден
+                if (typeof Paho === 'undefined' || typeof Paho.MQTT === 'undefined') {
+                    showError('Грешка: MQTT библиотеката не се зареди. Опреснете страницата или проверете интернет връзката.');
+                    return;
+                }
+
+                if (mqttClient && mqttClient.isConnected()) return;
+
+                try {
+                    mqttClient = new Paho.MQTT.Client(MQTT_CONFIG.host, MQTT_CONFIG.port, MQTT_CONFIG.path, clientId);
+                } catch (e) {
+                    showError('Грешка при създаване на клиент: ' + e.message);
+                    return;
+                }
+
+                mqttClient.onConnect = onConnect;
+                mqttClient.onConnectionLost = onConnectionLost;
+                mqttClient.onMessageArrived = onMessageArrived;
+
+                const options = {
+                    useSSL: MQTT_CONFIG.useSSL,
+                    timeout: 15,
+                    userName: MQTT_CONFIG.username,
+                    password: MQTT_CONFIG.password,
+                    onSuccess: onConnect,
+                    onFailure: (e) => {
+                        console.error('Connection failed:', e.errorMessage);
+                        setConnected(false);
+                        showError('Неуспешно свързване: ' + e.errorMessage);
+                    }
+                };
+
+                setConnected(false);
+                mqttClient.connect(options);
+            }
+
+            // ---- изчакваме всичко да се зареди и опитваме свързване с повторен опит ----
+            function tryConnectWithRetry(attempts = 0) {
+                if (typeof Paho !== 'undefined' && Paho.MQTT) {
+                    connect();
+                } else if (attempts < 10) { // опитваме до 5 секунди (10 * 500ms)
+                    setTimeout(() => tryConnectWithRetry(attempts + 1), 500);
+                } else {
+                    showError('Библиотеката Paho MQTT не се зареди. Моля, опреснете страницата.');
+                }
+            }
+
+            window.addEventListener('load', () => {
+                initChart();
+                tryConnectWithRetry();
+            });
+
+            window.addEventListener('beforeunload', () => {
+                if (mqttClient && mqttClient.isConnected()) {
+                    mqttClient.disconnect();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
 
