@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Температура (MQTT)</title>
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- MQTT.js -->
     <script src="https://unpkg.com/mqtt@5.0.0/dist/mqtt.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f5;
             min-height: 100vh;
             display: flex;
@@ -33,7 +31,6 @@
             color: #2c3e50;
             text-align: center;
             margin-bottom: 16px;
-            letter-spacing: -0.5px;
         }
         .status-bar {
             background: #ecf0f1;
@@ -140,20 +137,18 @@
         </div>
 
         <div class="info-note">
-            ⚡ автоматично свързване с <code>b37.mqtt.one:8083/mqtt</code> (topic <code>chosyz9864/dd</code>)<br>
-            <span style="color:#e67e22;">🔄 при грешка опитва с wss:// (порт 8084)</span>
+            ⚡ Опит за връзка с <code>b37.mqtt.one:8083/mqtt</code> (WS) <br>
+            🔐 Ако видите грешка за сигурност, отворете страницата през <strong>HTTPS</strong> или използвайте локален сървър.
         </div>
         <div id="debug" class="debug-info"></div>
     </div>
 
     <script>
         (function() {
-            // ---- конфигурация ----
             const CONFIG = {
                 host: 'b37.mqtt.one',
-                wsPort: 8083,
-                wssPort: 8084,        // стандартен wss порт за HiveMQ
-                path: '/mqtt',         // брокерът очаква /mqtt
+                port: 8083,
+                path: '/mqtt',
                 topic: 'chosyz9864/dd',
                 username: 'chosyz9864',
                 password: '390aclmprv'
@@ -161,11 +156,9 @@
 
             let client = null;
             let chart = null;
-            let reconnectTimer = null;
-            let connectionAttempts = 0;
-            const maxDataPoints = 25;
             let chartData = [];
             let chartLabels = [];
+            const maxDataPoints = 25;
 
             const led = document.getElementById('ledIndicator');
             const connState = document.getElementById('connectionState');
@@ -188,6 +181,17 @@
                 errorDiv.style.display = 'none';
             }
 
+            function setConnected(connected) {
+                if (connected) {
+                    led.className = 'led connected';
+                    connState.textContent = 'Свързан';
+                    hideError();
+                } else {
+                    led.className = 'led disconnected';
+                    connState.textContent = 'Изключен';
+                }
+            }
+
             function initChart() {
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
@@ -201,7 +205,6 @@
                             backgroundColor: 'rgba(230,126,34,0.08)',
                             borderWidth: 3,
                             pointRadius: 2.5,
-                            pointHoverRadius: 6,
                             tension: 0.2,
                             fill: true
                         }]
@@ -212,7 +215,7 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { ticks: { font: { size: 9 } }, grid: { display: false } },
-                            y: { ticks: { font: { size: 9 } }, grid: { color: '#e9ecef' } }
+                            y: { ticks: { font: { size: 9 } } }
                         }
                     }
                 });
@@ -235,37 +238,16 @@
                         if (json.temperature !== undefined) return parseFloat(json.temperature);
                         if (json.value !== undefined) return parseFloat(json.value);
                         if (json.temp !== undefined) return parseFloat(json.temp);
-                    } catch (e) { /* не е JSON */ }
+                    } catch (e) {}
                     const num = parseFloat(payload);
                     return isNaN(num) ? null : num;
                 }
                 return null;
             }
 
-            function setConnected(connected) {
-                if (connected) {
-                    led.className = 'led connected';
-                    connState.textContent = 'Свързан';
-                    hideError();
-                } else {
-                    led.className = 'led disconnected';
-                    connState.textBody = 'Изключен';
-                }
-            }
-
-            function disconnectClient() {
-                if (client) {
-                    client.end(true);
-                    client = null;
-                }
-            }
-
-            // ---- опит за свързване с даден протокол ----
             function connectWithProtocol(useSSL) {
                 const protocol = useSSL ? 'wss' : 'ws';
-                const port = useSSL ? CONFIG.wssPort : CONFIG.wsPort;
-                // НЯКОИ БРОКЕРИ ИЗИСКВАТ path ДА Е ЧАСТ ОТ URL
-                const brokerUrl = `${protocol}://${CONFIG.host}:${port}${CONFIG.path}`;
+                const brokerUrl = `${protocol}://${CONFIG.host}:${CONFIG.port}${CONFIG.path}`;
                 logDebug(`Опит с ${brokerUrl}`);
 
                 const options = {
@@ -273,37 +255,37 @@
                     username: CONFIG.username,
                     password: CONFIG.password,
                     clean: true,
-                    reconnectPeriod: -1,          // забраняваме автоматично пресвързване, за да контролираме ние
-                    connectTimeout: 10 * 1000,
+                    reconnectPeriod: -1, // без автоматично превързване
+                    connectTimeout: 15 * 1000,
                 };
 
                 try {
                     client = mqtt.connect(brokerUrl, options);
                 } catch (e) {
-                    showError(`Грешка при създаване на клиент: ${e.message}`);
-                    return false;
+                    // Тук улавяме грешката "The operation is insecure" при създаване на клиента
+                    showError('Грешка при създаване на клиент: ' + e.message);
+                    if (!useSSL) {
+                        logDebug('Опитът с WS неуспешен. Пробвайте да отворите страницата през HTTPS за WSS.');
+                    }
+                    return;
                 }
 
-                let connected = false;
                 let timeout = setTimeout(() => {
-                    if (!connected) {
+                    if (client && !client.connected) {
                         logDebug('Таймаут на свързването');
                         client.end(true);
                         client = null;
-                        // ако сме опитвали с ws, пробваме с wss
+                        setConnected(false);
                         if (!useSSL) {
-                            logDebug('Опит с wss...');
-                            connectWithProtocol(true);
+                            showError('Неуспешно свързване с WS. Брокерът може да изисква WSS. Отворете страницата през HTTPS.');
                         } else {
-                            showError('Неуспешно свързване и с двата протокола. Проверете дали брокерът е достъпен.');
-                            setConnected(false);
+                            showError('Неуспешно свързване с WSS. Проверете дали брокерът е достъпен.');
                         }
                     }
-                }, 12000);
+                }, 16000);
 
                 client.on('connect', () => {
                     clearTimeout(timeout);
-                    connected = true;
                     logDebug('Свързан успешно');
                     setConnected(true);
                     client.subscribe(CONFIG.topic, (err) => {
@@ -323,34 +305,29 @@
                 });
 
                 client.on('error', (err) => {
-                    console.error('MQTT грешка:', err);
-                    // Ако получим грешка за сигурност или други, и още не сме опитвали wss
+                    clearTimeout(timeout);
+                    console.error('MQTT error:', err);
+                    setConnected(false);
+                    // Ако грешката е за сигурност и сме на WS, опитваме със съвет
                     if (!useSSL && err.message && (err.message.includes('SSL') || err.message.includes('secure') || err.message.includes('insecure'))) {
-                        clearTimeout(timeout);
-                        logDebug('SSL грешка, пробвам с wss...');
-                        client.end(true);
-                        client = null;
-                        connectWithProtocol(true);
+                        showError('SSL/сигурност грешка. Брокерът вероятно изисква WSS. Отворете страницата през HTTPS (или използвайте локален сървър с HTTPS).');
                     } else {
                         showError('Грешка: ' + err.message);
-                        setConnected(false);
                     }
                 });
 
                 client.on('close', () => {
                     setConnected(false);
                 });
-
-                return true;
             }
 
-            // ---- стартиране на свързване (първо с ws) ----
             function startConnection() {
                 if (typeof mqtt === 'undefined') {
                     showError('MQTT библиотеката не се зареди. Опреснете страницата.');
                     return;
                 }
-                connectWithProtocol(false); // започваме с ws
+                // Първо опитваме WS (без SSL)
+                connectWithProtocol(false);
             }
 
             window.addEventListener('load', () => {
