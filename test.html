@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Температура (MQTT)</title>
+    <title>Температура (MQTT over WSS)</title>
+    <!-- Chart.js за графика -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- MQTT.js (с поддръжка на WebSocket Secure) -->
     <script src="https://unpkg.com/mqtt@5.0.0/dist/mqtt.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #0b1a2e; /* тъмен фон за по-добър контраст */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -20,23 +22,24 @@
         .container {
             max-width: 550px;
             width: 100%;
-            background: white;
-            border-radius: 28px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-            padding: 20px 16px;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            padding: 22px 18px;
         }
         h1 {
-            font-size: 1.9rem;
+            font-size: 2rem;
             font-weight: 300;
-            color: #2c3e50;
+            color: #1e3a5f;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
         }
         .status-bar {
-            background: #ecf0f1;
+            background: #eef2f6;
             border-radius: 60px;
-            padding: 12px 20px;
-            margin-bottom: 22px;
+            padding: 14px 20px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -58,58 +61,59 @@
         }
         .led.connected {
             background: #2ecc71;
-            box-shadow: 0 0 12px #2ecc71;
+            box-shadow: 0 0 14px #2ecc71;
         }
         .led.disconnected {
             background: #e74c3c;
         }
         .last-message {
-            background: #2c3e50;
+            background: #1e3a5f;
             color: white;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 40px;
             font-family: 'Courier New', monospace;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
             white-space: nowrap;
         }
         .chart-container {
             position: relative;
             height: 280px;
-            margin: 8px 0 5px;
-            border: 1px solid #e0e7e9;
+            margin: 12px 0 10px;
+            border: 1px solid #d0dbe8;
             border-radius: 28px;
-            padding: 6px;
-            background: white;
+            padding: 8px;
+            background: #ffffff;
             touch-action: pan-y;
         }
         .info-note {
             text-align: center;
             font-size: 0.7rem;
-            color: #95a5a6;
+            color: #5f7d9c;
             margin-top: 16px;
-            border-top: 1px solid #ecf0f1;
+            border-top: 1px solid #d0dbe8;
             padding-top: 14px;
         }
         .error-message {
-            color: #e74c3c;
+            color: #a82323;
             font-weight: 500;
-            background: #fadbd8;
-            padding: 8px 12px;
+            background: #ffe5e5;
+            padding: 12px 16px;
             border-radius: 40px;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            border: 1px solid #ffb3b3;
         }
         .info-note code {
-            background: #ecf0f1;
-            padding: 2px 8px;
+            background: #eef2f6;
+            padding: 2px 10px;
             border-radius: 30px;
             font-size: 0.7rem;
         }
-        .debug-info {
+        .debug {
             font-size: 0.65rem;
-            color: #7f8c8d;
+            color: #5f7d9c;
             margin-top: 8px;
             text-align: center;
         }
@@ -117,7 +121,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🌡️ MQTT термометър</h1>
+        <h1>🌡️ MQTT климат</h1>
 
         <div class="status-bar">
             <div class="connection-status">
@@ -125,7 +129,7 @@
                 <span id="connectionState">Изключен</span>
             </div>
             <div>
-                <span style="color:#5d6d7e;">посл.</span>
+                <span style="color:#2c5778;">посл.</span>
                 <span id="lastValue" class="last-message">---</span>
             </div>
         </div>
@@ -137,28 +141,29 @@
         </div>
 
         <div class="info-note">
-            ⚡ Опит за връзка с <code>b37.mqtt.one:8083/mqtt</code> (WS) <br>
-            🔐 Ако видите грешка за сигурност, отворете страницата през <strong>HTTPS</strong> или използвайте локален сървър.
+            🔐 Защитена връзка (WSS) с HiveMQ Cloud <br>
+            <code>31399ad3a86a46c38410448612635137.s1.eu.hivemq.cloud:8884</code>
         </div>
-        <div id="debug" class="debug-info"></div>
+        <div id="debug" class="debug"></div>
     </div>
 
     <script>
         (function() {
-            const CONFIG = {
-                host: 'b37.mqtt.one',
-                port: 8083,
-                path: '/mqtt',
-                topic: 'chosyz9864/dd',
-                username: 'chosyz9864',
-                password: '390aclmprv'
+            // --- Конфигурация на брокера (скрита) ---
+            const BROKER = {
+                host: '31399ad3a86a46c38410448612635137.s1.eu.hivemq.cloud',
+                port: 8884,
+                path: '/mqtt',          // HiveMQ Cloud използва /mqtt за WebSocket
+                topic: 'romanbg/dd',
+                username: 'romanbg',
+                password: 'R@man1967'
             };
 
             let client = null;
             let chart = null;
             let chartData = [];
             let chartLabels = [];
-            const maxDataPoints = 25;
+            const MAX_POINTS = 25;
 
             const led = document.getElementById('ledIndicator');
             const connState = document.getElementById('connectionState');
@@ -166,6 +171,7 @@
             const errorDiv = document.getElementById('errorContainer');
             const debugDiv = document.getElementById('debug');
 
+            // --- помощни функции ---
             function logDebug(msg) {
                 console.log(msg);
                 debugDiv.textContent = msg;
@@ -192,6 +198,7 @@
                 }
             }
 
+            // --- инициализация на графиката ---
             function initChart() {
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
                 chart = new Chart(ctx, {
@@ -205,6 +212,7 @@
                             backgroundColor: 'rgba(230,126,34,0.08)',
                             borderWidth: 3,
                             pointRadius: 2.5,
+                            pointHoverRadius: 6,
                             tension: 0.2,
                             fill: true
                         }]
@@ -224,71 +232,60 @@
             function updateChart(value, timeLabel) {
                 chartLabels.push(timeLabel);
                 chartData.push(value);
-                if (chartData.length > maxDataPoints) {
+                if (chartData.length > MAX_POINTS) {
                     chartData.shift();
                     chartLabels.shift();
                 }
                 chart.update();
             }
 
+            // --- парсване на температура от съобщение (число или JSON) ---
             function parseTemperature(payload) {
                 if (typeof payload === 'string') {
+                    // опит като JSON
                     try {
                         const json = JSON.parse(payload);
                         if (json.temperature !== undefined) return parseFloat(json.temperature);
                         if (json.value !== undefined) return parseFloat(json.value);
                         if (json.temp !== undefined) return parseFloat(json.temp);
-                    } catch (e) {}
+                    } catch (e) { /* не е JSON */ }
                     const num = parseFloat(payload);
                     return isNaN(num) ? null : num;
                 }
                 return null;
             }
 
-            function connectWithProtocol(useSSL) {
-                const protocol = useSSL ? 'wss' : 'ws';
-                const brokerUrl = `${protocol}://${CONFIG.host}:${CONFIG.port}${CONFIG.path}`;
-                logDebug(`Опит с ${brokerUrl}`);
+            // --- свързване към брокера ---
+            function connect() {
+                if (typeof mqtt === 'undefined') {
+                    showError('MQTT библиотеката не се зареди. Опреснете страницата.');
+                    return;
+                }
+
+                // Формираме WSS URL (винаги използваме защитен WebSocket)
+                const brokerUrl = `wss://${BROKER.host}:${BROKER.port}${BROKER.path}`;
+                logDebug(`Свързване към ${brokerUrl}`);
 
                 const options = {
                     clientId: 'web_' + Math.random().toString(36).substring(2, 12),
-                    username: CONFIG.username,
-                    password: CONFIG.password,
+                    username: BROKER.username,
+                    password: BROKER.password,
                     clean: true,
-                    reconnectPeriod: -1, // без автоматично превързване
+                    reconnectPeriod: 5000,        // автоматично пресвързване на всеки 5 сек
                     connectTimeout: 15 * 1000,
                 };
 
                 try {
                     client = mqtt.connect(brokerUrl, options);
                 } catch (e) {
-                    // Тук улавяме грешката "The operation is insecure" при създаване на клиента
                     showError('Грешка при създаване на клиент: ' + e.message);
-                    if (!useSSL) {
-                        logDebug('Опитът с WS неуспешен. Пробвайте да отворите страницата през HTTPS за WSS.');
-                    }
                     return;
                 }
 
-                let timeout = setTimeout(() => {
-                    if (client && !client.connected) {
-                        logDebug('Таймаут на свързването');
-                        client.end(true);
-                        client = null;
-                        setConnected(false);
-                        if (!useSSL) {
-                            showError('Неуспешно свързване с WS. Брокерът може да изисква WSS. Отворете страницата през HTTPS.');
-                        } else {
-                            showError('Неуспешно свързване с WSS. Проверете дали брокерът е достъпен.');
-                        }
-                    }
-                }, 16000);
-
                 client.on('connect', () => {
-                    clearTimeout(timeout);
-                    logDebug('Свързан успешно');
+                    logDebug('Успешно свързване');
                     setConnected(true);
-                    client.subscribe(CONFIG.topic, (err) => {
+                    client.subscribe(BROKER.topic, (err) => {
                         if (err) showError('Грешка при абониране: ' + err);
                     });
                 });
@@ -305,15 +302,9 @@
                 });
 
                 client.on('error', (err) => {
-                    clearTimeout(timeout);
-                    console.error('MQTT error:', err);
+                    console.error('MQTT грешка:', err);
                     setConnected(false);
-                    // Ако грешката е за сигурност и сме на WS, опитваме със съвет
-                    if (!useSSL && err.message && (err.message.includes('SSL') || err.message.includes('secure') || err.message.includes('insecure'))) {
-                        showError('SSL/сигурност грешка. Брокерът вероятно изисква WSS. Отворете страницата през HTTPS (или използвайте локален сървър с HTTPS).');
-                    } else {
-                        showError('Грешка: ' + err.message);
-                    }
+                    showError('Грешка: ' + err.message);
                 });
 
                 client.on('close', () => {
@@ -321,20 +312,14 @@
                 });
             }
 
-            function startConnection() {
-                if (typeof mqtt === 'undefined') {
-                    showError('MQTT библиотеката не се зареди. Опреснете страницата.');
-                    return;
-                }
-                // Първо опитваме WS (без SSL)
-                connectWithProtocol(false);
-            }
-
+            // --- стартиране след зареждане на страницата ---
             window.addEventListener('load', () => {
                 initChart();
-                setTimeout(startConnection, 500);
+                // кратко забавяне, за да се заредят всички скриптове
+                setTimeout(connect, 500);
             });
 
+            // --- затваряне на връзката при напускане ---
             window.addEventListener('beforeunload', () => {
                 if (client && client.connected) {
                     client.end(true);
