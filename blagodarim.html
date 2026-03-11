@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Благодарим за поръчката!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f0f7e8;
+            color: #1e2f23;
+            line-height: 1.5;
+            padding: 0.5rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 40, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1f4f2b;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #2f5e3a;
+        }
+
+        .home-btn {
+            background-color: #3f6844;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #2b4d31;
+            transition: background-color 0.2s;
+        }
+
+        .home-btn:hover {
+            background-color: #2b4d31;
+        }
+
+        .bee-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #3c5e3e;
+            border-top: 2px solid #bcd5a8;
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin: 0.2rem 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="bee-icon">🐝</div>
+    <h1>Благодарим за вашата поръчка!</h1>
+    <p>Ще се свържем с вас възможно най-скоро.</p>
+    <a href="index.html" class="home-btn"><i class="fas fa-arrow-left"></i> Обратно към определителя</a>
+
+    <div class="footer">
+        <p>Един проект на Българската асоциация за биологична растителна защита</p>
+        <p>За контакти тел: 0888 785 019</p>
+    </div>
+</div>
+</body>
+</html>
