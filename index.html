@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>Определител на земни пчели – България (един под друг)</title>
+    <title>Определител на земни пчели – България</title>
     <style>
         * {
             margin: 0;
@@ -24,7 +24,7 @@
         }
 
         .container {
-            max-width: 600px; /* Ограничава ширината за по-добра четимост */
+            max-width: 600px;
             width: 100%;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.8);
@@ -56,6 +56,25 @@
             flex-wrap: wrap;
         }
 
+        .shop-btn {
+            background-color: #3f6844;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: 1px solid #2b4d31;
+            transition: background-color 0.2s;
+        }
+
+        .shop-btn:hover {
+            background-color: #2b4d31;
+        }
+
         .intro {
             background: #e6f0da;
             border-radius: 1.5rem;
@@ -65,7 +84,6 @@
             border: 1px solid #bcd0a8;
         }
 
-        /* Винаги една колона */
         .grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -105,7 +123,7 @@
 
         .card-image {
             width: 100%;
-            height: 200px; /* Малко по-високи снимки за по-добра видимост */
+            height: 200px;
             overflow: hidden;
             background: #d9d0b5;
             display: flex;
@@ -264,10 +282,13 @@
             text-align: center;
             color: #3c5e3e;
             border-top: 2px solid #bcd5a8;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
-        /* Lightbox стилове */
+        .footer p {
+            margin: 0.2rem 0;
+        }
+
         .lightbox {
             display: none;
             position: fixed;
@@ -320,7 +341,6 @@
             border-radius: 40px;
         }
 
-        /* Малка оптимизация за много тесни екрани */
         @media (max-width: 400px) {
             h1 { font-size: 1.6rem; }
             .card-header h2 { font-size: 1.4rem; }
@@ -336,6 +356,7 @@
     <div class="subhead">
         <i class="fas fa-tree"></i> най-често срещаните в градски условия – България
         <span class="key-icon"><i class="far fa-compass"></i> теренен</span>
+        <a href="shop.html" class="shop-btn"><i class="fas fa-shopping-cart"></i> Магазин</a>
     </div>
 
     <div class="intro">
@@ -504,37 +525,6 @@
                 <div class="note-mimic"><i class="fas fa-paw"></i> няма контрастни ивици – "рунтава"</div>
             </div>
         </div>
-
-        <!-- 6. Bombus hypnorum -->
-        <div class="card">
-            <div class="card-header">
-                <h2>Дървесна земна пчела</h2>
-                <div class="sci-name">Bombus hypnorum</div>
-            </div>
-            <div class="card-image" onclick="openLightbox(this)">
-                <img src="bb/hypnorum.jpeg" alt="Bombus hypnorum" loading="lazy">
-            </div>
-            <div class="card-body">
-                <span class="badge-habitat"><i class="fas fa-tree"></i> паркове, хралупи, птичи гнездилки</span>
-                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> царица 18–20 mm, workers 10–15 mm</div>
-                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> април – август</div>
-                <div class="features">
-                    <p><i class="fas fa-eye"></i> Разпознаване</p>
-                    <ul>
-                        <li><strong>ръждивокафяв гръден кош</strong> (оранжев)</li>
-                        <li>коремът <strong>черен с бял връх</strong></li>
-                    </ul>
-                </div>
-                <div class="color-row">
-                    <span class="color-chip" style="background:#c96c2c;" title="ръждив гръб"></span>
-                    <span class="color-chip" style="background:#1f1f1f;" title="черен корем"></span>
-                    <span class="color-chip" style="background:#1f1f1f;" title="черен"></span>
-                    <span class="color-chip" style="background:#ffffff; border:1px solid #999;" title="бял връх"></span>
-                    <span class="color-label">кафяв гръб, бяло дъно</span>
-                </div>
-                <div class="note-mimic"><i class="fas fa-crow"></i> често в птичи касетки</div>
-            </div>
-        </div>
     </div>
 
     <hr>
@@ -556,8 +546,8 @@
     </div>
 
     <div class="footer">
-        <i class="fas fa-leaf"></i> Определител за градски условия – България <br>
-        <span style="opacity: 0.7;">Проект на Българската асоциация за биологична растителна защита</span>
+        <p>Един проект на Българската асоциация за биологична растителна защита</p>
+        <p>За контакти тел: 0888 785 019</p>
     </div>
 </div>
 
