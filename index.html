@@ -2,14 +2,8 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>АгроМонитор · СЕТ агрономически услуги</title>
-    <!-- Изчистен професионален шрифт (Google Fonts) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (безплатни икони) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Определител на земни пчели – България</title>
     <style>
         * {
             margin: 0;
@@ -18,516 +12,615 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f5f7f6;
-            color: #1a2e2a;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f5faf2;  /* много светлозелено */
+            color: #1d3b1d;
             line-height: 1.5;
-            padding: 20px 16px 32px;
+            padding: 0.5rem;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
+            justify-content: center;
         }
 
         .container {
-            max-width: 580px;
+            max-width: 600px;
             width: 100%;
             margin: 0 auto;
-        }
-
-        /* всички секции – бели карти с мека сянка */
-        .card {
-            background-color: #ffffff;
-            border-radius: 28px;
-            padding: 28px 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(0, 40, 20, 0.06);
-            border: 1px solid rgba(90, 130, 100, 0.1);
-            transition: box-shadow 0.2s ease;
-        }
-
-        .card:last-child {
-            margin-bottom: 0;
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 1.5rem 1.2rem;
+            box-shadow: 0 8px 20px rgba(30, 60, 30, 0.1);
+            border: 1px solid #d0e2c0;
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: #1c5a2c;
+            border-left: 6px solid #7fb07f;
+            padding-left: 1rem;
+            margin-bottom: 0.3rem;
             line-height: 1.2;
-            color: #0f3d2e;
-            margin-bottom: 0.25rem;
         }
 
         .subhead {
-            font-size: 1.05rem;
-            font-weight: 400;
-            color: #3a5e4f;
-            border-left: 4px solid #4c9f70;
-            padding-left: 16px;
-            margin: 12px 0 8px 0;
-        }
-
-        h2 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            margin-bottom: 20px;
-            color: #1a4d3a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        h2 i {
-            color: #2e7d5e;
-            font-size: 1.8rem;
-            width: 1.8rem;
-        }
-
-        h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #1d4437;
-        }
-
-        p {
-            color: #2b4239;
-            margin-bottom: 16px;
             font-size: 1rem;
-            text-align: justify;      /* двустранно подравняване */
-        }
-
-        /* двустранно подравняване за списъчни текстове */
-        .benefit-text, .step-text, .small-note {
-            text-align: justify;
-        }
-
-        .benefits-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            margin: 18px 0 8px;
-        }
-
-        .benefit-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-        }
-
-        .benefit-icon {
-            background-color: #e7f3ed;
-            border-radius: 50%;
-            width: 52px;
-            height: 52px;
+            color: #2e6733;
+            margin-bottom: 1.5rem;
+            padding-left: 1.3rem;
+            font-style: italic;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: #1c6e4a;
-            font-size: 1.6rem;
-            flex-shrink: 0;
-            box-shadow: 0 4px 8px rgba(32, 100, 64, 0.08);
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .benefit-text {
-            flex: 1;
-        }
-
-        .benefit-text strong {
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 4px;
-            color: #0f402f;
-        }
-
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 12px;
-        }
-
-        .step-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .step-number {
-            background-color: #2b7250;
+        .shop-btn {
+            background-color: #2e7d32;
             color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
-            width: 44px;
-            height: 44px;
-            border-radius: 40px;
-            display: flex;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 6px 10px rgba(36, 109, 67, 0.25);
+            gap: 0.4rem;
+            border: 1px solid #1e5a22;
+            transition: background-color 0.2s;
         }
 
-        .step-text {
-            flex: 1;
-            font-weight: 500;
+        .shop-btn:hover {
+            background-color: #1e5a22;
         }
 
-        /* форма */
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        label {
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #1e4e3a;
-            display: block;
-            margin-bottom: 6px;
-            margin-left: 4px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 18px 18px;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            background-color: #f9fbfa;
-            border: 1.5px solid #d5e3db;
-            border-radius: 24px;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            -webkit-appearance: none;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #1e7e52;
-            box-shadow: 0 0 0 4px rgba(30, 126, 82, 0.15);
-            background-color: #ffffff;
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .btn-submit {
-            background-color: #186b46;
-            color: white;
-            border: none;
-            padding: 20px 24px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 60px;
-            width: 100%;
+        /* Нова секция за допълнителна снимка */
+        .featured-image {
+            margin: 1rem 0 1.2rem 0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(60, 100, 40, 0.15);
             cursor: pointer;
-            transition: background-color 0.15s, transform 0.1s;
-            box-shadow: 0 10px 24px -8px #1f6e4a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 8px;
-            border: 1px solid #328f62;
+            border: 2px solid #bcddae;
+            transition: transform 0.2s ease;
         }
 
-        .btn-submit i {
-            font-size: 1.3rem;
+        .featured-image:hover {
+            transform: scale(1.01);
         }
 
-        .btn-submit:hover, .btn-submit:active {
-            background-color: #0f5537;
-            transform: scale(0.99);
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 0.85rem;
-            color: #547a67;
-            border-top: 1px dashed #c4d9cf;
-            padding-top: 20px;
-        }
-
-        .footer-note i {
-            color: #387a59;
-        }
-
-        /* скрит honeypot */
-        .hidden {
-            display: none;
-        }
-
-        /* контактна иконка */
-        .contact-header i {
-            color: #257b54;
-            font-size: 2rem;
-        }
-
-        /* Стилове за изображението и лайтбокс */
-        .lightbox-trigger {
-            display: block;
-            max-width: 100%;
+        .featured-image img {
+            width: 100%;
             height: auto;
-            border-radius: 24px;
-            margin: 24px 0 8px;
+            max-height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .intro {
+            background: #ecf6e5;
+            border-radius: 1.5rem;
+            padding: 1rem 1.3rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            border: 1px solid #b8d9a8;
+            color: #1b4b1b;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.8rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 6px 14px rgba(50, 80, 30, 0.1);
+            border: 1px solid #bcddae;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            background: #2e7d32;  /* равномерно зелено */
+            color: white;
+            padding: 1rem 1.2rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+        }
+
+        .card-header .sci-name {
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #eef3e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            box-shadow: 0 12px 28px -8px rgba(20, 70, 40, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 3px solid white;
+            border-bottom: 2px solid #bcddae;
         }
 
-        .lightbox-trigger:hover {
-            transform: scale(1.02);
-            box-shadow: 0 18px 36px -8px #1b4e37;
-        }
-
-        /* Лайтбокс модал */
-        .lightbox-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+        .card-image img {
             width: 100%;
             height: 100%;
-            background-color: rgba(10, 30, 20, 0.9);
-            backdrop-filter: blur(6px);
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
 
-        .lightbox-modal.show {
+        .card-image img:hover {
+            transform: scale(1.03);
+        }
+
+        .card-body {
+            padding: 1.4rem 1.2rem 1.2rem;
+            background: #ffffff;
+        }
+
+        .badge-habitat {
+            display: inline-block;
+            background: #dcedc8;
+            color: #1d511d;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid #9bc08f;
+        }
+
+        .desc-line {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 0.7rem;
+            font-size: 0.95rem;
+        }
+
+        .desc-line i {
+            color: #2e7d32;
+            width: 1.3rem;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .features {
+            background: #eaf3e2;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid #8bbd7e;
+        }
+
+        .features p {
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: #1f5827;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .features ul {
+            list-style-type: none;
+            padding-left: 0.2rem;
+        }
+
+        .features li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+
+        .features li::before {
+            content: "🐝";
+            color: #a97c4b;
+            font-size: 0.9rem;
+            margin-right: 5px;
+            flex-shrink: 0;
+        }
+
+        .color-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem 0.6rem;
+            margin: 1rem 0 0.6rem;
+            background: #f4fcec;
+            padding: 0.7rem 0.8rem;
+            border-radius: 40px;
+            border: 1px dashed #9fc08f;
+        }
+
+        .color-chip {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border-radius: 28px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 2px solid white;
+            flex-shrink: 0;
+        }
+
+        .color-label {
+            font-size: 0.8rem;
+            background: white;
+            padding: 0.1rem 0.7rem;
+            border-radius: 20px;
+            border: 1px solid #c0d8b0;
+            white-space: nowrap;
+        }
+
+        .note-mimic {
+            font-size: 0.85rem;
+            background: #e5f2db;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            color: #2b5720;
+            display: inline-block;
+            margin-top: 0.6rem;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px dotted #b1d2a1;
+            margin: 1.2rem 0;
+        }
+
+        .flex-row-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            background: #eaf1e2;
+            border-radius: 1.8rem;
+            padding: 1.3rem;
+            margin: 1rem 0;
+        }
+
+        .flex-row-mobile h3 {
+            color: #1f5827;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #2d6b2d;
+            border-top: 2px solid #c2ddb4;
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin: 0.2rem 0;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
             display: flex;
         }
 
         .lightbox-content {
             max-width: 90%;
             max-height: 80%;
-            border-radius: 28px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-            border: 4px solid white;
+            object-fit: contain;
+            border: 3px solid white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .lightbox-close {
             position: absolute;
-            top: 30px;
+            top: 20px;
             right: 30px;
-            color: white;
             font-size: 3rem;
-            font-weight: 300;
+            color: white;
             cursor: pointer;
-            transition: transform 0.1s;
-            line-height: 1;
-            background: rgba(0,0,0,0.3);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
+            background: transparent;
+            border: none;
+            text-shadow: 0 2px 5px black;
+            z-index: 1010;
         }
 
-        .lightbox-close:hover {
-            transform: scale(1.1);
-            background: rgba(0,0,0,0.6);
-        }
-
-        /* малък надпис под снимката */
-        .img-caption {
-            font-size: 0.85rem;
-            color: #446655;
+        .lightbox-caption {
+            color: white;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-style: italic;
             text-align: center;
-            margin-bottom: 8px;
+            background: rgba(0,0,0,0.5);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
         }
 
-        @media (max-width: 380px) {
-            .card {
-                padding: 22px 18px;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
+        @media (max-width: 400px) {
+            h1 { font-size: 1.6rem; }
+            .card-header h2 { font-size: 1.4rem; }
+            .color-chip { width: 24px; height: 24px; }
+            .card-image { height: 160px; }
+            .featured-image img { max-height: 160px; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Хедър секция с добавено изображение -->
-        <div class="card" style="padding-bottom: 20px;">
-            <h1><i class="fa-solid fa-leaf" style="color: #2b7250; margin-right: 8px;"></i>АгроМонитор</h1>
-            <div class="subhead">мониторинг на вредители чрез СЕТ (суми на ефективните температури)</div>
-            <p style="margin-top: 16px; font-size: 1.02rem;">Прецизни агрономически прогнози на база сателитни данни и термални модели. Навременна информация за поява на вредители по полски култури, трайни насаждения и лозя.</p>
-            
-            <!-- Добавено изображение bees.png с лайтбокс тригер -->
-            <img src="bee.png" alt="Пчели и опрашване – важен елемент от агроекосистемата" class="lightbox-trigger" id="beesImage" loading="lazy">
-            <div class="img-caption">
-                <i class="fa-regular fa-eye"></i> Кликнете върху снимката за уголемяване
-            </div>
-        </div>
+<div class="container">
+    <h1>🐝 Определител на земни пчели <span style="font-weight:300;">(Bombus spp.)</span></h1>
+    <div class="subhead">
+        <i class="fas fa-tree"></i> най-често срещаните в градски условия – България
+        <span class="key-icon"><i class="far fa-compass"></i> теренен</span>
+        <a href="shop.html" class="shop-btn"><i class="fas fa-shopping-cart"></i> Магазин</a>
+    </div>
 
-        <!-- Лайтбокс модал (скрит по подразбиране) -->
-        <div class="lightbox-modal" id="lightboxModal">
-            <span class="lightbox-close" id="closeLightbox">&times;</span>
-            <img src="bee.png" alt="Пчели – уголемен изглед" class="lightbox-content" id="lightboxImage">
-        </div>
+    <!-- Нова секция със снимка (image.jpg) над инструктивния текст -->
+    <div class="featured-image" onclick="openLightbox(this)">
+        <img src="image.jpg" alt="Разнообразие от земни пчели в България" loading="lazy">
+    </div>
 
-        <!-- Секция: Какво представлява SET -->
+    <div class="intro">
+        <strong>🟢 Всеки вид е на отделен ред – преглеждайте един по един.</strong><br>
+        Кликнете върху снимката за увеличен изглед (lightbox). Сравнявайте цветовете по кръгчетата (отпред назад).
+    </div>
+
+    <div class="grid">
+        <!-- 1. Bombus terrestris -->
         <div class="card">
-            <h2><i class="fa-regular fa-sun"></i> СЕТ мониторинг</h2>
-            <p><strong>Сума на ефективните температури (СЕТ)</strong> е ключов метод за прогнозиране развитието на насекомите. Чрез непрекъснато наблюдение на температурните натрупвания над долния праг на развитие, ние определяме точно кога да очаквате:</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;">
-                <span style="background: #e2f0e8; border-radius: 40px; padding: 8px 18px;"><i class="fa-regular fa-bug" style="margin-right: 6px;"></i>раждане на ларви</span>
-                <span style="background: #e2f0e8; border-radius: 40px; padding: 8px 18px;"><i class="fa-regular fa-calendar"></i> пик на летеж</span>
-                <span style="background: #e2f0e8; border-radius: 40px; padding: 8px 18px;"><i class="fa-regular fa-shield"></i> оптимален момент за третиране</span>
+            <div class="card-header">
+                <h2>Обикновена земна пчела</h2>
+                <div class="sci-name">Bombus terrestris</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/bombus.png" alt="Bombus terrestris" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-home"></i> градини, паркове, тревни площи</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> царица 20–25 mm, workers 11–17 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> март – октомври</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>черно тяло с <strong>две жълти ивици</strong> – преден гръб и втората половина на корема</li>
+                        <li>опашката <strong>белезникава до светлобежова</strong></li>
+                        <li>гнезди под земята</li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#e6c229;" title="жълто (преден гръб)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черно (среден гръб)"></span>
+                    <span class="color-chip" style="background:#e6c229;" title="жълто (корем, втори сегмент)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черно (край на корема)"></span>
+                    <span class="color-chip" style="background:#f2e9d0;" title="бежово-бяла опашка"></span>
+                    <span class="color-label">отпред назад</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-info-circle"></i> при работничките ивиците може да са по-слаби</div>
             </div>
         </div>
 
-        <!-- Предимства -->
+        <!-- 2. Bombus lucorum -->
         <div class="card">
-            <h2><i class="fa-regular fa-star"></i> Предимства</h2>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon"><i class="fa-regular fa-clock"></i></div>
-                    <div class="benefit-text"><strong>Ранно предупреждение</strong>От 7 до 14 дни преди критичната фаза — време за реакция.</div>
+            <div class="card-header">
+                <h2>Светлоопашата земна пчела</h2>
+                <div class="sci-name">Bombus lucorum</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/lycorum.jpeg" alt="Bombus lucorum" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-tree"></i> паркове, храсталаци, градини</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> царица 18–22 mm, workers 10–16 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> април – септември</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>почти идентичен с <em>B. terrestris</em>, но <strong>опашката е чисто бяла</strong></li>
+                        <li>жълтите ивици по-ярки, лимоненожълти</li>
+                    </ul>
                 </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon"><i class="fa-regular fa-map"></i></div>
-                    <div class="benefit-text"><strong>Прецизност до 1 km²</strong>Детайлни климатични гридове за вашето землище.</div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#f0d43a;" title="ярко жълто (гръб)"></span>
+                    <span class="color-chip" style="background:#222;" title="черно"></span>
+                    <span class="color-chip" style="background:#f0d43a;" title="ярко жълто (корем)"></span>
+                    <span class="color-chip" style="background:#222;" title="черно"></span>
+                    <span class="color-chip" style="background:#ffffff; border:1px solid #aaa;" title="чисто бяла опашка"></span>
+                    <span class="color-label">последователност</span>
                 </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon"><i class="fa-regular fa-hand-holding-dollar"></i></div>
-                    <div class="benefit-text"><strong>Икономия на ресурси</strong>Намалете третиранията с до 40% при запазване на ефикасността.</div>
-                </div>
+                <div class="note-mimic"><i class="fas fa-flask"></i> сигурно различаване с лупа</div>
             </div>
         </div>
 
-        <!-- Как работи -->
+        <!-- 3. Bombus lapidarius -->
         <div class="card">
-            <h2><i class="fa-regular fa-compass"></i> Как работи</h2>
-            <div class="steps">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div class="step-text">Измерване на дневни температури (сателит + наземни станции).</div>
+            <div class="card-header">
+                <h2>Червеноопашата земна пчела</h2>
+                <div class="sci-name">Bombus lapidarius</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/lapidarius.jpg" alt="Bombus lapidarius" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-mountain"></i> каменни зидове, стари сгради, цветни градини</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> царица 20–22 mm, workers 11–16 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> април – септември</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>тялото <strong>изцяло черно</strong> (кадифено)</li>
+                        <li>ярко <strong>червено-оранжева опашка</strong> (последните 2-3 сегмента)</li>
+                    </ul>
                 </div>
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div class="step-text">Изчисляване на СЕТ за всеки вредител спрямо културата.</div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#1e1e1e;" title="черно (цялото тяло)"></span>
+                    <span class="color-chip" style="background:#1e1e1e;" title="черно"></span>
+                    <span class="color-chip" style="background:#cc5500;" title="червена опашка"></span>
+                    <span class="color-chip" style="background:#cc5500;" title="червена опашка"></span>
+                    <span class="color-label">черно + червено</span>
                 </div>
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div class="step-text">Сравнение с фенологични модели (яйце, ларва, възрастен).</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <div class="step-text">Сигнал до вас с препоръка за мониторинг или третиране.</div>
-                </div>
+                <div class="note-mimic"><i class="fas fa-camera"></i> много лесен за разпознаване!</div>
             </div>
         </div>
 
-        <!-- ФОРМА ЗА ОБРАТНА ВРЪЗКА / ЗАЯВКА -->
-        <div class="card" id="contact">
-            <h2><i class="fa-regular fa-pen-to-square"></i> Заявете консултация</h2>
-            <p>Оставете контакти – ние ще подготвим демонстрация за вашите култури и ще изчислим СЕТ прогноза за основните вредители във вашия район.</p>
-            
-            <form action="https://formsubmit.co/roman.rachkov@gmail.com" method="POST" id="contactForm">
-                <!-- защита от спам (honeypot) -->
-                <input type="text" name="_honey" class="hidden" style="display:none">
-                <!-- забрана на captcha -->
-                <input type="hidden" name="_captcha" value="false">
-                <!-- след изпращане се пренасочва към благодарствената страница -->
-                <input type="hidden" name="_next" value="blagodarim.html">
-                <!-- (_template – пропускаме) -->
-
-                <div class="form-group">
-                    <label for="name"><i class="fa-regular fa-user" style="margin-right: 6px;"></i>Име *</label>
-                    <input type="text" id="name" name="Име" placeholder="Иван Петров" required>
+        <!-- 4. Bombus hortorum -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Градинска земна пчела</h2>
+                <div class="sci-name">Bombus hortorum</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/hortorum.jpg" alt="Bombus hortorum" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-flower"></i> градини, паркове, овощни градини</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> царица 18–22 mm, workers 11–16 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> март – септември</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li><strong>дълго лице</strong> (издължена глава)</li>
+                        <li><strong>три жълти ивици:</strong> гръб, първи коремен, трети коремен</li>
+                        <li>опашката <strong>бяла</strong></li>
+                    </ul>
                 </div>
-
-                <div class="form-group">
-                    <label for="email"><i class="fa-regular fa-envelope"></i> Имейл *</label>
-                    <input type="email" id="email" name="Имейл" placeholder="ivan@example.com" required>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#e6c229;" title="жълт (гръб)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черен"></span>
+                    <span class="color-chip" style="background:#e6c229;" title="жълт (първи коремен)"></span>
+                    <span class="color-chip" style="background:#2b2b2b;" title="черен"></span>
+                    <span class="color-chip" style="background:#e6c229;" title="жълт (трети коремен)"></span>
+                    <span class="color-chip" style="background:#f8f8f8; border:1px solid #ccc;" title="бяла опашка"></span>
+                    <span class="color-label">3 жълти / бял край</span>
                 </div>
-
-                <div class="form-group">
-                    <label for="phone"><i class="fa-regular fa-phone"></i> Телефон (за връзка)</label>
-                    <input type="tel" id="phone" name="Телефон" placeholder="+359 888 123 456">
-                </div>
-
-                <div class="form-group">
-                    <label for="message"><i class="fa-regular fa-message"></i> Култури / вредители / въпрос *</label>
-                    <textarea id="message" name="Съобщение" placeholder="Пример: 120 дка пшеница, интересуват ме житни пиявици и пшеничен трипс. Искам оферта за мониторинг." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="region"><i class="fa-regular fa-location-dot"></i> Населено място / район</label>
-                    <input type="text" id="region" name="Район" placeholder="с. Горна Студена, Плевенско">
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    <i class="fa-regular fa-paper-plane"></i> Изпрати запитване
-                </button>
-                <div class="small-note">
-                    <i class="fa-regular fa-lock"></i> Информацията се изпраща защитено чрез <a href="https://formsubmit.co/" target="_blank">FormSubmit</a>
-                </div>
-            </form>
+                <div class="note-mimic"><i class="fas fa-seedling"></i> обича камбанкови цветя</div>
+            </div>
         </div>
 
-        <!-- footer -->
-        <div class="footer-note">
-            <i class="fa-regular fa-copyright"></i> 2026 АгроМонитор • Дистанционен СЕТ мониторинг • <i class="fa-regular fa-envelope"></i> info@agromonitor.example<br>
-            <span style="font-size:0.75rem;">* За да работи формата, сменете action имейла в source-а.</span>
+        <!-- 5. Bombus pascuorum -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Полска земна пчела</h2>
+                <div class="sci-name">Bombus pascuorum</div>
+            </div>
+            <div class="card-image" onclick="openLightbox(this)">
+                <img src="bb/pratorum.jpeg" alt="Bombus pascuorum" loading="lazy">
+            </div>
+            <div class="card-body">
+                <span class="badge-habitat"><i class="fas fa-leaf"></i> ливади, градини, храсти</span>
+                <div class="desc-line"><i class="fas fa-ruler"></i> <strong>Размери:</strong> царица 15–18 mm, workers 9–15 mm</div>
+                <div class="desc-line"><i class="far fa-calendar-alt"></i> <strong>Активност:</strong> март – октомври</div>
+                <div class="features">
+                    <p><i class="fas fa-eye"></i> Разпознаване</p>
+                    <ul>
+                        <li>най-често <strong>кафяво-ръждива</strong>, без ясни ивици</li>
+                        <li>гръб и корем в различни нюанси на кафявото</li>
+                    </ul>
+                </div>
+                <div class="color-row">
+                    <span class="color-chip" style="background:#b85e1a;" title="ръждивокафяв (гръб)"></span>
+                    <span class="color-chip" style="background:#8b5a2b;" title="тъмно кафяв"></span>
+                    <span class="color-chip" style="background:#b87c4b;" title="светлокафяв (корем)"></span>
+                    <span class="color-chip" style="background:#a67b5b;" title="сиво-кафяв връх"></span>
+                    <span class="color-label">варира</span>
+                </div>
+                <div class="note-mimic"><i class="fas fa-paw"></i> няма контрастни ивици – "рунтава"</div>
+            </div>
         </div>
     </div>
 
-    <!-- JavaScript за лайтбокс -->
-    <script>
-        (function() {
-            const modal = document.getElementById('lightboxModal');
-            const trigger = document.getElementById('beesImage');
-            const closeBtn = document.getElementById('closeLightbox');
-            const modalImg = document.getElementById('lightboxImage');
+    <hr>
 
-            function openModal() {
-                modal.classList.add('show');
-                // предотвратява скрол на основната страница
-                document.body.style.overflow = 'hidden';
-            }
+    <div class="flex-row-mobile">
+        <div>
+            <h3><i class="fas fa-search"></i> Бърз ключ по цвят на опашката:</h3>
+            <ul>
+                <li>🔴 <strong>червена/оранжева опашка</strong> – Bombus lapidarius</li>
+                <li>⚪ <strong>чисто бяла опашка</strong> – Bombus lucorum / Bombus hortorum (три ивици) / Bombus hypnorum (кафяв гръб)</li>
+                <li>🟡⭕ <strong>бежово-бяла опашка</strong> – Bombus terrestris</li>
+                <li>🟤 <strong>кафява, без ясна граница</strong> – Bombus pascuorum</li>
+            </ul>
+        </div>
+        <div>
+            <h3><i class="fas fa-info-circle"></i> Съвет:</h3>
+            <p>Земните пчели са рунтави, миролюбиви и важни опрашители. Ако видите гнездо, не го безпокойте!</p>
+        </div>
+    </div>
 
-            function closeModal() {
-                modal.classList.remove('show');
+    <div class="footer">
+        <p>Един проект на Българската асоциация за биологична растителна защита</p>
+        <p>За контакти тел: 0888 785 019</p>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<script>
+    function openLightbox(element) {
+        const img = element.querySelector('img');
+        if (!img) return;
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const caption = document.getElementById('lightbox-caption');
+
+        lightboxImg.src = img.src;
+        caption.innerText = img.alt || 'Земна пчела';
+
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(event) {
+        const lightbox = document.getElementById('lightbox');
+        if (event.target === lightbox || event.target.classList.contains('lightbox-close')) {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
                 document.body.style.overflow = '';
             }
-
-            if (trigger) {
-                trigger.addEventListener('click', openModal);
-            }
-
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeModal);
-            }
-
-            // Клик извън изображението затваря модала
-            modal.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    closeModal();
-                }
-            });
-
-            // Затваряне с клавиш Escape
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape' && modal.classList.contains('show')) {
-                    closeModal();
-                }
-            });
-        })();
-    </script>
-
-    <!-- Важно: заменете YOUR-EMAIL@EXAMPLE.COM с вашия имейл във form action -->
+        }
+    });
+</script>
 </body>
 </html>
