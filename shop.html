@@ -13,8 +13,8 @@
 
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: #f0f7e8;
-            color: #1e2f23;
+            background: #f5faf2;  /* съответства на index.html */
+            color: #1d3b1d;
             line-height: 1.5;
             padding: 0.5rem;
             min-height: 100vh;
@@ -27,18 +27,18 @@
             max-width: 600px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(2px);
+            background: #ffffff;
             border-radius: 2rem;
             padding: 1.2rem 1rem;
-            box-shadow: 0 10px 25px rgba(0, 40, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(30, 60, 30, 0.1);
+            border: 1px solid #d0e2c0;
         }
 
         h1 {
             font-size: 1.9rem;
             font-weight: 600;
-            color: #1f4f2b;
-            border-left: 6px solid #ffb347;
+            color: #1c5a2c;        /* нов цвят */
+            border-left: 6px solid #7fb07f;
             padding-left: 1rem;
             margin-bottom: 0.3rem;
             line-height: 1.2;
@@ -46,7 +46,7 @@
 
         .subhead {
             font-size: 1rem;
-            color: #2f5e3a;
+            color: #2e6733;         /* нов цвят */
             margin-bottom: 1.5rem;
             padding-left: 1.3rem;
             font-style: italic;
@@ -57,7 +57,7 @@
         }
 
         .home-btn {
-            background-color: #3f6844;
+            background-color: #2e7d32;   /* зелен като бутона в index */
             color: white;
             padding: 0.3rem 1rem;
             border-radius: 2rem;
@@ -67,21 +67,22 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            border: 1px solid #2b4d31;
+            border: 1px solid #1e5a22;
             transition: background-color 0.2s;
         }
 
         .home-btn:hover {
-            background-color: #2b4d31;
+            background-color: #1e5a22;
         }
 
         .intro {
-            background: #e6f0da;
+            background: #ecf6e5;      /* светлозелено като в index */
             border-radius: 1.5rem;
             padding: 1rem 1.3rem;
             margin-bottom: 2rem;
             font-size: 1rem;
-            border: 1px solid #bcd0a8;
+            border: 1px solid #b8d9a8;
+            color: #1b4b1b;
         }
 
         .intro a {
@@ -101,14 +102,14 @@
             background: white;
             border-radius: 2rem;
             overflow: hidden;
-            box-shadow: 0 6px 14px rgba(40, 70, 30, 0.2);
-            border: 1px solid #cfdfc0;
+            box-shadow: 0 6px 14px rgba(50, 80, 30, 0.1);
+            border: 1px solid #bcddae;    /* променен цвят */
             display: flex;
             flex-direction: column;
         }
 
         .card-header {
-            background: linear-gradient(135deg, #3f6844, #2b4d31);
+            background: #2e7d32;        /* плътно зелено, без градиент */
             color: white;
             padding: 0.8rem 1.2rem;
         }
@@ -124,12 +125,12 @@
             width: 100%;
             height: 180px;
             overflow: hidden;
-            background: #d9d0b5;
+            background: #eef3e5;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border-bottom: 2px solid #cfdfc0;
+            border-bottom: 2px solid #bcddae;
         }
 
         .card-image img {
@@ -145,12 +146,12 @@
 
         .card-body {
             padding: 1rem 1.2rem 1.2rem;
-            background: #fefef9;
+            background: #ffffff;
         }
 
         .product-label {
             font-weight: 600;
-            color: #1f4f2b;
+            color: #1c5a2c;            /* нов цвят */
             margin-bottom: 0.5rem;
             display: flex;
             justify-content: space-between;
@@ -160,7 +161,7 @@
         .quantity-input {
             width: 70px;
             padding: 0.3rem;
-            border: 2px solid #bcd0a8;
+            border: 2px solid #bcddae;   /* променен */
             border-radius: 30px;
             text-align: center;
             font-weight: bold;
@@ -168,14 +169,15 @@
         }
 
         .order-form {
-            background: #ecf3e5;
+            background: #ecf6e5;         /* светлозелено като intro */
             border-radius: 1.8rem;
             padding: 1.5rem;
             margin: 1rem 0;
+            border: 1px solid #b8d9a8;
         }
 
         .order-form h3 {
-            color: #1f4f2b;
+            color: #1c5a2c;              /* нов цвят */
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
@@ -188,14 +190,14 @@
             display: block;
             font-weight: 600;
             margin-bottom: 0.2rem;
-            color: #2b4d31;
+            color: #1e5a22;              /* тъмно зелено */
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 0.7rem 1rem;
-            border: 2px solid #bcd0a8;
+            border: 2px solid #bcddae;   /* променен */
             border-radius: 30px;
             font-family: inherit;
             font-size: 1rem;
@@ -208,7 +210,7 @@
         }
 
         .submit-btn {
-            background: #3f6844;
+            background: #2e7d32;
             color: white;
             border: none;
             padding: 0.8rem 2rem;
@@ -218,19 +220,19 @@
             cursor: pointer;
             width: 100%;
             transition: background 0.2s;
-            border: 1px solid #2b4d31;
+            border: 1px solid #1e5a22;
         }
 
         .submit-btn:hover {
-            background: #2b4d31;
+            background: #1e5a22;
         }
 
         .footer {
             margin-top: 2rem;
             padding-top: 1.5rem;
             text-align: center;
-            color: #3c5e3e;
-            border-top: 2px solid #bcd5a8;
+            color: #2d6b2d;              /* нов цвят */
+            border-top: 2px solid #c2ddb4;
             font-size: 0.9rem;
         }
 
@@ -238,6 +240,7 @@
             margin: 0.2rem 0;
         }
 
+        /* Lightbox – без промяна (стилът е същият като в index) */
         .lightbox {
             display: none;
             position: fixed;
@@ -307,7 +310,7 @@
     </div>
 
     <div class="intro">
-        <strong>🟢 Цената на една снимка е 1 евро.</strong> Всички събрани средства ще отидат за създаването на Атлас на дивите пчели на България, работата по който можете да видите на <a href="https://www.inaturalist.org/projects/48c98288-4cc3-462d-9921-916f7550ef7c?tab=species" target="_blank">този линк</a>.
+        <strong>🟢 Цената на една поставена в рамка снимка формат А7  е 3.50 евро.</strong> Всички събрани средства ще отидат за създаването на Атлас на дивите пчели на България, работата по който можете да видите на <a href="https://www.inaturalist.org/projects/48c98288-4cc3-462d-9921-916f7550ef7c?tab=species" target="_blank">този линк</a>.
     </div>
 
     <form action="https://formsubmit.co/roman.rachkov@gmail.com" method="POST">
