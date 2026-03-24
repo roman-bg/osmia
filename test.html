@@ -70,6 +70,31 @@
             border: 1px solid #1e5a22;
             transition: background-color 0.2s;
         }
+.footer-contacts {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.footer-contacts a {
+    color: #2d6b2d;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-contacts a:hover {
+    color: #1e5a22;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .footer-contacts {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
 
         .home-btn:hover {
             background-color: #1e5a22;
@@ -320,17 +345,20 @@
 
     <!-- Информационен раздел под снимките -->
     <div class="info-section">
-        <p><i class="fas fa-info-circle"></i> <strong>Всички снимки са оформени за отпечатване във формат 180х130 мм.</strong></p>
-        <p>Събраните средства ще отидат за създаването на <strong>Атлас на дивите пчели на България</strong>, работата по който можете да видите на
+        <p><i class="fas fa-info-circle"></i> <strong>Всички снимки са оформени за отпечатване във формат 180х130 мм и могат да се свалят свободно.</strong></p>
+        <p>Нашата цел е създаването на <strong>Атлас на дивите пчели на България</strong>, работата по който можете да видите на
         <a href="https://www.inaturalist.org/projects/48c98288-4cc3-462d-9921-916f7550ef7c?tab=species" target="_blank">този линк</a>.</p>
-        <p>Ако желаете да подкрепите каузата, можете да дарите средства за издаването на Атласа.</p>
+        <p>Ако желаете да подкрепите тази кауза, можете да дарите средства за да може работата ни да продължи.</p>
         <a href="https://www.paypal.com/donate/?hosted_button_id=YOUR_BUTTON_ID" class="donate-link" target="_blank"><i class="fas fa-heart"></i> Дари сега</a>
     </div>
 
-    <div class="footer">
-        <p>Един проект на Българската асоциация за биологична растителна защита</p>
-        <p>За контакти тел: 0888 785 019</p>
+   <div class="footer">
+    <p>Един проект на Българската асоциация за биологична растителна защита</p>
+    <div class="footer-contacts">
+        <span><i class="fas fa-phone-alt"></i> <a href="tel:0888785019">0888 785 019</a></span>
+        <span><i class="fas fa-envelope"></i> <a href="mailto:bioprotection@proton.me">bioprotection@proton.me</a></span>
     </div>
+</div>
 </div>
 
 <!-- Lightbox структура -->
@@ -401,7 +429,7 @@
         lightboxImg.onerror = () => {
             lightboxImg.src = 'https://placehold.co/1200x800/2e7d32/ffffff?text=Image+not+found';
         };
-        
+
         const downloadBtn = document.getElementById('downloadBtn');
         if (downloadBtn) {
             const fileName = imgSrc.split('/').pop();
@@ -437,11 +465,11 @@
     function downloadCurrentImage() {
         const currentImageUrl = imageList[currentIndex];
         const fileName = currentImageUrl.split('/').pop();
-        
+
         const link = document.createElement('a');
         link.href = currentImageUrl;
         link.download = fileName;
-        
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
