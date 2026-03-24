@@ -307,12 +307,13 @@
 </div>
 
 <!-- Lightbox структура -->
+<!-- Lightbox структура -->
 <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
     <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
     <button class="lightbox-prev" id="prevBtn" onclick="event.stopPropagation(); showPrevImage()">‹</button>
     <img class="lightbox-content" id="lightbox-img" src="" alt="">
     <button class="lightbox-next" id="nextBtn" onclick="event.stopPropagation(); showNextImage()">›</button>
-    <div class="lightbox-caption" id="lightbox-caption"></div>
+    <!-- Премахнат е div-ът с caption -->
 </div>
 
 <script>
@@ -388,21 +389,12 @@
     }
 
     function updateLightboxContent() {
-        const imgSrc = imageList[currentIndex];
-        lightboxImg.src = imgSrc;
-        lightboxImg.onerror = () => {
-            lightboxImg.src = 'https://placehold.co/1200x800/2e7d32/ffffff?text=Image+not+found';
-            lightboxCaption.textContent = `${getCaption(currentIndex)} (файлът липсва)`;
-        };
-        lightboxImg.onload = () => {
-            lightboxCaption.textContent = getCaption(currentIndex);
-        };
-        if (lightboxImg.complete && lightboxImg.naturalHeight !== 0) {
-            lightboxCaption.textContent = getCaption(currentIndex);
-        } else {
-            lightboxCaption.textContent = "Зареждане...";
-        }
-    }
+    const imgSrc = imageList[currentIndex];
+    lightboxImg.src = imgSrc;
+    lightboxImg.onerror = () => {
+        lightboxImg.src = 'https://placehold.co/1200x800/2e7d32/ffffff?text=Image+not+found';
+    };
+}
 
     function showPrevImage() {
         if (currentIndex > 0) {
