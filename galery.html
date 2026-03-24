@@ -1,1 +1,450 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Галерия – Земни пчели</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f5faf2;
+            color: #1d3b1d;
+            line-height: 1.5;
+            padding: 0.5rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 1.2rem 1rem;
+            box-shadow: 0 8px 20px rgba(30, 60, 30, 0.1);
+            border: 1px solid #d0e2c0;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: #1c5a2c;
+            border-left: 6px solid #7fb07f;
+            padding-left: 1rem;
+            margin-bottom: 0.3rem;
+            line-height: 1.2;
+        }
+
+        .subhead {
+            font-size: 1rem;
+            color: #2e6733;
+            margin-bottom: 1.5rem;
+            padding-left: 1.3rem;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .home-btn {
+            background-color: #2e7d32;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: 1px solid #1e5a22;
+            transition: background-color 0.2s;
+        }
+
+        .home-btn:hover {
+            background-color: #1e5a22;
+        }
+
+        /* галерия секция */
+        .gallery-section {
+            margin: 1.5rem 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .gallery-item {
+            width: 100%;
+            max-width: 320px;
+            background: #fff;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 6px 14px rgba(50, 80, 30, 0.1);
+            border: 1px solid #bcddae;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(50, 80, 30, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.02);
+        }
+
+        /* информационен раздел под снимките */
+        .info-section {
+            background: #ecf6e5;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            margin: 2rem 0 1rem;
+            border: 1px solid #b8d9a8;
+            text-align: center;
+        }
+
+        .info-section p {
+            font-size: 1rem;
+            color: #1b4b1b;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .info-section a {
+            color: #1f4f2b;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .info-section a:hover {
+            color: #0e3a1a;
+        }
+
+        .shop-link {
+            display: inline-block;
+            background: #2e7d32;
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 0.8rem;
+            transition: background 0.2s;
+            border: 1px solid #1e5a22;
+        }
+
+        .shop-link:hover {
+            background: #1e5a22;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #2d6b2d;
+            border-top: 2px solid #c2ddb4;
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin: 0.2rem 0;
+        }
+
+        /* Lightbox стилове */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80%;
+            object-fit: contain;
+            border: 3px solid white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            text-shadow: 0 2px 5px black;
+            z-index: 1010;
+        }
+
+        .lightbox-caption {
+            color: white;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-style: italic;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(30, 30, 40, 0.6);
+            border: none;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            transition: all 0.2s;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .gallery-item img { height: 200px; }
+            .lightbox-prev, .lightbox-next {
+                font-size: 1.8rem;
+                padding: 0.3rem 0.7rem;
+            }
+            .lightbox-close {
+                top: 10px;
+                right: 20px;
+                font-size: 2.5rem;
+            }
+            .lightbox-caption { font-size: 0.9rem; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>🐝 Галерия</h1>
+    <div class="subhead">
+        <i class="fas fa-images"></i> Снимки на земни пчели и природа
+        <a href="index.html" class="home-btn"><i class="fas fa-arrow-left"></i> Начало</a>
+    </div>
+
+    <div class="gallery-section">
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- 9-те снимки от директория galery ще се генерират динамично -->
+        </div>
+    </div>
+
+    <!-- Информационен раздел под снимките -->
+    <div class="info-section">
+        <p><i class="fas fa-info-circle"></i> <strong>Всички снимки са оформени за отпечатване във формат 180х130 мм.</strong></p>
+        <p>Събраните средства ще отидат за създаването на <strong>Атлас на дивите пчели на България</strong>, работата по който можете да видите на
+        <a href="https://www.inaturalist.org/projects/48c98288-4cc3-462d-9921-916f7550ef7c?tab=species" target="_blank">този линк</a>.</p>
+        <p>Разгледайте пълната ни галерия тук, изберете и поръчайте избрана от вас снимка.</p>
+        <a href="shop.html" class="shop-link"><i class="fas fa-shopping-cart"></i> Към магазина</a>
+    </div>
+
+    <div class="footer">
+        <p>Един проект на Българската асоциация за биологична растителна защита</p>
+        <p>За контакти тел: 0888 785 019</p>
+    </div>
+</div>
+
+<!-- Lightbox структура -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <button class="lightbox-prev" id="prevBtn" onclick="event.stopPropagation(); showPrevImage()">‹</button>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="">
+    <button class="lightbox-next" id="nextBtn" onclick="event.stopPropagation(); showNextImage()">›</button>
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<script>
+    // 9 снимки за галерията - в директория galery/
+    const totalImages = 9;
+    const imageList = [];
+    for (let i = 1; i <= totalImages; i++) {
+        imageList.push(`galery/${i}.jpg`);
+    }
+
+    // Описания за lightbox (няма да се показват под миниатюрите)
+    const getCaption = (index) => {
+        const num = index + 1;
+        const titles = [
+            "🐝 Земна пчела (Bombus terrestris) върху цвете",
+            "🌸 Медоносна пчела събира прашец",
+            "🌼 Полска земна пчела (Bombus pascuorum)",
+            "🍃 Земна пчела в полет край лавандула",
+            "🌻 Дива пчела на слънчоглед",
+            "🏵️ Пчела в детайл - макро снимка",
+            "🌿 Земна пчела (Bombus lapidarius)",
+            "🍯 Медоносна пчела върху маргаритка",
+            "🪻 Земна пчела на диво цвете"
+        ];
+        if (num <= titles.length) {
+            return `${titles[num-1]} (${num}/${totalImages})`;
+        }
+        return `Снимка ${num} · земна пчела`;
+    };
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    let currentIndex = 0;
+
+    // Построяване на галерията - без надписи под снимките
+    function buildGallery() {
+        galleryGrid.innerHTML = '';
+        imageList.forEach((imgName, idx) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'gallery-item';
+            itemDiv.setAttribute('data-index', idx);
+
+            const img = document.createElement('img');
+            img.src = imgName;
+            img.alt = `Снимка ${idx + 1}`;
+            img.loading = "lazy"; // lazy loading за по-бързо зареждане
+            img.onerror = function() {
+                this.src = 'https://placehold.co/400x300/2e7d32/ffffff?text=Image+not+found';
+                this.alt = 'Снимката не беше намерена';
+            };
+
+            // НЯМА добавена caption под снимката - само изображение
+            itemDiv.appendChild(img);
+
+            itemDiv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openLightbox(idx);
+            });
+
+            galleryGrid.appendChild(itemDiv);
+        });
+    }
+
+    function openLightbox(index) {
+        if (index < 0) index = 0;
+        if (index >= totalImages) index = totalImages - 1;
+        currentIndex = index;
+        updateLightboxContent();
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightboxContent() {
+        const imgSrc = imageList[currentIndex];
+        lightboxImg.src = imgSrc;
+        lightboxImg.onerror = () => {
+            lightboxImg.src = 'https://placehold.co/1200x800/2e7d32/ffffff?text=Image+not+found';
+            lightboxCaption.textContent = `${getCaption(currentIndex)} (файлът липсва)`;
+        };
+        lightboxImg.onload = () => {
+            lightboxCaption.textContent = getCaption(currentIndex);
+        };
+        if (lightboxImg.complete && lightboxImg.naturalHeight !== 0) {
+            lightboxCaption.textContent = getCaption(currentIndex);
+        } else {
+            lightboxCaption.textContent = "Зареждане...";
+        }
+    }
+
+    function showPrevImage() {
+        if (currentIndex > 0) {
+            currentIndex--;
+        } else {
+            currentIndex = totalImages - 1;
+        }
+        updateLightboxContent();
+    }
+
+    function showNextImage() {
+        if (currentIndex < totalImages - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0;
+        }
+        updateLightboxContent();
+    }
+
+    function closeLightbox(event) {
+        if (event.target === lightbox || event.target.classList.contains('lightbox-close')) {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        } else if (e.key === 'ArrowLeft') {
+            showPrevImage();
+            e.preventDefault();
+        } else if (e.key === 'ArrowRight') {
+            showNextImage();
+            e.preventDefault();
+        }
+    });
+
+    // Инициализация
+    buildGallery();
+</script>
+</body>
+</html>
