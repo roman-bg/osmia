@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>Галерия – Земни пчели</title>
+
+    <!-- Lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -70,37 +74,11 @@
             border: 1px solid #1e5a22;
             transition: background-color 0.2s;
         }
-        .footer-contacts {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
-
-        .footer-contacts a {
-            color: #2d6b2d;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-contacts a:hover {
-            color: #1e5a22;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .footer-contacts {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
 
         .home-btn:hover {
             background-color: #1e5a22;
         }
 
-        /* галерия секция */
         .gallery-section {
             margin: 1.5rem 0;
         }
@@ -123,6 +101,7 @@
             border: 1px solid #bcddae;
             cursor: pointer;
             transition: transform 0.25s ease, box-shadow 0.3s;
+            position: relative;
         }
 
         .gallery-item:hover {
@@ -142,7 +121,34 @@
             transform: scale(1.02);
         }
 
-        /* информационен раздел под снимките */
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 15px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .photo-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .photo-price {
+            font-size: 0.85rem;
+            color: #ffd700;
+        }
+
         .info-section {
             background: #ecf6e5;
             border-radius: 1.8rem;
@@ -169,26 +175,6 @@
             color: #0e3a1a;
         }
 
-        /* Бутон за дарения */
-        .donate-link {
-            display: inline-block;
-            background: #e67e22;
-            color: white;
-            padding: 0.7rem 1.8rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 0.8rem;
-            transition: all 0.2s;
-            border: 1px solid #d35400;
-        }
-
-        .donate-link:hover {
-            background: #d35400;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
-        }
-
         .footer {
             margin-top: 2rem;
             padding-top: 1.5rem;
@@ -202,102 +188,185 @@
             margin: 0.2rem 0;
         }
 
-        /* Lightbox стилове */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
+        .footer-contacts {
+            display: flex;
             justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 2rem;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
         }
 
-        .lightbox.active {
-            display: flex;
+        .footer-contacts a {
+            color: #2d6b2d;
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 80%;
-            object-fit: contain;
-            border: 3px solid white;
+        .footer-contacts a:hover {
+            color: #1e5a22;
+            text-decoration: underline;
+        }
+
+        .paypal-in-lightbox {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            padding: 20px;
+            background: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 1px solid #d4e2c4;
+            width: 100%;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 3rem;
+        .paypal-in-lightbox .price-tag {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .success-message .download-btn {
+            background: #28a745;
             color: white;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            text-shadow: 0 2px 5px black;
-            z-index: 1010;
-        }
-
-        .lightbox-prev,
-        .lightbox-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(30, 30, 40, 0.6);
-            border: none;
-            color: white;
-            font-size: 2.5rem;
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            transition: all 0.2s;
-        }
-
-        .lightbox-prev {
-            left: 20px;
-        }
-
-        .lightbox-next {
-            right: 20px;
-        }
-
-        .lightbox-prev:hover,
-        .lightbox-next:hover {
-            background: rgba(0, 0, 0, 0.8);
-            transform: translateY(-50%) scale(1.05);
-        }
-
-        /* Бутон за изтегляне */
-        .lightbox-download {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #2e7d32;
-            border: none;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.9rem;
             font-weight: 600;
-            z-index: 1010;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        .lightbox-download:hover {
-            background: #1e5a22;
-            transform: translateX(-50%) scale(1.05);
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .info-text {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .paypal-animate {
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .lb-container {
+            position: relative;
+        }
+
+        .lb-image {
+            max-width: 90vw !important;
+            max-height: 70vh !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lb-outerContainer {
+            background-color: rgba(0, 0, 0, 0.85) !important;
+            border-radius: 12px !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        .lb-close {
+            position: absolute !important;
+            top: -40px !important;
+            right: -10px !important;
+            width: 35px !important;
+            height: 35px !important;
+            background: rgba(0, 0, 0, 0.7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E") center center no-repeat !important;
+            background-size: 20px !important;
+            border-radius: 50% !important;
+            opacity: 0.8 !important;
+            z-index: 10000 !important;
+            filter: none !important;
+            text-indent: -9999px !important;
+            cursor: pointer !important;
+        }
+
+        .lb-close:hover {
+            opacity: 1 !important;
+            background-color: rgba(0, 0, 0, 0.9) !important;
+        }
+
+        .lb-data .lb-close {
+            display: none !important;
+        }
+
+        .lb-dataContainer {
+            padding: 15px 20px !important;
+            background: rgba(0, 0, 0, 0.85) !important;
+            border-radius: 0 0 12px 12px !important;
+        }
+
+        .lb-data {
+            padding: 0 !important;
+            background: transparent !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+        }
+
+        .lb-caption {
+            font-size: 0.9rem !important;
+            color: #ddd !important;
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
+
+        .lb-number {
+            color: #ccc !important;
+            font-size: 0.8rem !important;
+            margin-bottom: 5px !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
+
+        .lb-nav a.lb-prev,
+        .lb-nav a.lb-next {
+            opacity: 0.5;
+        }
+
+        .lb-nav a.lb-prev:hover,
+        .lb-nav a.lb-next:hover {
+            opacity: 1;
         }
 
         @media (max-width: 600px) {
@@ -307,23 +376,27 @@
                 gap: 1.2rem;
             }
             .gallery-item img { height: 200px; }
-            .lightbox-prev, .lightbox-next {
-                font-size: 1.8rem;
-                padding: 0.3rem 0.7rem;
+            .footer-contacts {
+                flex-direction: column;
+                gap: 0.5rem;
             }
-            .lightbox-close {
-                top: 10px;
-                right: 20px;
-                font-size: 2.5rem;
+            .lb-close {
+                top: -35px !important;
+                right: -5px !important;
+                width: 30px !important;
+                height: 30px !important;
+                background-size: 18px !important;
             }
-            .lightbox-download {
-                bottom: 15px;
-                padding: 0.5rem 1.2rem;
-                font-size: 0.9rem;
+            .lb-image {
+                max-width: 95vw !important;
+                max-height: 65vh !important;
             }
-            .donate-link {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
+            .paypal-in-lightbox {
+                padding: 15px;
+                max-width: 280px;
+            }
+            .price-tag {
+                font-size: 1.6rem !important;
             }
         }
     </style>
@@ -338,20 +411,14 @@
     </div>
 
     <div class="gallery-section">
-        <div class="gallery-grid" id="galleryGrid">
-            <!-- 9-те снимки от директория galery ще се генерират динамично -->
-        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
     </div>
 
-    <!-- Информационен раздел под снимките -->
     <div class="info-section">
         <p><i class="fas fa-info-circle"></i> <strong>Всички снимки са оформени за отпечатване във формат 180х130 мм и могат да се свалят свободно.</strong></p>
         <p>Нашата цел е създаването на <strong>Атлас на дивите пчели на България</strong>, работата по който можете да видите на
         <a href="https://www.inaturalist.org/projects/48c98288-4cc3-462d-9921-916f7550ef7c?tab=species" target="_blank">този линк</a>.</p>
-        <p>Ако желаете да подкрепите тази кауза, можете да дарите средства за да може работата ни да продължи.</p>
-        
-        <!-- Само един бутон за дарение към Liberapay -->
-        <a href="https://liberapay.com/bgbees/donate" class="donate-link" target="_blank"><i class="fas fa-heart"></i> Дари сега</a>
+        <p>Ако желаете да подкрепите тази кауза, можете да закупите избрана от вас снимка.</p>
     </div>
 
     <div class="footer">
@@ -363,135 +430,226 @@
     </div>
 </div>
 
-<!-- Lightbox структура -->
-<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
-    <button class="lightbox-prev" id="prevBtn" onclick="event.stopPropagation(); showPrevImage()">‹</button>
-    <img class="lightbox-content" id="lightbox-img" src="" alt="">
-    <button class="lightbox-next" id="nextBtn" onclick="event.stopPropagation(); showNextImage()">›</button>
-    <!-- Бутон за сваляне -->
-    <button class="lightbox-download" id="downloadBtn" onclick="event.stopPropagation(); downloadCurrentImage()">
-        <i class="fas fa-download"></i> Изтегли
-    </button>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+<!-- PayPal SDK - само бутон, без Card Fields -->
+<script src="https://www.paypal.com/sdk/js?client-id=AcI41whhyiPHT09ioMYtZBscBfp-MV95JlsJApEpDIVMjY1gxYpmt2PMp0a5IWvzVSivqwaYM6cQsX3_&currency=EUR&intent=capture"></script>
 <script>
-    // 9 снимки за галерията - в директория galery/
     const totalImages = 9;
     const imageList = [];
     for (let i = 1; i <= totalImages; i++) {
         imageList.push(`galery/${i}.jpg`);
     }
 
-    const galleryGrid = document.getElementById('galleryGrid');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    let currentIndex = 0;
+    const products = {};
+    for (let i = 1; i <= totalImages; i++) {
+        products[`photo_${i}`] = {
+            name: `Земна пчела - снимка ${i} - дигитално изтегляне`,
+            price: '3.00',
+            sku: `BEE-PHOTO-${String(i).padStart(3, '0')}`,
+            image: `galery/${i}.jpg`
+        };
+    }
 
-    // Построяване на галерията - без надписи под снимките
+    let currentProductId = null;
+
+    function renderPayPalButton(productId) {
+        const product = products[productId];
+        if (!product) return;
+
+        const lbData = document.querySelector('.lb-data');
+        if (!lbData) {
+            setTimeout(() => renderPayPalButton(productId), 100);
+            return;
+        }
+
+        if (document.getElementById('custom-paypal-container')) {
+            document.getElementById('custom-paypal-container').remove();
+        }
+
+        const paypalContainer = document.createElement('div');
+        paypalContainer.id = 'custom-paypal-container';
+        paypalContainer.className = 'paypal-in-lightbox paypal-animate';
+        paypalContainer.innerHTML = `
+            <div class="price-tag">€${product.price}</div>
+            <div id="paypal-button-container-${productId}"></div>
+            <div class="info-text">
+                <i class="fas fa-credit-card"></i> Можете да платите с PayPal или с дебитна/кредитна карта, без да имате PayPal акаунт.
+            </div>
+        `;
+
+        lbData.appendChild(paypalContainer);
+        currentProductId = productId;
+
+        if (typeof paypal !== 'undefined') {
+            paypal.Buttons({
+                style: {
+                    layout: 'vertical',
+                    color: 'gold',
+                    shape: 'rect',
+                    label: 'paypal',
+                    height: 40
+                },
+
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            reference_id: product.sku,
+                            description: product.name,
+                            amount: {
+                                currency_code: 'EUR',
+                                value: product.price
+                            }
+                        }],
+                        application_context: {
+                            shipping_preference: "NO_SHIPPING",
+                            brand_name: "Българска асоциация за биологична растителна защита"
+                        }
+                    });
+                },
+
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        const container = document.getElementById('custom-paypal-container');
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="success-message">
+                                    <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
+                                    <h3 style="margin: 10px 0;">Благодарим, ${details.payer.name?.given_name || 'приятел'}!</h3>
+                                    <p>Снимката е ваша. Натиснете бутона по-долу, за да я изтеглите:</p>
+                                    <br>
+                                    <a href="#" id="download-link" class="download-btn">
+                                        <i class="fas fa-download"></i> Изтегли снимката
+                                    </a>
+                                </div>
+                            `;
+                            const downloadLink = document.getElementById('download-link');
+                            if (downloadLink) {
+                                downloadLink.onclick = (e) => {
+                                    e.preventDefault();
+                                    const link = document.createElement('a');
+                                    link.href = product.image;
+                                    link.download = product.image.split('/').pop();
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                };
+                            }
+                        }
+                    });
+                },
+
+                onError: function(err) {
+                    console.error('PayPal грешка:', err);
+                    const container = document.getElementById('custom-paypal-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Възникна грешка при плащането. Моля, опитайте отново.
+                            </div>
+                        `;
+                        setTimeout(() => {
+                            if (document.getElementById('custom-paypal-container')) {
+                                renderPayPalButton(productId);
+                            }
+                        }, 3000);
+                    }
+                }
+
+            }).render(`#paypal-button-container-${productId}`);
+        }
+    }
+
+    function removePaypalFromLightbox() {
+        const container = document.getElementById('custom-paypal-container');
+        if (container) container.remove();
+        currentProductId = null;
+    }
+
+    const observer = new MutationObserver(function(mutations) {
+        const lbData = document.querySelector('.lb-data');
+        if (lbData && !document.getElementById('custom-paypal-container')) {
+            const activeImage = document.querySelector('.lb-image');
+            if (activeImage && activeImage.src) {
+                const activeSrc = activeImage.src;
+                let foundProductId = null;
+                for (let i = 1; i <= totalImages; i++) {
+                    if (activeSrc.includes(`galery/${i}.jpg`)) {
+                        foundProductId = `photo_${i}`;
+                        break;
+                    }
+                }
+                if (foundProductId) {
+                    setTimeout(() => renderPayPalButton(foundProductId), 100);
+                }
+            }
+        }
+        if (!document.querySelector('.lb-container') && document.getElementById('custom-paypal-container')) {
+            removePaypalFromLightbox();
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    const galleryGrid = document.getElementById('galleryGrid');
+
     function buildGallery() {
         galleryGrid.innerHTML = '';
         imageList.forEach((imgName, idx) => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'gallery-item';
-            itemDiv.setAttribute('data-index', idx);
+
+            const link = document.createElement('a');
+            link.href = imgName;
+            link.setAttribute('data-lightbox', 'gallery');
+            link.setAttribute('data-title', `🐝 Земна пчела - Снимка ${idx + 1}`);
 
             const img = document.createElement('img');
             img.src = imgName;
-            img.alt = `Снимка ${idx + 1}`;
+            img.alt = `Земна пчела - снимка ${idx + 1}`;
             img.loading = "lazy";
             img.onerror = function() {
                 this.src = 'https://placehold.co/400x300/2e7d32/ffffff?text=Image+not+found';
-                this.alt = 'Снимката не беше намерена';
             };
 
-            itemDiv.appendChild(img);
+            link.appendChild(img);
+            itemDiv.appendChild(link);
 
-            itemDiv.addEventListener('click', (e) => {
-                e.stopPropagation();
-                openLightbox(idx);
-            });
+            const overlay = document.createElement('div');
+            overlay.className = 'gallery-overlay';
+
+            const titleSpan = document.createElement('div');
+            titleSpan.className = 'photo-title';
+            titleSpan.innerHTML = `<i class="fas fa-bee"></i> Снимка ${idx + 1}`;
+
+            const priceSpan = document.createElement('div');
+            priceSpan.className = 'photo-price';
+            priceSpan.innerHTML = `€3.00`;
+
+            overlay.appendChild(titleSpan);
+            overlay.appendChild(priceSpan);
+            itemDiv.appendChild(overlay);
 
             galleryGrid.appendChild(itemDiv);
         });
     }
 
-    function openLightbox(index) {
-        if (index < 0) index = 0;
-        if (index >= totalImages) index = totalImages - 1;
-        currentIndex = index;
-        updateLightboxContent();
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
+    buildGallery();
 
-    function updateLightboxContent() {
-        const imgSrc = imageList[currentIndex];
-        lightboxImg.src = imgSrc;
-        lightboxImg.onerror = () => {
-            lightboxImg.src = 'https://placehold.co/1200x800/2e7d32/ffffff?text=Image+not+found';
-        };
-
-        const downloadBtn = document.getElementById('downloadBtn');
-        if (downloadBtn) {
-            const fileName = imgSrc.split('/').pop();
-            downloadBtn.innerHTML = `<i class="fas fa-download"></i> Изтегли ${fileName}`;
-        }
-    }
-
-    function showPrevImage() {
-        if (currentIndex > 0) {
-            currentIndex--;
-        } else {
-            currentIndex = totalImages - 1;
-        }
-        updateLightboxContent();
-    }
-
-    function showNextImage() {
-        if (currentIndex < totalImages - 1) {
-            currentIndex++;
-        } else {
-            currentIndex = 0;
-        }
-        updateLightboxContent();
-    }
-
-    function closeLightbox(event) {
-        if (event.target === lightbox || event.target.classList.contains('lightbox-close')) {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    }
-
-    function downloadCurrentImage() {
-        const currentImageUrl = imageList[currentIndex];
-        const fileName = currentImageUrl.split('/').pop();
-
-        const link = document.createElement('a');
-        link.href = currentImageUrl;
-        link.download = fileName;
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    document.addEventListener('keydown', function(e) {
-        if (!lightbox.classList.contains('active')) return;
-        if (e.key === 'Escape') {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        } else if (e.key === 'ArrowLeft') {
-            showPrevImage();
-            e.preventDefault();
-        } else if (e.key === 'ArrowRight') {
-            showNextImage();
-            e.preventDefault();
-        }
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'albumLabel': 'Снимка %1 от %2',
+        'showImageNumberLabel': true,
+        'fitImagesInViewport': true
     });
 
-    buildGallery();
+    setTimeout(() => {
+        const style = document.createElement('style');
+        style.textContent = `.lb-data .lb-close { display: none !important; }`;
+        document.head.appendChild(style);
+    }, 100);
 </script>
 </body>
 </html>
