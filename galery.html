@@ -175,6 +175,84 @@
             color: #0e3a1a;
         }
 
+        .gdpr-consent {
+            background: #f9f9f9;
+            border-left: 4px solid #2e7d32;
+            padding: 12px 15px;
+            margin: 20px 0;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            text-align: left;
+        }
+
+        .gdpr-consent input {
+            margin-right: 10px;
+            transform: scale(1.1);
+            vertical-align: middle;
+        }
+
+        .gdpr-consent label {
+            color: #2d6b2d;
+        }
+
+        .gdpr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gdpr-modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .gdpr-modal-content button.close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .gdpr-modal-content h3 {
+            color: #1c5a2c;
+            margin-bottom: 15px;
+        }
+
+        .gdpr-modal-content p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .gdpr-modal-content .accept-gdpr-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-top: 20px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
         .footer {
             margin-top: 2rem;
             padding-top: 1.5rem;
@@ -239,16 +317,33 @@
             font-size: 0.95rem;
         }
 
-        .success-message .download-btn {
-            background: #28a745;
+        .success-message h3 {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .success-message hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #c3e6cb;
+        }
+
+        .notify-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #2e7d32;
             color: white;
             padding: 10px 20px;
-            text-decoration: none;
             border-radius: 30px;
-            display: inline-block;
-            margin-top: 12px;
+            text-decoration: none;
             font-size: 0.9rem;
             font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .notify-btn:hover {
+            background: #1e5a22;
+            color: white;
         }
 
         .error-message {
@@ -265,6 +360,15 @@
             color: #666;
             margin-top: 10px;
             text-align: center;
+        }
+
+        .buyer-email-display {
+            background: #e8f0e3;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.85rem;
+            word-break: break-all;
         }
 
         @keyframes fadeInUp {
@@ -415,10 +519,38 @@
     </div>
 
     <div class="info-section">
-        <p><i class="fas fa-info-circle"></i> <strong>Всички снимки са оформени за отпечатване във формат 180х130 мм и резолюция 300 DPI. Цената на една снимка е 3 Евро, можете да ги закупите онлайн ползвайки PayPal или дебитна карта, след което ще получите email с линк за сваляне и право да ги отпечатате.</strong></p>
+        <p><i class="fas fa-info-circle"></i> <strong>Всички снимки са оформени за отпечатване във формат 180х130 мм и резолюция 300 DPI. Цената на една снимка е 3 Евро.</strong></p>
+        <p><i class="fas fa-envelope"></i> <strong>Как работи:</strong> След успешно плащане ще получите имейл от PayPal. Ние ще Ви изпратим закупената(ите) снимка(и) на имейл адреса, използван за плащането, в рамките на <strong>24 часа</strong>.</p>
         <p>Нашата цел е създаването на <strong>Атлас на дивите пчели на България</strong>, работата по който можете да видите на
         <a href="https://www.inaturalist.org/projects/48c98288-4cc3-462d-9921-916f7550ef7c?tab=species" target="_blank">този линк</a>.</p>
         <p>Ако желаете да подкрепите тази кауза, направете това по този начин!</p>
+        <p style="font-size: 0.85rem; margin-top: 10px;"><i class="fas fa-undo-alt"></i> <strong>Политика за връщане:</strong> Дигиталните продукти не подлежат на връщане след изпращане. За въпроси: <a href="mailto:bioprotection@proton.me">bioprotection@proton.me</a></p>
+    </div>
+
+    <!-- GDPR Съгласие -->
+    <div class="gdpr-consent">
+        <input type="checkbox" id="gdprCheckbox">
+        <label for="gdprCheckbox">
+            <i class="fas fa-shield-alt"></i> Съгласен/на съм <strong>личните ми данни (имейл адрес)</strong> да бъдат използвани единствено за изпращане на закупената дигитална снимка и комуникация във връзка с поръчката. Няма да бъдат споделяни с трети страни.
+            <a href="#" id="gdprMoreLink" style="color: #2e7d32;">Научи повече</a>
+        </label>
+    </div>
+
+    <!-- GDPR Модален прозорец -->
+    <div id="gdprModal" class="gdpr-modal">
+        <div class="gdpr-modal-content">
+            <button class="close-modal" id="closeModalBtn">&times;</button>
+            <h3><i class="fas fa-shield-alt"></i> Политика за защита на личните данни (GDPR)</h3>
+            <div>
+                <p><strong>1. Какви данни събираме?</strong><br>Събираме само Вашия <strong>имейл адрес</strong>, който използвате за плащане през PayPal.</p>
+                <p><strong>2. За каква цел?</strong><br>Имейлът Ви се използва <strong>единствено</strong> за изпращане на закупената дигитална снимка и комуникация във връзка с поръчката.</p>
+                <p><strong>3. Съхранение на данни</strong><br>Запазваме имейла Ви до 30 дни след покупката, след което се изтрива автоматично.</p>
+                <p><strong>4. Споделяне с трети страни</strong><br>НЕ споделяме данните Ви с трети страни.</p>
+                <p><strong>5. Вашите права</strong><br>Можете да поискате изтриване на имейла Ви по всяко време на: <a href="mailto:bioprotection@proton.me">bioprotection@proton.me</a></p>
+                <p><strong>6. Плащания</strong><br>Плащанията се обработват от PayPal. Моля, запознайте се с <a href="https://www.paypal.com/bg/webapps/mpp/ua/privacy-full" target="_blank">политиката за поверителност на PayPal</a>.</p>
+            </div>
+            <button id="acceptGdprBtn" class="accept-gdpr-btn">Разбрах</button>
+        </div>
     </div>
 
     <div class="footer">
@@ -432,8 +564,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
-<!-- PayPal SDK - само бутон, без Card Fields -->
-<script src="https://www.paypal.com/sdk/js?client-id=AcI41whhyiPHT09ioMYtZBscBfp-MV95JlsJApEpDIVMjY1gxYpmt2PMp0a5IWvzVSivqwaYM6cQsX3_&currency=EUR&intent=capture"></script>
+<!-- PayPal SDK с възможност за дебитна/кредитна карта -->
+<script src="https://www.paypal.com/sdk/js?client-id=AcI41whhyiPHT09ioMYtZBscBfp-MV95JlsJApEpDIVMjY1gxYpmt2PMp0a5IWvzVSivqwaYM6cQsX3_&currency=EUR&intent=capture&enable-funding=card"></script>
 <script>
     const totalImages = 9;
     const imageList = [];
@@ -452,6 +584,17 @@
     }
 
     let currentProductId = null;
+
+    // Функция за проверка на GDPR съгласие преди плащане
+    function checkGdprConsent() {
+        const gdprCheckbox = document.getElementById('gdprCheckbox');
+        if (!gdprCheckbox.checked) {
+            alert('Моля, първо се съгласете с обработването на личните данни (GDPR), като отметнете квадратчето по-долу.');
+            gdprCheckbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return false;
+        }
+        return true;
+    }
 
     function renderPayPalButton(productId) {
         const product = products[productId];
@@ -492,6 +635,10 @@
                 },
 
                 createOrder: function(data, actions) {
+                    // Проверка за GDPR съгласие преди създаване на поръчка
+                    if (!checkGdprConsent()) {
+                        return Promise.reject(new Error('GDPR съгласието не е дадено'));
+                    }
                     return actions.order.create({
                         purchase_units: [{
                             reference_id: product.sku,
@@ -510,32 +657,63 @@
 
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
+                        const buyerEmail = details.payer.email_address;
+                        const buyerName = details.payer.name?.given_name || details.payer.name?.full_name || 'Клиент';
+                        const buyerSurname = details.payer.name?.surname || '';
+                        const fullName = `${buyerName} ${buyerSurname}`.trim();
+                        const photoNumber = productId.replace('photo_', '');
+
                         const container = document.getElementById('custom-paypal-container');
                         if (container) {
+                            const subject = encodeURIComponent(`НОВА ПОКУПКА - Снимка ${photoNumber} - ${fullName}`);
+                            const body = encodeURIComponent(
+                                `Здравейте,\n\n` +
+                                `Получена е нова покупка от сайта:\n\n` +
+                                `─────────────────────────────\n` +
+                                `👤 Име: ${fullName}\n` +
+                                `📧 Имейл: ${buyerEmail}\n` +
+                                `🖼️ Снимка: ${photoNumber}\n` +
+                                `💰 Сума: ${product.price} EUR\n` +
+                                `🆔 Transaction ID: ${data.orderID}\n` +
+                                `─────────────────────────────\n\n` +
+                                `Моля, изпратете снимка ${photoNumber} на ${buyerEmail}\n\n` +
+                                `Снимката е в папка galery/${photoNumber}.jpg\n\n` +
+                                `--- Автоматично генерирано съобщение ---`
+                            );
+                            const mailtoLink = `mailto:bioprotection@proton.me?subject=${subject}&body=${body}`;
+
                             container.innerHTML = `
                                 <div class="success-message">
-                                    <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
-                                    <h3 style="margin: 10px 0;">Благодарим, ${details.payer.name?.given_name || 'приятел'}!</h3>
-                                    <p>Снимката е ваша. Натиснете бутона по-долу, за да я изтеглите:</p>
-                                    <br>
-                                    <a href="#" id="download-link" class="download-btn">
-                                        <i class="fas fa-download"></i> Изтегли снимката
+                                    <i class="fas fa-check-circle" style="font-size: 2rem; color: #28a745;"></i>
+                                    <h3>Благодарим, ${buyerName}!</h3>
+                                    <div class="buyer-email-display">
+                                        <i class="fas fa-envelope"></i> <strong>Имейл за покупката:</strong><br>
+                                        ${buyerEmail}
+                                    </div>
+                                    <p>✅ Плащането е успешно (€${product.price})</p>
+                                    <hr>
+                                    <p><i class="fas fa-clock"></i> <strong>Какво следва?</strong></p>
+                                    <p>Ще получите снимка ${photoNumber} на <strong>${buyerEmail}</strong> в рамките на <strong>24 часа</strong>.</p>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">Ако не получите имейл, пишете на: <strong>bioprotection@proton.me</strong></p>
+                                    <hr>
+                                    <a href="${mailtoLink}" class="notify-btn">
+                                        <i class="fas fa-bell"></i> Уведоми ме за покупката
                                     </a>
+                                    <p style="font-size: 0.7rem; margin-top: 12px; color: #666;">
+                                        <i class="fas fa-info-circle"></i> Натиснете бутона горе, за да отворите имейл с данните за покупката. Изпратете снимката на клиента.
+                                    </p>
                                 </div>
                             `;
-                            const downloadLink = document.getElementById('download-link');
-                            if (downloadLink) {
-                                downloadLink.onclick = (e) => {
-                                    e.preventDefault();
-                                    const link = document.createElement('a');
-                                    link.href = product.image;
-                                    link.download = product.image.split('/').pop();
-                                    document.body.appendChild(link);
-                                    link.click();
-                                    document.body.removeChild(link);
-                                };
-                            }
                         }
+
+                        console.log('═══════════════════════════════════════');
+                        console.log('НОВА ПОКУПКА!');
+                        console.log(`Име: ${fullName}`);
+                        console.log(`Имейл: ${buyerEmail}`);
+                        console.log(`Снимка: ${photoNumber}`);
+                        console.log(`Сума: ${product.price} EUR`);
+                        console.log(`ID: ${data.orderID}`);
+                        console.log('═══════════════════════════════════════');
                     });
                 },
 
@@ -603,7 +781,7 @@
             const link = document.createElement('a');
             link.href = imgName;
             link.setAttribute('data-lightbox', 'gallery');
-            link.setAttribute('data-title', `🐝 Земна пчела - Снимка ${idx + 1}`);
+            link.setAttribute('data-title', `🐝 Земна пчела - Снимка ${idx + 1} | Цена: €3.00`);
 
             const img = document.createElement('img');
             img.src = imgName;
@@ -650,6 +828,58 @@
         style.textContent = `.lb-data .lb-close { display: none !important; }`;
         document.head.appendChild(style);
     }, 100);
+
+    // GDPR функционалност
+    const gdprCheckbox = document.getElementById('gdprCheckbox');
+    const gdprModal = document.getElementById('gdprModal');
+    const gdprMoreLink = document.getElementById('gdprMoreLink');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const acceptGdprBtn = document.getElementById('acceptGdprBtn');
+
+    if (gdprCheckbox) {
+        const hasConsent = localStorage.getItem('gdpr_consent');
+        if (hasConsent === 'true') {
+            gdprCheckbox.checked = true;
+        }
+
+        gdprCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                localStorage.setItem('gdpr_consent', 'true');
+                console.log('GDPR съгласие дадено');
+            } else {
+                localStorage.removeItem('gdpr_consent');
+            }
+        });
+    }
+
+    if (gdprMoreLink) {
+        gdprMoreLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (gdprModal) gdprModal.style.display = 'flex';
+        });
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            if (gdprModal) gdprModal.style.display = 'none';
+        });
+    }
+
+    if (acceptGdprBtn) {
+        acceptGdprBtn.addEventListener('click', function() {
+            if (gdprModal) gdprModal.style.display = 'none';
+            if (gdprCheckbox && !gdprCheckbox.checked) {
+                gdprCheckbox.checked = true;
+                localStorage.setItem('gdpr_consent', 'true');
+            }
+        });
+    }
+
+    window.addEventListener('click', function(e) {
+        if (e.target === gdprModal) {
+            gdprModal.style.display = 'none';
+        }
+    });
 </script>
 </body>
 </html>
