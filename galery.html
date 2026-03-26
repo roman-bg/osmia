@@ -444,7 +444,7 @@
     const products = {};
     for (let i = 1; i <= totalImages; i++) {
         products[`photo_${i}`] = {
-            name: `Земна пчела - снимка ${i} - дигитално изтегляне`,
+            name: `Пчела - снимка ${i} - дигитално изтегляне`,
             price: '3.00',
             sku: `BEE-PHOTO-${String(i).padStart(3, '0')}`,
             image: `galery/${i}.jpg`
@@ -607,7 +607,7 @@
 
             const img = document.createElement('img');
             img.src = imgName;
-            img.alt = `Земна пчела - снимка ${idx + 1}`;
+            img.alt = `Пчела - снимка ${idx + 1}`;
             img.loading = "lazy";
             img.onerror = function() {
                 this.src = 'https://placehold.co/400x300/2e7d32/ffffff?text=Image+not+found';
