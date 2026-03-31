@@ -8,244 +8,45 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Земни пчели BG">
-
-    <link rel="manifest" href="./manifest.json">
-
+    
+    <link rel="manifest" href="manifest.json">
+    
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-
+    
     <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
-
+    
     <title>Определител на земни пчели | PWA</title>
     <style>
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            background: #f7f3e9;
-            margin: 0;
-            padding: 12px;
-            color: #2c3e2f;
-            min-height: 100vh;
-            padding-bottom: 80px; /* Място за бутона */
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            overflow: hidden;
-            padding: 1rem 1rem 1.2rem;
-        }
-
-        h1 {
-            font-size: 1.6rem;
-            margin: 0 0 0.2rem 0;
-            color: #5a3e1b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        h1:before {
-            content: "🐝";
-            font-size: 1.8rem;
-        }
-
-        .sub {
-            color: #6b4c2c;
-            border-left: 3px solid #f4b942;
-            padding-left: 12px;
-            margin: 0.3rem 0 1rem 0;
-            font-size: 0.85rem;
-            line-height: 1.3;
-        }
-
-        .filter-panel {
-            background: #fff7e8;
-            border-radius: 1.2rem;
-            padding: 1rem;
-            margin-bottom: 1.2rem;
-            border: 1px solid #ffe0a3;
-        }
-
-        .filter-title {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .filter-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .filter-group {
-            width: 100%;
-        }
-
-        .filter-group label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.75rem;
-            color: #7a5a3a;
-            letter-spacing: 0.3px;
-        }
-
-        select, .reset-btn {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 50px;
-            border: 1px solid #d9c7a6;
-            background: white;
-            font-size: 0.9rem;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5a3a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 18px;
-        }
-
-        .reset-btn {
-            background: #f0e2ce;
-            font-weight: 600;
-            color: #5a3e1b;
-            border: none;
-            margin-top: 4px;
-            background-image: none;
-        }
-
-        .stats {
-            background: #eef4e6;
-            border-radius: 40px;
-            padding: 0.35rem 1rem;
-            display: inline-block;
-            margin-bottom: 0.9rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .species-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            overflow: hidden;
-            border: 1px solid #f3e5cd;
-        }
-
-        .card-header {
-            background: #fef5e3;
-            padding: 0.7rem 1rem;
-            border-bottom: 1px solid #ffe1a8;
-        }
-
-        .card-header h3 {
-            margin: 0;
-            font-size: 1.15rem;
-            color: #3f2a10;
-        }
-
-        .card-header .latin {
-            font-style: italic;
-            font-size: 0.7rem;
-            color: #7c6b4b;
-        }
-
-        .card-body {
-            padding: 0.8rem 1rem;
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .feature-list li {
-            font-size: 0.8rem;
-            margin-bottom: 6px;
-        }
-
-        .feature-tag {
-            font-weight: 700;
-            color: #b46f2a;
-        }
-
-        .badge {
-            display: inline-block;
-            background: #f2e5d2;
-            border-radius: 20px;
-            padding: 4px 10px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            margin-top: 6px;
-            color: #5a3a1a;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.65rem;
-            margin-top: 1.2rem;
-            color: #aa9b7e;
-        }
-
-        /* Стилове за бутона за инсталация */
-        #customInstallBtn {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #f4b942;
-            color: #5a3e1b;
-            padding: 14px 24px;
-            border-radius: 50px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-            align-items: center;
-            gap: 8px;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { bottom: -70px; }
-            to { bottom: 20px; }
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f7f3e9; margin: 0; padding: 12px; color: #2c3e2f; min-height: 100vh; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; padding: 1rem 1rem 1.2rem; }
+        h1 { font-size: 1.6rem; margin: 0 0 0.2rem 0; color: #5a3e1b; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        h1:before { content: "🐝"; font-size: 1.8rem; }
+        .sub { color: #6b4c2c; border-left: 3px solid #f4b942; padding-left: 12px; margin: 0.3rem 0 1rem 0; font-size: 0.85rem; line-height: 1.3; }
+        .filter-panel { background: #fff7e8; border-radius: 1.2rem; padding: 1rem; margin-bottom: 1.2rem; border: 1px solid #ffe0a3; }
+        .filter-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+        .filter-group label { font-weight: 600; display: block; margin-bottom: 5px; font-size: 0.75rem; color: #7a5a3a; }
+        select, .reset-btn { width: 100%; padding: 10px 12px; border-radius: 50px; border: 1px solid #d9c7a6; background: white; font-size: 0.9rem; appearance: none; }
+        .reset-btn { background: #f0e2ce; font-weight: 600; color: #5a3e1b; border: none; margin-top: 4px; cursor: pointer; }
+        .stats { background: #eef4e6; border-radius: 40px; padding: 0.35rem 1rem; display: inline-block; margin-bottom: 0.9rem; font-size: 0.8rem; font-weight: 500; }
+        .card { background: #ffffff; border-radius: 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 1rem; border: 1px solid #f3e5cd; }
+        .card-header { background: #fef5e3; padding: 0.7rem 1rem; border-bottom: 1px solid #ffe1a8; border-radius: 1.2rem 1.2rem 0 0; }
+        .card-header h3 { margin: 0; font-size: 1.15rem; color: #3f2a10; }
+        .latin { font-style: italic; font-size: 0.7rem; color: #7c6b4b; }
+        .card-body { padding: 0.8rem 1rem; }
+        .feature-list { list-style: none; padding: 0; margin: 0; font-size: 0.8rem; }
+        .feature-tag { font-weight: 700; color: #b46f2a; font-size: 0.75rem; margin-right: 5px; }
+        .badge { display: inline-block; background: #f2e5d2; border-radius: 20px; padding: 4px 10px; font-size: 0.65rem; font-weight: 600; margin-top: 10px; }
+        .install-banner { display: none; background: linear-gradient(135deg, #5a3e1b, #7a5a3a); color: white; padding: 12px 16px; border-radius: 60px; font-size: 0.85rem; text-align: center; margin-top: 12px; cursor: pointer; font-weight: 600; }
     </style>
 </head>
 <body>
-
 <div class="container">
     <h1>Определител на земни пчели</h1>
     <div class="sub">🔍 Интерактивен ключ за 15 вида в България</div>
 
     <div class="filter-panel">
-        <div class="filter-title">📋 Филтрирай по белези</div>
         <div class="filter-grid">
             <div class="filter-group">
                 <label>🐚 Цвят на коремчето</label>
@@ -265,18 +66,18 @@
                     <option value="all">Всички</option>
                     <option value="жълт">Жълт (светъл)</option>
                     <option value="черен">Черен</option>
-                    <option value="жълт с черна лента">Жълт с черна лента</option>
-                    <option value="сиво-жълт">Сиво-жълт</option>
+                    <option value="жълт с черна лента">Жълт с черна лента между крилата</option>
+                    <option value="сиво-жълт">Сиво-жълт / мръсно жълт</option>
                 </select>
             </div>
             <div class="filter-group">
                 <label>📏 Размер / особеност</label>
                 <select id="filterSize">
                     <option value="all">Всички</option>
-                    <option value="едра">Едра (>20 mm)</option>
-                    <option value="дребна">Дребна (12–16 mm)</option>
+                    <option value="едра">Едра пчела (>20 mm)</option>
+                    <option value="дребна">Дребна пчела (12–16 mm)</option>
                     <option value="средна">Средна (15–18 mm)</option>
-                    <option value="дълго лице">Дълго лице</option>
+                    <option value="дълго лице">Дълго лице / тясна глава</option>
                 </select>
             </div>
             <div class="filter-group">
@@ -285,115 +86,83 @@
                     <option value="all">Всички</option>
                     <option value="бяла опашка">Бяла опашка</option>
                     <option value="червена опашка">Червена опашка</option>
-                    <option value="жълт пояс на корема">Жълт пояс на средата</option>
+                    <option value="жълт пояс на корема">Жълт пояс на корема</option>
                     <option value="почти изцяло черна">Почти изцяло черна</option>
                 </select>
             </div>
-            <button id="resetFilters" class="reset-btn">🔄 Изчисти филтрите</button>
+            <button id="resetFilters" class="reset-btn">🔄 Изчисти всички</button>
         </div>
     </div>
 
-    <div class="stats" id="statsDisplay">Зареждане...</div>
+    <div class="stats" id="statsDisplay">Показване на всички 15 вида</div>
     <div class="species-grid" id="speciesGrid"></div>
-    <footer>🐝 Използвайте филтрите за определяне. Приложението работи офлайн.</footer>
+    <footer>🐝 Избери характеристики за определяне.</footer>
+    <div id="installBanner" class="install-banner">📱 Инсталирай приложението ➕</div>
 </div>
 
-<button id="customInstallBtn">
-    <span>🐝 Инсталирай Определителя</span>
-</button>
-
 <script>
-    const isInstalled = window.matchMedia('(display-mode: standalone)').matches || 
-                        window.matchMedia('(display-mode: fullscreen)').matches ||
-                        document.referrer.includes('android-app://');
-
-    // Дефинираме променливите за инсталация
-    let deferredPrompt;
-    const installBtn = document.getElementById('customInstallBtn');
-
-    // Ако вече е инсталирано като APK/PWA, скриваме бутона веднага и спираме логиката за него
-    if (isInstalled) {
-        if (installBtn) installBtn.style.display = 'none';
-        console.log('Running as installed app (TWA/PWA)');
-    }
-
-    // 2. Логика за PWA инсталационния бутон (само за браузър)
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Ако сме в APK, не показваме нищо
-        if (isInstalled) return;
-
-        e.preventDefault();
-        deferredPrompt = e;
-        if (installBtn) installBtn.style.display = 'flex';
-    });
     const bumblebeeSpecies = [
         { name: "Земна пчела каменарка", latin: "Bombus lapidarius", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "черен", sizeNote: "средна до едра (16–20 mm)", specialMark: "червена опашка", features: ["⚫ Черно тяло", "🔴 Яркочервен връх"] },
         { name: "Земна пчела горска", latin: "Bombus sylvarum", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна до средна (12–16 mm)", specialMark: "бяла опашка", features: ["🍂 Жълт гръден кош с черно петно", "⚪ Бял край"] },
         { name: "Земна пчела полска", latin: "Bombus pascuorum", abdomenColor: "жълто-кафяво, червеникаво", thoraxColor: "сиво-жълт", sizeNote: "средна (14–17 mm)", specialMark: "жълт пояс на корема", features: ["🧡 Златисто-кафява", "Много чест вид"] },
         { name: "Земна пчела земна", latin: "Bombus terrestris", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "едра (18–24 mm)", specialMark: "бяла опашка", features: ["🐝 Една от най-едрите", "Жълта ивица отпред"] },
         { name: "Земна пчела ливадна", latin: "Bombus pratorum", abdomenColor: "жълто-черни ивици, оранжев връх", thoraxColor: "жълт", sizeNote: "дребна (11–15 mm)", specialMark: "червена опашка", features: ["🍊 Оранжево-червена опашка"] },
-        { name: "Земна пчела рудоноса", latin: "Bombus ruderatus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт", sizeNote: "едра (20–24 mm)", specialMark: "жълт пояс на корема", features: ["🔸 Дълго лице", "Жълта ивица"] },
-        { name: "Земна пчела голяма горска", latin: "Bombus hypnorum", abdomenColor: "жълто-кафяв, бял връх", thoraxColor: "жълт (червеникавокафяв)", sizeNote: "средна (15–18 mm)", specialMark: "бяла опашка", features: ["🌲 Гърдите червеникави", "Черен корем"] },
+        { name: "Земна пчела рудоноса", latin: "Bombus ruderatus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт", sizeNote: "едра (20–24 mm)", specialMark: "жълт пояс на корема", features: ["🔸 Дълго лице", "Жълта ивица на корема"] },
+        { name: "Земна пчела голяма горска", latin: "Bombus hypnorum", abdomenColor: "жълто-кафяв, бял връх", thoraxColor: "жълт", sizeNote: "средна (15–18 mm)", specialMark: "бяла опашка", features: ["🌲 Гърдите червеникави", "Бял връх"] },
         { name: "Земна пчела люцернова", latin: "Bombus rupestris", abdomenColor: "преобладаващо черно, червена опашка", thoraxColor: "черен", sizeNote: "едра (18–22 mm)", specialMark: "червена опашка", features: ["🖤 Почти черна", "Кукувичен вид"] },
-        { name: "Земна пчела планинска", latin: "Bombus monticola", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "жълт с черна лента", sizeNote: "средна (14–18 mm)", specialMark: "червена опашка", features: ["⛰️ Жълта ивица на гърдите"] },
-        { name: "Земна пчела сменчива", latin: "Bombus soroeensis", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна до средна (12–15 mm)", specialMark: "бяла опашка", features: ["🏵️ Жълти петна отстрани"] },
+        { name: "Земна пчела планинска", latin: "Bombus monticola", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "жълт с черна лента", sizeNote: "средна (14–18 mm)", specialMark: "червена опашка", features: ["⛰️ Планински вид", "Червен връх"] },
+        { name: "Земна пчела сменчива", latin: "Bombus soroeensis", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна (12–15 mm)", specialMark: "бяла опашка", features: ["🏵️ Жълти петна отстрани"] },
         { name: "Земна пчела черна", latin: "Bombus melanopygus", abdomenColor: "преобладаващо черно", thoraxColor: "черен", sizeNote: "средна (15–17 mm)", specialMark: "почти изцяло черна", features: ["⚫ Изцяло черна"] },
         { name: "Земна пчела конска", latin: "Bombus veteranus", abdomenColor: "жълто-черни ивици, червеникав връх", thoraxColor: "жълт", sizeNote: "средна (15–18 mm)", specialMark: "жълт пояс на корема", features: ["🐎 Сиво-жълти косми"] },
-        { name: "Земна пчела червеникава", latin: "Bombus ruderarius", abdomenColor: "червено-кафяв връх", thoraxColor: "черен", sizeNote: "дребна (12–14 mm)", specialMark: "червена опашка", features: ["🟠 Любител на детелина"] },
+        { name: "Земна пчела червеникава", latin: "Bombus ruderarius", abdomenColor: "червено-кафяв връх", thoraxColor: "черен", sizeNote: "дребна (12–14 mm)", specialMark: "червена опашка", features: ["🟠 Малка, черна с червена опашка"] },
         { name: "Земна пчела балканска", latin: "Bombus balcanicus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт с черна лента", sizeNote: "средна (14–17 mm)", specialMark: "жълт пояс на корема", features: ["🏔️ Балкански ендемит"] },
-        { name: "Земна пчела кафява", latin: "Bombus humilis", abdomenColor: "оранжево-червена ивица", thoraxColor: "сиво-жълт", sizeNote: "средна (14–16 mm)", specialMark: "оранжево-червена ивица", features: ["🤎 Мъхест вид"] }
+        { name: "Земна пчела кафява", latin: "Bombus humilis", abdomenColor: "оранжево-червена ивица", thoraxColor: "сиво-жълт", sizeNote: "средна (14–16 mm)", specialMark: "оранжево-червена ивица", features: ["🤎 Сухи тревни места"] }
     ];
 
     function prepareFilters() {
         return bumblebeeSpecies.map(s => {
-            let abs = s.abdomenColor.toLowerCase();
-            let abdomenGroup = "жълто-черни ивици";
-            if (abs.includes("червено-кафяв") || abs.includes("червеникав")) abdomenGroup = "червено-кафяв връх";
-            else if (abs.includes("преобладаващо черно")) abdomenGroup = "преобладаващо черно";
-            else if (abs.includes("бял връх")) abdomenGroup = "бял връх";
-            else if (abs.includes("оранжево-червена")) abdomenGroup = "оранжево-червена ивица";
+            let aG = "жълто-черни ивици";
+            const abs = s.abdomenColor.toLowerCase();
+            if (abs.includes("червено-кафяв") || abs.includes("червеникав")) aG = "червено-кафяв връх";
+            else if (abs.includes("бял връх") || s.specialMark === "бяла опашка") aG = "бял връх";
+            else if (abs.includes("преобладаващо черно")) aG = "преобладаващо черно";
+            else if (abs.includes("оранжево-червена")) aG = "оранжево-червена ивица";
 
-            let thor = s.thoraxColor.toLowerCase();
-            let thoraxGroup = "жълт";
-            if (thor.includes("черна лента")) thoraxGroup = "жълт с черна лента";
-            else if (thor.includes("черен")) thoraxGroup = "черен";
-            else if (thor.includes("сиво-жълт")) thoraxGroup = "сиво-жълт";
+            let tG = "жълт";
+            const th = s.thoraxColor.toLowerCase();
+            if (th.includes("лента")) tG = "жълт с черна лента";
+            else if (th.includes("черен")) tG = "черен";
+            else if (th.includes("сиво")) tG = "сиво-жълт";
 
-            let sizeGroup = "средна";
-            if (s.sizeNote.includes("едра") || s.sizeNote.includes("20")) sizeGroup = "едра";
-            else if (s.sizeNote.includes("дребна")) sizeGroup = "дребна";
-            if (s.features.some(f => f.includes("Дълго лице"))) sizeGroup = "дълго лице";
+            let sG = "средна";
+            if (s.sizeNote.includes("едра")) sG = "едра";
+            else if (s.sizeNote.includes("дребна")) sG = "дребна";
+            if (s.features.some(f => f.includes("лице"))) sG = "дълго лице";
 
-            return { ...s, fAbdomen: abdomenGroup, fThorax: thoraxGroup, fSize: sizeGroup, fSpecial: s.specialMark || "all" };
+            return { ...s, fAbs: aG, fThor: tG, fSize: sG, fSpec: s.specialMark };
         });
     }
 
-    let currentData = prepareFilters();
+    const currentData = prepareFilters();
     const speciesGrid = document.getElementById('speciesGrid');
-    const statsDisplay = document.getElementById('statsDisplay');
 
-    function render() {
-        const filters = {
-            abs: document.getElementById('filterAbdomen').value,
-            thor: document.getElementById('filterThorax').value,
-            size: document.getElementById('filterSize').value,
-            spec: document.getElementById('special').value
-        };
+    function applyFilters() {
+        const vAbs = document.getElementById('filterAbdomen').value;
+        const vThor = document.getElementById('filterThorax').value;
+        const vSize = document.getElementById('filterSize').value;
+        const vSpec = document.getElementById('special').value;
 
         const filtered = currentData.filter(s => 
-            (filters.abs === "all" || s.fAbdomen === filters.abs) &&
-            (filters.thor === "all" || s.fThorax === filters.thor) &&
-            (filters.size === "all" || s.fSize === filters.size) &&
-            (filters.spec === "all" || s.fSpecial === filters.spec)
+            (vAbs === "all" || s.fAbs === vAbs) &&
+            (vThor === "all" || s.fThor === vThor) &&
+            (vSize === "all" || s.fSize === vSize) &&
+            (vSpec === "all" || s.fSpec === vSpec)
         );
 
-        statsDisplay.textContent = `Видове: ${filtered.length}`;
+        document.getElementById('statsDisplay').textContent = `Показани ${filtered.length} вида`;
         speciesGrid.innerHTML = filtered.map(s => `
             <div class="card">
-                <div class="card-header">
-                    <h3>${s.name}</h3>
-                    <div class="latin">${s.latin}</div>
-                </div>
+                <div class="card-header"><h3>${s.name}</h3><div class="latin">${s.latin}</div></div>
                 <div class="card-body">
                     <ul class="feature-list">
                         <li><span class="feature-tag">Корем:</span> ${s.abdomenColor}</li>
@@ -405,38 +174,29 @@
         `).join('');
     }
 
-    document.querySelectorAll('select').forEach(s => s.addEventListener('change', render));
+    document.querySelectorAll('select').forEach(el => el.addEventListener('change', applyFilters));
     document.getElementById('resetFilters').addEventListener('click', () => {
         document.querySelectorAll('select').forEach(s => s.value = "all");
-        render();
+        applyFilters();
     });
 
-    render();
+    applyFilters();
 
-    // PWA LOGIC
-    let deferredPrompt;
-    const installBtn = document.getElementById('customInstallBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBtn.style.display = 'flex';
-    });
-
-    installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') installBtn.style.display = 'none';
-        deferredPrompt = null;
-    });
+    // TWA / PWA Fixes
+    const isApp = window.matchMedia('(display-mode: standalone)').matches || document.referrer.includes('android-app://');
+    if (!isApp) {
+        let defPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); defPrompt = e;
+            document.getElementById('installBanner').style.display = 'block';
+        });
+        document.getElementById('installBanner').addEventListener('click', () => {
+            if (defPrompt) defPrompt.prompt();
+        });
+    }
 
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('SW OK'))
-                .catch(err => console.log('SW FAIL'));
-        });
+        navigator.serviceWorker.register('sw.js'); // Относителен път без /
     }
 </script>
 </body>
