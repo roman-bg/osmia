@@ -2,29 +2,18 @@
   "name": "Определител на земни пчели",
   "short_name": "Земни пчели BG",
   "description": "Интерактивен определител за 15-те най-често срещани вида земни пчели в България",
-  "id": "/?source=pwa",
-  "start_url": "./index.html",
-  "scope": "/",
+  "start_url": "index.html",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#5a3e1b",
   "background_color": "#f7f3e9",
   "icons": [
-    {
-      "src": "icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    }
-  ],
-  "categories": ["education", "nature"],
-  "lang": "bg",
-  "dir": "ltr",
-  "prefer_related_applications": false
+    { "src": "icon-48x48.png", "sizes": "48x48", "type": "image/png" },
+    { "src": "icon-72x72.png", "sizes": "72x72", "type": "image/png" },
+    { "src": "icon-96x96.png", "sizes": "96x96", "type": "image/png" },
+    { "src": "icon-144x144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "icon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ]
 }
