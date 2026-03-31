@@ -39,22 +39,8 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshots/mobile-view.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Начален екран с филтри"
-    },
-    {
-      "src": "/screenshots/desktop-view.png",
-      "sizes": "1280x800",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Определител на земни пчели"
-    }
+  ]
+   
   ],
   "categories": ["education", "nature", "reference"],
   "lang": "bg",
