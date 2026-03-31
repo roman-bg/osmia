@@ -8,17 +8,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Земни пчели BG">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-    
-    <!-- Favicon за браузъри -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
-    
+
+    <link rel="manifest" href="./manifest.json">
+
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+
     <title>Определител на земни пчели | PWA</title>
     <style>
         * {
@@ -33,6 +30,7 @@
             padding: 12px;
             color: #2c3e2f;
             min-height: 100vh;
+            padding-bottom: 80px; /* Място за бутона */
         }
 
         .container {
@@ -123,12 +121,6 @@
             background-size: 18px;
         }
 
-        select:focus {
-            outline: none;
-            border-color: #e7a922;
-            box-shadow: 0 0 0 3px rgba(231, 169, 34, 0.2);
-        }
-
         .reset-btn {
             background: #f0e2ce;
             font-weight: 600;
@@ -136,10 +128,6 @@
             border: none;
             margin-top: 4px;
             background-image: none;
-        }
-
-        .reset-btn:active {
-            transform: scale(0.97);
         }
 
         .stats {
@@ -163,7 +151,6 @@
             border-radius: 1.2rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             overflow: hidden;
-            transition: all 0.2s;
             border: 1px solid #f3e5cd;
         }
 
@@ -183,7 +170,6 @@
             font-style: italic;
             font-size: 0.7rem;
             color: #7c6b4b;
-            margin-top: 3px;
         }
 
         .card-body {
@@ -193,23 +179,17 @@
         .feature-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 0.6rem 0;
+            margin: 0;
         }
 
         .feature-list li {
             font-size: 0.8rem;
             margin-bottom: 6px;
-            display: flex;
-            gap: 8px;
-            align-items: baseline;
-            flex-wrap: wrap;
         }
 
         .feature-tag {
             font-weight: 700;
-            min-width: 80px;
             color: #b46f2a;
-            font-size: 0.75rem;
         }
 
         .badge {
@@ -223,58 +203,43 @@
             color: #5a3a1a;
         }
 
-        .no-results {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: #faf5ea;
-            border-radius: 1.5rem;
-            font-size: 0.95rem;
-        }
-
         footer {
             text-align: center;
             font-size: 0.65rem;
             margin-top: 1.2rem;
             color: #aa9b7e;
-            border-top: 1px solid #efebdd;
-            padding-top: 0.8rem;
         }
 
-        .install-banner {
+        /* Стилове за бутона за инсталация */
+        #customInstallBtn {
             display: none;
-            background: linear-gradient(135deg, #5a3e1b, #7a5a3a);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            text-align: center;
-            margin-top: 12px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f4b942;
+            color: #5a3e1b;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border: none;
             cursor: pointer;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            animation: pulse 2s infinite;
+            font-size: 0.9rem;
+            align-items: center;
+            gap: 8px;
+            animation: slideUp 0.5s ease-out;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        .install-banner:active {
-            transform: scale(0.98);
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 8px;
-            }
-            .container {
-                padding: 0.8rem;
-            }
+        @keyframes slideUp {
+            from { bottom: -70px; }
+            to { bottom: 20px; }
         }
     </style>
 </head>
 <body>
+
 <div class="container">
     <h1>Определител на земни пчели</h1>
     <div class="sub">🔍 Интерактивен ключ за 15 вида в България</div>
@@ -300,216 +265,155 @@
                     <option value="all">Всички</option>
                     <option value="жълт">Жълт (светъл)</option>
                     <option value="черен">Черен</option>
-                    <option value="жълт с черна лента">Жълт с черна лента между крилата</option>
-                    <option value="сиво-жълт">Сиво-жълт / мръсно жълт</option>
+                    <option value="жълт с черна лента">Жълт с черна лента</option>
+                    <option value="сиво-жълт">Сиво-жълт</option>
                 </select>
             </div>
             <div class="filter-group">
                 <label>📏 Размер / особеност</label>
                 <select id="filterSize">
                     <option value="all">Всички</option>
-                    <option value="едра">Едра пчела (>20 mm)</option>
-                    <option value="дребна">Дребна пчела (12–16 mm)</option>
+                    <option value="едра">Едра (>20 mm)</option>
+                    <option value="дребна">Дребна (12–16 mm)</option>
                     <option value="средна">Средна (15–18 mm)</option>
-                    <option value="дълго лице">Дълго лице / тясна глава</option>
+                    <option value="дълго лице">Дълго лице</option>
                 </select>
             </div>
             <div class="filter-group">
                 <label>🔄 Допълнителен маркер</label>
                 <select id="special">
                     <option value="all">Всички</option>
-                    <option value="бяла опашка">Бяла опашка (тергит бял)</option>
-                    <option value="червена опашка">Червена/ръждива опашка</option>
+                    <option value="бяла опашка">Бяла опашка</option>
+                    <option value="червена опашка">Червена опашка</option>
                     <option value="жълт пояс на корема">Жълт пояс на средата</option>
                     <option value="почти изцяло черна">Почти изцяло черна</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <button id="resetFilters" class="reset-btn">🔄 Изчисти всички</button>
-            </div>
+            <button id="resetFilters" class="reset-btn">🔄 Изчисти филтрите</button>
         </div>
     </div>
 
-    <div class="stats" id="statsDisplay">Показване на всички 15 вида</div>
+    <div class="stats" id="statsDisplay">Зареждане...</div>
     <div class="species-grid" id="speciesGrid"></div>
-    <footer>🐝 Избери характеристики, за да определиш вида. Инсталирай като приложение за бърз достъп.</footer>
-    <div id="installBanner" class="install-banner">📱 Инсталирай приложението ➕</div>
+    <footer>🐝 Използвайте филтрите за определяне. Приложението работи офлайн.</footer>
 </div>
 
+<button id="customInstallBtn">
+    <span>🐝 Инсталирай Определителя</span>
+</button>
+
 <script>
-    // Данни за 15-те вида земни пчели
     const bumblebeeSpecies = [
-        { name: "Земна пчела каменарка", latin: "Bombus lapidarius", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "черен", sizeNote: "средна до едра (16–20 mm)", specialMark: "червена опашка", features: ["⚫ Черно тяло", "🔴 Яркочервен връх на коремчето"] },
-        { name: "Земна пчела горска", latin: "Bombus sylvarum", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна до средна (12–16 mm)", specialMark: "бяла опашка", features: ["🍂 Жълт гръден кош с черно петно", "⚪ Бял край на коремчето"] },
+        { name: "Земна пчела каменарка", latin: "Bombus lapidarius", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "черен", sizeNote: "средна до едра (16–20 mm)", specialMark: "червена опашка", features: ["⚫ Черно тяло", "🔴 Яркочервен връх"] },
+        { name: "Земна пчела горска", latin: "Bombus sylvarum", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна до средна (12–16 mm)", specialMark: "бяла опашка", features: ["🍂 Жълт гръден кош с черно петно", "⚪ Бял край"] },
         { name: "Земна пчела полска", latin: "Bombus pascuorum", abdomenColor: "жълто-кафяво, червеникаво", thoraxColor: "сиво-жълт", sizeNote: "средна (14–17 mm)", specialMark: "жълт пояс на корема", features: ["🧡 Златисто-кафява", "Много чест вид"] },
         { name: "Земна пчела земна", latin: "Bombus terrestris", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "едра (18–24 mm)", specialMark: "бяла опашка", features: ["🐝 Една от най-едрите", "Жълта ивица отпред"] },
-        { name: "Земна пчела ливадна", latin: "Bombus pratorum", abdomenColor: "жълто-черни ивици, оранжев връх", thoraxColor: "жълт", sizeNote: "дребна (11–15 mm)", specialMark: "червена опашка", features: ["🍊 Оранжево-червена опашка", "Активна рано напролет"] },
-        { name: "Земна пчела рудоноса", latin: "Bombus ruderatus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт", sizeNote: "едра (20–24 mm)", specialMark: "жълт пояс на корема", features: ["🔸 Дълго лице", "Жълта ивица на 2-ри тергит"] },
-        { name: "Земна пчела голяма горска", latin: "Bombus hypnorum", abdomenColor: "жълто-кафяв, бял връх", thoraxColor: "жълт (червеникавокафяв)", sizeNote: "средна (15–18 mm)", specialMark: "бяла опашка", features: ["🌲 Гърдите червеникави", "Черен корем с бял връх"] },
-        { name: "Земна пчела люцернова", latin: "Bombus rupestris", abdomenColor: "преобладаващо черно, червена опашка", thoraxColor: "черен", sizeNote: "едра (18–22 mm)", specialMark: "червена опашка", features: ["🖤 Почти черна", "Червен връх, кукувичен вид"] },
-        { name: "Земна пчела планинска", latin: "Bombus monticola", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "жълт с черна лента", sizeNote: "средна (14–18 mm)", specialMark: "червена опашка", features: ["⛰️ Жълта ивица на гърдите", "Червен връх в планините"] },
-        { name: "Земна пчела сменчива", latin: "Bombus soroeensis", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна до средна (12–15 mm)", specialMark: "бяла опашка", features: ["🏵️ Жълти петна отстрани", "Планински вид"] },
-        { name: "Земна пчела черна", latin: "Bombus melanopygus", abdomenColor: "преобладаващо черно", thoraxColor: "черен", sizeNote: "средна (15–17 mm)", specialMark: "почти изцяло черна", features: ["⚫ Изцяло черна", "Топлолюбив вид"] },
-        { name: "Земна пчела конска", latin: "Bombus veteranus", abdomenColor: "жълто-черни ивици, червеникав връх", thoraxColor: "жълт", sizeNote: "средна (15–18 mm)", specialMark: "жълт пояс на корема", features: ["🐎 Жълта ивица в средата", "Сиво-жълти косми"] },
-        { name: "Земна пчела червеникава", latin: "Bombus ruderarius", abdomenColor: "червено-кафяв връх", thoraxColor: "черен", sizeNote: "дребна (12–14 mm)", specialMark: "червена опашка", features: ["🟠 Малка, черна с червеникава опашка", "Любител на детелина"] },
-        { name: "Земна пчела балканска", latin: "Bombus balcanicus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт с черна лента", sizeNote: "средна (14–17 mm)", specialMark: "жълт пояс на корема", features: ["🏔️ Балкански ендемит", "Ясни жълти и черни ивици"] },
-        { name: "Земна пчела кафява", latin: "Bombus humilis", abdomenColor: "оранжево-червена ивица", thoraxColor: "сиво-жълт", sizeNote: "средна (14–16 mm)", specialMark: "оранжево-червена ивица", features: ["🤎 Мъхест вид", "Сухи тревни местообитания"] }
+        { name: "Земна пчела ливадна", latin: "Bombus pratorum", abdomenColor: "жълто-черни ивици, оранжев връх", thoraxColor: "жълт", sizeNote: "дребна (11–15 mm)", specialMark: "червена опашка", features: ["🍊 Оранжево-червена опашка"] },
+        { name: "Земна пчела рудоноса", latin: "Bombus ruderatus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт", sizeNote: "едра (20–24 mm)", specialMark: "жълт пояс на корема", features: ["🔸 Дълго лице", "Жълта ивица"] },
+        { name: "Земна пчела голяма горска", latin: "Bombus hypnorum", abdomenColor: "жълто-кафяв, бял връх", thoraxColor: "жълт (червеникавокафяв)", sizeNote: "средна (15–18 mm)", specialMark: "бяла опашка", features: ["🌲 Гърдите червеникави", "Черен корем"] },
+        { name: "Земна пчела люцернова", latin: "Bombus rupestris", abdomenColor: "преобладаващо черно, червена опашка", thoraxColor: "черен", sizeNote: "едра (18–22 mm)", specialMark: "червена опашка", features: ["🖤 Почти черна", "Кукувичен вид"] },
+        { name: "Земна пчела планинска", latin: "Bombus monticola", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "жълт с черна лента", sizeNote: "средна (14–18 mm)", specialMark: "червена опашка", features: ["⛰️ Жълта ивица на гърдите"] },
+        { name: "Земна пчела сменчива", latin: "Bombus soroeensis", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна до средна (12–15 mm)", specialMark: "бяла опашка", features: ["🏵️ Жълти петна отстрани"] },
+        { name: "Земна пчела черна", latin: "Bombus melanopygus", abdomenColor: "преобладаващо черно", thoraxColor: "черен", sizeNote: "средна (15–17 mm)", specialMark: "почти изцяло черна", features: ["⚫ Изцяло черна"] },
+        { name: "Земна пчела конска", latin: "Bombus veteranus", abdomenColor: "жълто-черни ивици, червеникав връх", thoraxColor: "жълт", sizeNote: "средна (15–18 mm)", specialMark: "жълт пояс на корема", features: ["🐎 Сиво-жълти косми"] },
+        { name: "Земна пчела червеникава", latin: "Bombus ruderarius", abdomenColor: "червено-кафяв връх", thoraxColor: "черен", sizeNote: "дребна (12–14 mm)", specialMark: "червена опашка", features: ["🟠 Любител на детелина"] },
+        { name: "Земна пчела балканска", latin: "Bombus balcanicus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт с черна лента", sizeNote: "средна (14–17 mm)", specialMark: "жълт пояс на корема", features: ["🏔️ Балкански ендемит"] },
+        { name: "Земна пчела кафява", latin: "Bombus humilis", abdomenColor: "оранжево-червена ивица", thoraxColor: "сиво-жълт", sizeNote: "средна (14–16 mm)", specialMark: "оранжево-червена ивица", features: ["🤎 Мъхест вид"] }
     ];
 
     function prepareFilters() {
-        return bumblebeeSpecies.map(species => {
-            let abdomenGroup = "";
-            const abs = species.abdomenColor.toLowerCase();
-            if (abs.includes("жълто-черни") || (abs.includes("ивици") && abs.includes("жълт"))) abdomenGroup = "жълто-черни ивици";
-            else if (abs.includes("червено-кафяв") || (abs.includes("червеникав") && abs.includes("връх"))) abdomenGroup = "червено-кафяв връх";
-            else if (species.abdomenColor.includes("жълт гръден")) abdomenGroup = "жълт гръден кош, черно коремче";
-            else if (abs.includes("бял връх") || species.specialMark === "бяла опашка") abdomenGroup = "бял връх";
+        return bumblebeeSpecies.map(s => {
+            let abs = s.abdomenColor.toLowerCase();
+            let abdomenGroup = "жълто-черни ивици";
+            if (abs.includes("червено-кафяв") || abs.includes("червеникав")) abdomenGroup = "червено-кафяв връх";
             else if (abs.includes("преобладаващо черно")) abdomenGroup = "преобладаващо черно";
+            else if (abs.includes("бял връх")) abdomenGroup = "бял връх";
             else if (abs.includes("оранжево-червена")) abdomenGroup = "оранжево-червена ивица";
-            else abdomenGroup = "жълто-черни ивици";
 
-            let thoraxGroup = "";
-            const thor = species.thoraxColor.toLowerCase();
-            if (thor.includes("жълт") && thor.includes("черна лента")) thoraxGroup = "жълт с черна лента";
-            else if (thor.includes("жълт")) thoraxGroup = "жълт";
+            let thor = s.thoraxColor.toLowerCase();
+            let thoraxGroup = "жълт";
+            if (thor.includes("черна лента")) thoraxGroup = "жълт с черна лента";
             else if (thor.includes("черен")) thoraxGroup = "черен";
             else if (thor.includes("сиво-жълт")) thoraxGroup = "сиво-жълт";
-            else thoraxGroup = "жълт";
 
-            let sizeGroup = "";
-            if (species.sizeNote.includes("едра") || species.sizeNote.includes("20")) sizeGroup = "едра";
-            else if (species.sizeNote.includes("дребна") || species.sizeNote.includes("12–16") || species.sizeNote.includes("11-15")) sizeGroup = "дребна";
-            else if (species.sizeNote.includes("средна")) sizeGroup = "средна";
-            if (species.name.includes("рудоноса")) sizeGroup = "едра";
-            if (species.latin === "Bombus ruderatus") sizeGroup = "едра";
-            if (species.features.some(f => f.includes("Дълго лице"))) sizeGroup = "дълго лице";
+            let sizeGroup = "средна";
+            if (s.sizeNote.includes("едра") || s.sizeNote.includes("20")) sizeGroup = "едра";
+            else if (s.sizeNote.includes("дребна")) sizeGroup = "дребна";
+            if (s.features.some(f => f.includes("Дълго лице"))) sizeGroup = "дълго лице";
 
-            let specialGroup = "";
-            if (species.specialMark === "бяла опашка") specialGroup = "бяла опашка";
-            else if (species.specialMark === "червена опашка" || species.features.some(f => f.includes("червена опашка") || f.includes("Червен връх"))) specialGroup = "червена опашка";
-            else if (species.specialMark === "жълт пояс на корема") specialGroup = "жълт пояс на корема";
-            else if (species.specialMark === "почти изцяло черна") specialGroup = "почти изцяло черна";
-            else if (species.specialMark === "оранжево-червена ивица") specialGroup = "червена опашка";
-            
-            return { ...species, filterAbdomen: abdomenGroup, filterThorax: thoraxGroup, filterSize: sizeGroup, filterSpecial: specialGroup || "all" };
+            return { ...s, fAbdomen: abdomenGroup, fThorax: thoraxGroup, fSize: sizeGroup, fSpecial: s.specialMark || "all" };
         });
     }
 
     let currentData = prepareFilters();
-    let filteredData = [...currentData];
-
-    const abdomenSelect = document.getElementById('filterAbdomen');
-    const thoraxSelect = document.getElementById('filterThorax');
-    const sizeSelect = document.getElementById('filterSize');
-    const specialSelect = document.getElementById('special');
-    const resetBtn = document.getElementById('resetFilters');
     const speciesGrid = document.getElementById('speciesGrid');
     const statsDisplay = document.getElementById('statsDisplay');
 
-    function applyFilters() {
-        const abdomenVal = abdomenSelect.value;
-        const thoraxVal = thoraxSelect.value;
-        const sizeVal = sizeSelect.value;
-        const specialVal = specialSelect.value;
+    function render() {
+        const filters = {
+            abs: document.getElementById('filterAbdomen').value,
+            thor: document.getElementById('filterThorax').value,
+            size: document.getElementById('filterSize').value,
+            spec: document.getElementById('special').value
+        };
 
-        filteredData = currentData.filter(species => {
-            if (abdomenVal !== "all" && species.filterAbdomen !== abdomenVal) return false;
-            if (thoraxVal !== "all" && species.filterThorax !== thoraxVal) return false;
-            if (sizeVal !== "all" && species.filterSize !== sizeVal) return false;
-            if (specialVal !== "all" && species.filterSpecial !== specialVal) return false;
-            return true;
-        });
-        renderGrid();
-    }
+        const filtered = currentData.filter(s => 
+            (filters.abs === "all" || s.fAbdomen === filters.abs) &&
+            (filters.thor === "all" || s.fThorax === filters.thor) &&
+            (filters.size === "all" || s.fSize === filters.size) &&
+            (filters.spec === "all" || s.fSpecial === filters.spec)
+        );
 
-    function renderGrid() {
-        if (filteredData.length === 0) {
-            speciesGrid.innerHTML = `<div class="no-results">😕 Няма видове с тези белези. Изчисти филтрите.</div>`;
-            statsDisplay.textContent = `Няма съвпадения`;
-            return;
-        }
-        statsDisplay.textContent = `Показани ${filteredData.length} от ${currentData.length} вида`;
-        speciesGrid.innerHTML = filteredData.map(species => `
+        statsDisplay.textContent = `Видове: ${filtered.length}`;
+        speciesGrid.innerHTML = filtered.map(s => `
             <div class="card">
                 <div class="card-header">
-                    <h3>${species.name}</h3>
-                    <div class="latin">${species.latin}</div>
+                    <h3>${s.name}</h3>
+                    <div class="latin">${s.latin}</div>
                 </div>
                 <div class="card-body">
                     <ul class="feature-list">
-                        <li><span class="feature-tag">Корем:</span> ${species.abdomenColor}</li>
-                        <li><span class="feature-tag">Гърди:</span> ${species.thoraxColor}</li>
-                        <li><span class="feature-tag">Размер:</span> ${species.sizeNote}</li>
-                        ${species.specialMark !== "all" && species.specialMark ? `<li><span class="feature-tag">Белег:</span> ${species.specialMark}</li>` : ''}
+                        <li><span class="feature-tag">Корем:</span> ${s.abdomenColor}</li>
+                        <li><span class="feature-tag">Гърди:</span> ${s.thoraxColor}</li>
                     </ul>
-                    <div class="badge">🔎 ${species.features.join(" · ")}</div>
+                    <div class="badge">🔎 ${s.features.join(" · ")}</div>
                 </div>
             </div>
         `).join('');
     }
 
-    function resetAllFilters() {
-        abdomenSelect.value = "all";
-        thoraxSelect.value = "all";
-        sizeSelect.value = "all";
-        specialSelect.value = "all";
-        applyFilters();
-    }
+    document.querySelectorAll('select').forEach(s => s.addEventListener('change', render));
+    document.getElementById('resetFilters').addEventListener('click', () => {
+        document.querySelectorAll('select').forEach(s => s.value = "all");
+        render();
+    });
 
-    abdomenSelect.addEventListener('change', applyFilters);
-    thoraxSelect.addEventListener('change', applyFilters);
-    sizeSelect.addEventListener('change', applyFilters);
-    specialSelect.addEventListener('change', applyFilters);
-    resetBtn.addEventListener('click', resetAllFilters);
-    applyFilters();
+    render();
 
-    // PWA инсталация
+    // PWA LOGIC
     let deferredPrompt;
-    const installBanner = document.getElementById('installBanner');
-    
+    const installBtn = document.getElementById('customInstallBtn');
+
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBanner.style.display = 'block';
-        console.log('PWA install prompt available');
+        installBtn.style.display = 'flex';
     });
-    
-    // Проверка дали PWA вече е инсталиран
-    window.addEventListener('appinstalled', () => {
-        installBanner.style.display = 'none';
+
+    installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') installBtn.style.display = 'none';
         deferredPrompt = null;
-        console.log('PWA was installed');
     });
-    
-    installBanner.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                installBanner.style.display = 'none';
-            }
-            deferredPrompt = null;
-        } else {
-            // Ако няма prompt, покажи инструкция
-            alert('За да инсталирате приложението:\n\nAndroid: Натиснете менюто (три точки) → "Инсталиране на приложение"\n\niOS: Натиснете "Сподели" → "Добави към началния екран"');
-        }
-    });
-    
-    // Регистрация на Service Worker
+
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('ServiceWorker registered successfully:', registration);
-            })
-            .catch(error => {
-                console.log('ServiceWorker registration failed:', error);
-            });
-    }
-    
-    // Проверка дали приложението работи в standalone режим (вече инсталирано)
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-        installBanner.style.display = 'none';
-        console.log('App is already installed');
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('SW OK'))
+                .catch(err => console.log('SW FAIL'));
+        });
     }
 </script>
 </body>
