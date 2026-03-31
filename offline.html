@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Няма връзка - Земни пчели BG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: #f7f3e9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .offline-container {
+            text-align: center;
+            max-width: 320px;
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            color: #5a3e1b;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            color: #6b4c2c;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+        .btn {
+            display: inline-block;
+            background: #f4b942;
+            color: #5a3e1b;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            color: #aa9b7e;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="emoji">🐝📡</div>
+        <h1>Няма интернет връзка</h1>
+        <p>За да използваш определителя, се свържи с интернет. След като се появи връзка, презареди страницата.</p>
+        <button class="btn" onclick="window.location.reload()">Опитай отново</button>
+        <div class="note">⭐ Приложението работи офлайн след първоначално зареждане</div>
+    </div>
+</body>
+</html>
