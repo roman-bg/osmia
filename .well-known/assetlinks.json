@@ -1,10 +1,19 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "cv.bumblebee.twa",
-    "sha256_cert_fingerprints": [
-      "28:A8:60:EE:19:4A:F0:1E:AB:88:96:B3:28:2B:5D:77:92:81:34:3C:11:DF:D6:5E:6A:D4:22:D5:4C:F7:9A:1A"
-    ]
-  }
-}]
+{
+  "name": "Алерго Индекс България",
+  "short_name": "АлергоБГ",
+  "description": "Следете алергените в България в реално време.",
+  "start_url": "/alergo/index.html",
+  "scope": "/alergo/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/alergo/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
