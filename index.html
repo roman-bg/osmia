@@ -8,14 +8,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Земни пчели BG">
-    
+
     <link rel="manifest" href="manifest.json">
-    
+
     <link rel="apple-touch-icon" href="icon-192x192.png">
-    
+
     <link rel="icon" type="image/png" sizes="32x32" href="icon-48x48.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icon-48x48.png">
-    
+
     <title>Определител на земни пчели | PWA</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -35,11 +35,29 @@
         .card-header h3 { margin: 0; font-size: 1.1rem; color: #3f2a10; }
         .latin { font-style: italic; font-size: 0.75rem; color: #7c6b4b; }
         .card-body { padding: 0.8rem; }
-        .feature-list { list-style: none; padding: 0; margin: 0; font-size: 0.85rem; }
+        .feature-list { list-style: none; padding: 0; margin: 0 0 0.5rem 0; font-size: 0.85rem; }
         .feature-tag { font-weight: 700; color: #b46f2a; margin-right: 5px; }
         .badge { display: inline-block; background: #f2e5d2; border-radius: 20px; padding: 4px 10px; font-size: 0.7rem; font-weight: 600; margin-top: 8px; }
+        .species-image {
+            width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            background: #f9f3e8;
+            display: block;
+            object-fit: cover;
+            border: 1px solid #f0e2ce;
+        }
+        .image-container {
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
         .install-banner { display: none; background: #5a3e1b; color: white; padding: 12px; border-radius: 50px; text-align: center; margin-top: 10px; cursor: pointer; font-weight: 600; }
         footer { text-align: center; font-size: 0.7rem; color: #aa9b7e; margin-top: 1rem; }
+        @media (max-width: 480px) {
+            .card-body { padding: 0.6rem; }
+            .species-image { border-radius: 0.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -74,44 +92,71 @@
 
     <div class="stats" id="statsDisplay">Зареждане...</div>
     <div id="speciesGrid"></div>
-    
+
     <div id="installBanner" class="install-banner">📱 Инсталирай приложението ➕</div>
     <footer>Използвайте филтрите за по-точно определяне.</footer>
 </div>
 
 <script>
     const bumblebeeSpecies = [
-        { name: "Земна пчела каменарка", latin: "Bombus lapidarius", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "черен", fAbs: "червено-кафяв връх", fThor: "черен", features: ["⚫ Черно тяло", "🔴 Яркочервен връх"] },
-        { name: "Земна пчела горска", latin: "Bombus sylvarum", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", fAbs: "бял връх", fThor: "жълт с черна лента", features: ["🍂 Жълт гръден кош с черно петно", "⚪ Бял край"] },
-        { name: "Земна пчела полска", latin: "Bombus pascuorum", abdomenColor: "жълто-кафяво, червеникаво", thoraxColor: "сиво-жълт", fAbs: "оранжево-червена ивица", fThor: "сиво-жълт", features: ["🧡 Златисто-кафява", "Много чест вид"] },
-        { name: "Земна пчела земна", latin: "Bombus terrestris", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", fAbs: "бял връх", fThor: "жълт с черна лента", features: ["🐝 Една от най-едрите"] },
-        { name: "Земна пчела ливадна", latin: "Bombus pratorum", abdomenColor: "жълто-черни ивици, оранжев връх", thoraxColor: "жълт", fAbs: "жълто-черни ивици", fThor: "жълт", features: ["🍊 Оранжева опашка"] },
-        { name: "Земна пчела рудоноса", latin: "Bombus ruderatus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт", fAbs: "жълто-черни ивици", fThor: "жълт", features: ["🔸 Дълго лице"] },
-        { name: "Земна пчела голяма горска", latin: "Bombus hypnorum", abdomenColor: "жълто-кафяв, бял връх", thoraxColor: "жълт", fAbs: "бял връх", fThor: "жълт", features: ["🌲 Гърдите червеникави"] },
-        { name: "Земна пчела люцернова", latin: "Bombus rupestris", abdomenColor: "преобладаващо черно, червена опашка", thoraxColor: "черен", fAbs: "преобладаващо черно", fThor: "черен", features: ["🖤 Почти черна", "Кукувичен вид"] },
-        { name: "Земна пчела планинска", latin: "Bombus monticola", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "жълт с черна лента", fAbs: "червено-кафяв връх", fThor: "жълт с черна лента", features: ["⛰️ Планински вид"] },
-        { name: "Земна пчела сменчива", latin: "Bombus soroeensis", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", fAbs: "бял връх", fThor: "жълт with черна лента", features: ["🏵️ Жълти петна отстрани"] },
-        { name: "Земна пчела черна", latin: "Bombus melanopygus", abdomenColor: "преобладаващо черно", thoraxColor: "черен", fAbs: "преобладаващо черно", fThor: "черен", features: ["⚫ Изцяло черна"] },
-        { name: "Земна пчела конска", latin: "Bombus veteranus", abdomenColor: "жълто-черни ивици, червеникав връх", thoraxColor: "жълт", fAbs: "жълто-черни ивици", fThor: "жълт", features: ["🐎 Сиво-жълти косми"] },
-        { name: "Земна пчела червеникава", latin: "Bombus ruderarius", abdomenColor: "червено-кафяв връх", thoraxColor: "черен", fAbs: "червено-кафяв връх", fThor: "черен", features: ["🟠 Малка, черна с червена опашка"] },
-        { name: "Земна пчела балканска", latin: "Bombus balcanicus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт с черна лента", fAbs: "жълто-черни ивици", fThor: "жълт с черна лента", features: ["🏔️ Балкански ендемит"] },
-        { name: "Земна пчела кафява", latin: "Bombus humilis", abdomenColor: "оранжево-червена ивица", thoraxColor: "сиво-жълт", fAbs: "оранжево-червена ивица", fThor: "сиво-жълт", features: ["🤎 Сухи тревни места"] }
+        { name: "Земна пчела каменарка", latin: "Bombus lapidarius", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "черен", fAbs: "червено-кафяв връх", fThor: "черен", features: ["⚫ Черно тяло", "🔴 Яркочервен връх"], imageIndex: 1 },
+        { name: "Земна пчела горска", latin: "Bombus sylvarum", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", fAbs: "бял връх", fThor: "жълт с черна лента", features: ["🍂 Жълт гръден кош с черно петно", "⚪ Бял край"], imageIndex: 2 },
+        { name: "Земна пчела полска", latin: "Bombus pascuorum", abdomenColor: "жълто-кафяво, червеникаво", thoraxColor: "сиво-жълт", fAbs: "оранжево-червена ивица", fThor: "сиво-жълт", features: ["🧡 Златисто-кафява", "Много чест вид"], imageIndex: 3 },
+        { name: "Земна пчела земна", latin: "Bombus terrestris", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", fAbs: "бял връх", fThor: "жълт с черна лента", features: ["🐝 Една от най-едрите"], imageIndex: 4 },
+        { name: "Земна пчела ливадна", latin: "Bombus pratorum", abdomenColor: "жълто-черни ивици, оранжев връх", thoraxColor: "жълт", fAbs: "жълто-черни ивици", fThor: "жълт", features: ["🍊 Оранжева опашка"], imageIndex: 5 },
+        { name: "Земна пчела рудоноса", latin: "Bombus ruderatus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт", fAbs: "жълто-черни ивици", fThor: "жълт", features: ["🔸 Дълго лице"], imageIndex: 6 },
+        { name: "Земна пчела голяма горска", latin: "Bombus hypnorum", abdomenColor: "жълто-кафяв, бял връх", thoraxColor: "жълт", fAbs: "бял връх", fThor: "жълт", features: ["🌲 Гърдите червеникави"], imageIndex: 7 },
+        { name: "Земна пчела люцернова", latin: "Bombus rupestris", abdomenColor: "преобладаващо черно, червена опашка", thoraxColor: "черен", fAbs: "преобладаващо черно", fThor: "черен", features: ["🖤 Почти черна", "Кукувичен вид"], imageIndex: 8 },
+        { name: "Земна пчела планинска", latin: "Bombus monticola", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "жълт с черна лента", fAbs: "червено-кафяв връх", fThor: "жълт с черна лента", features: ["⛰️ Планински вид"], imageIndex: 9 },
+        { name: "Земна пчела сменчива", latin: "Bombus soroeensis", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", fAbs: "бял връх", fThor: "жълт с черна лента", features: ["🏵️ Жълти петна отстрани"], imageIndex: 10 },
+        { name: "Земна пчела черна", latin: "Bombus melanopygus", abdomenColor: "преобладаващо черно", thoraxColor: "черен", fAbs: "преобладаващо черно", fThor: "черен", features: ["⚫ Изцяло черна"], imageIndex: 11 },
+        { name: "Земна пчела конска", latin: "Bombus veteranus", abdomenColor: "жълто-черни ивици, червеникав връх", thoraxColor: "жълт", fAbs: "жълто-черни ивици", fThor: "жълт", features: ["🐎 Сиво-жълти косми"], imageIndex: 12 },
+        { name: "Земна пчела червеникава", latin: "Bombus ruderarius", abdomenColor: "червено-кафяв връх", thoraxColor: "черен", fAbs: "червено-кафяв връх", fThor: "черен", features: ["🟠 Малка, черна с червена опашка"], imageIndex: 13 },
+        { name: "Земна пчела балканска", latin: "Bombus balcanicus", abdomenColor: "жълто-черни ивици", thoraxColor: "жълт с черна лента", fAbs: "жълто-черни ивици", fThor: "жълт с черна лента", features: ["🏔️ Балкански ендемит"], imageIndex: 14 },
+        { name: "Земна пчела кафява", latin: "Bombus humilis", abdomenColor: "оранжево-червена ивица", thoraxColor: "сиво-жълт", fAbs: "оранжево-червена ивица", fThor: "сиво-жълт", features: ["🤎 Сухи тревни места"], imageIndex: 15 }
     ];
+
+    // Функция за проверка дали изображението съществува
+    function checkImageExists(imagePath, callback) {
+        const img = new Image();
+        img.onload = () => callback(true);
+        img.onerror = () => callback(false);
+        img.src = imagePath;
+    }
 
     function applyFilters() {
         const vAbs = document.getElementById('filterAbdomen').value;
         const vThor = document.getElementById('filterThorax').value;
 
-        const filtered = bumblebeeSpecies.filter(s => 
+        const filtered = bumblebeeSpecies.filter(s =>
             (vAbs === "all" || s.fAbs === vAbs) &&
             (vThor === "all" || s.fThor === vThor)
         );
 
         document.getElementById('statsDisplay').textContent = `Показани ${filtered.length} от ${bumblebeeSpecies.length} вида`;
-        document.getElementById('speciesGrid').innerHTML = filtered.map(s => `
+
+        // Генериране на HTML за всеки вид
+        const speciesHtml = filtered.map(s => {
+            const imagePath = `galery/${s.imageIndex}.jpg`;
+            // Задържаме пътя към изображението, дори ако липсва – браузърът ще покаже алтернативен стил
+            return `
             <div class="card">
-                <div class="card-header"><h3>${s.name}</h3><div class="latin">${s.latin}</div></div>
+                <div class="card-header">
+                    <h3>${s.name}</h3>
+                    <div class="latin">${s.latin}</div>
+                </div>
                 <div class="card-body">
+                    <div class="image-container">
+                        <img class="species-image"
+                             src="${imagePath}"
+                             alt="${s.name}"
+                             loading="lazy"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                             style="display: block;">
+                        <div class="image-placeholder" style="display: none; background: #f0e8dc; border-radius: 0.75rem; padding: 1rem; text-align: center; color: #9b7b4c; font-size: 0.8rem; margin-bottom: 0.75rem; border: 1px dashed #dccfaf; align-items: center; justify-content: center; gap: 8px;">
+                            🐝 <span>Снимка не е налична</span>
+                        </div>
+                    </div>
                     <ul class="feature-list">
                         <li><span class="feature-tag">Корем:</span> ${s.abdomenColor}</li>
                         <li><span class="feature-tag">Гърди:</span> ${s.thoraxColor}</li>
@@ -119,7 +164,25 @@
                     <div class="badge">🔎 ${s.features.join(" · ")}</div>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
+
+        document.getElementById('speciesGrid').innerHTML = speciesHtml;
+
+        // След добавяне на HTML, добавяме fallback за всеки img, който може да не се е заредил
+        document.querySelectorAll('.species-image').forEach(img => {
+            const placeholder = img.nextElementSibling;
+            if (img.complete) {
+                if (img.naturalWidth === 0) {
+                    img.style.display = 'none';
+                    if (placeholder) placeholder.style.display = 'flex';
+                }
+            } else {
+                img.addEventListener('error', () => {
+                    img.style.display = 'none';
+                    if (placeholder) placeholder.style.display = 'flex';
+                });
+            }
+        });
     }
 
     document.querySelectorAll('select').forEach(el => el.addEventListener('change', applyFilters));
@@ -132,22 +195,28 @@
 
     // PWA регистрация - БЕЗ наклонена черта
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(() => console.log("SW OK"));
+        navigator.serviceWorker.register('sw.js').then(() => console.log("SW OK")).catch(err => console.log("SW registration failed:", err));
     }
 
     // Проверка за APK режим
     const isApp = window.matchMedia('(display-mode: standalone)').matches || document.referrer.includes('android-app://');
     if (isApp) {
-        document.getElementById('installBanner').style.display = 'none';
+        const banner = document.getElementById('installBanner');
+        if (banner) banner.style.display = 'none';
     } else {
         let defPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); defPrompt = e;
-            document.getElementById('installBanner').style.display = 'block';
+            e.preventDefault();
+            defPrompt = e;
+            const banner = document.getElementById('installBanner');
+            if (banner) banner.style.display = 'block';
         });
-        document.getElementById('installBanner').addEventListener('click', () => {
-            if (defPrompt) defPrompt.prompt();
-        });
+        const installBtn = document.getElementById('installBanner');
+        if (installBtn) {
+            installBtn.addEventListener('click', () => {
+                if (defPrompt) defPrompt.prompt();
+            });
+        }
     }
 </script>
 </body>
