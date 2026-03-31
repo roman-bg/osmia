@@ -303,6 +303,29 @@
 </button>
 
 <script>
+    const isInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                        window.matchMedia('(display-mode: fullscreen)').matches ||
+                        document.referrer.includes('android-app://');
+
+    // Дефинираме променливите за инсталация
+    let deferredPrompt;
+    const installBtn = document.getElementById('customInstallBtn');
+
+    // Ако вече е инсталирано като APK/PWA, скриваме бутона веднага и спираме логиката за него
+    if (isInstalled) {
+        if (installBtn) installBtn.style.display = 'none';
+        console.log('Running as installed app (TWA/PWA)');
+    }
+
+    // 2. Логика за PWA инсталационния бутон (само за браузър)
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Ако сме в APK, не показваме нищо
+        if (isInstalled) return;
+
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) installBtn.style.display = 'flex';
+    });
     const bumblebeeSpecies = [
         { name: "Земна пчела каменарка", latin: "Bombus lapidarius", abdomenColor: "черно, червено-кафяв връх", thoraxColor: "черен", sizeNote: "средна до едра (16–20 mm)", specialMark: "червена опашка", features: ["⚫ Черно тяло", "🔴 Яркочервен връх"] },
         { name: "Земна пчела горска", latin: "Bombus sylvarum", abdomenColor: "жълто-черни ивици, бял връх", thoraxColor: "жълт с черна лента", sizeNote: "дребна до средна (12–16 mm)", specialMark: "бяла опашка", features: ["🍂 Жълт гръден кош с черно петно", "⚪ Бял край"] },
