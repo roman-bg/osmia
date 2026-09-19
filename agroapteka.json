@@ -1,0 +1,628 @@
+{
+  "meta": {
+    "title": "Агро Аптека",
+    "version": "1.0",
+    "updated": "2026-09-19"
+  },
+  "pests": [
+    {
+      "eppo": "1ACAMF",
+      "name": "Акари (семейство)",
+      "preparations": [
+        { "name": "Нийм Азал Т/С", "dose": "0.3%-0.9%, 300 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "TETRUR",
+      "name": "Обикновен паяжинообразуващ акар",
+      "preparations": [
+        { "name": "Нийм Азал Т/С", "dose": "0.3%-0.9%, 300 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "SCAPTI",
+      "name": "Американска лозова цикада",
+      "preparations": [
+        { "name": "Нийм Азал Т/С", "dose": "0.3%-0.9%, 300 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "AGRLSI",
+      "name": "Агрилус (напр. Тексен теснокрил хоботник)",
+      "preparations": [
+        { "name": "Нийм Азал Т/С", "dose": "0.3%-0.9%, 300 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1ALEYF",
+      "name": "Белокрилки (семейство)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "TRIALU",
+      "name": "Оранжерийна белокрилка",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "THAUPI",
+      "name": "Борова процесионка",
+      "preparations": [
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "PIERBR",
+      "name": "Бяла зелева пеперуда",
+      "preparations": [
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" },
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "CEUTSU",
+      "name": "Галообразуващ зелев хоботник",
+      "preparations": [
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "AUTOGA",
+      "name": "Гамозначна нощенка",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "14-21 дни" },
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "LOBEBO",
+      "name": "Шарен гроздов молец / Гроздови молци",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "3-30 дни" },
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" },
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "TUTAAB",
+      "name": "Доматен миниращ молец",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "14-21 дни" },
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" },
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "1HETOF",
+      "name": "Дървеници / Растителноядни дървеници",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "SPODLI",
+      "name": "Египетска памукова нощенка",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "Не е указан" },
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "DIABVI",
+      "name": "Западен коренов царевичен червей",
+      "preparations": [
+        { "name": "Коломбо 0,8 МГ", "dose": "1200 г/дка", "quarantine": "Не е указан" },
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" },
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "PSYLLI",
+      "name": "Западна цвеклова бълха",
+      "preparations": [
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "PLUTMA",
+      "name": "Зелев молец",
+      "preparations": [
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "DELIAR",
+      "name": "Зелева муха",
+      "preparations": [
+        { "name": "Коломбо 0,8 МГ", "dose": "1200 г/дка", "quarantine": "Не е указан" },
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "MAMEBR",
+      "name": "Зелева нощенка",
+      "preparations": [
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1APHIF",
+      "name": "Листни въшки (семейство)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "APHIPO",
+      "name": "Зелена ябълкова листна въшка",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1ALTIG",
+      "name": "Земни бълхи (подсемейство)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "GRAFMO",
+      "name": "Източен плодов червей / Плодови червеи",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "Не е указан" },
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "QUADPE",
+      "name": "Калифорнийска щитоносна въшка",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1COCCF",
+      "name": "Щитоносни въшки (надсемейство)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "PHTOER",
+      "name": "Картофен молец",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "14 дни" }
+      ]
+    },
+    {
+      "eppo": "CURCEI",
+      "name": "Кестенов / Лешников хоботник (род)",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "21 дни" }
+      ]
+    },
+    {
+      "eppo": "LEPTDE",
+      "name": "Колорадски бръмбар",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "14 дни" },
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "PSYLLO",
+      "name": "Листни бълхи (семейство)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1TORTR",
+      "name": "Листозавивачки / Малка лозова листозавивачка",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "21 дни" },
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" },
+        { "name": "Метеор", "dose": "60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "DELIAN",
+      "name": "Лукова муха",
+      "preparations": [
+        { "name": "Коломбо 0,8 МГ", "dose": "1200 г/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "MELOLO",
+      "name": "Майски бръмбар",
+      "preparations": [
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "SPODEX",
+      "name": "Малка полска нощенка",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "Не е указан" },
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "CHARMA",
+      "name": "Малко цвеклово бръмбарче",
+      "preparations": [
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "PRAYOL",
+      "name": "Маслинов молец",
+      "preparations": [
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "1LITHO",
+      "name": "Миниращи молци / Ябълков пъстър миниращ молец",
+      "preparations": [
+        { "name": "Нийм Азал Т/С", "dose": "0.3%-0.9%, 300 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1DIPTF",
+      "name": "Мухи / Молци (разреди/семейства)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "PSORRA",
+      "name": "Морковена муха",
+      "preparations": [
+        { "name": "Коломбо 0,8 МГ", "dose": "1200 г/дка", "quarantine": "Не е указан" },
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" },
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "21 дни" }
+      ]
+    },
+    {
+      "eppo": "1NOCTF",
+      "name": "Нощенки (семейство)",
+      "preparations": [
+        { "name": "Леброн 0,5 Г", "dose": "1-2 кг/дка", "quarantine": "Не е указан" },
+        { "name": "Метеор", "dose": "60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "LEMAEL",
+      "name": "Обикновена житна пиявица",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "CASNEB",
+      "name": "Обикновена цвеклова щитоноска",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "HeliVarmigera",
+      "name": "Памукова нощенка",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "3-21 дни" },
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "Не е указан" },
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "DROSCE",
+      "name": "Петнистокрила дрозофила",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "Не е указан" },
+        { "name": "Нийм Азал Т/С", "dose": "300 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "ANARLI",
+      "name": "Прасковен клонков молец",
+      "preparations": [
+        { "name": "Кораген 20 СК", "dose": "5-30 мл/дка", "quarantine": "Не е указан" },
+        { "name": "Рапакс", "dose": "75-200 мл/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "1THRIP",
+      "name": "Трипси / Пшеничен трипс",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1EDWAP",
+      "name": "Пъпкова перокрилка / Розена цикада",
+      "preparations": [
+        { "name": "Нийм Азал Т/С", "dose": "0.3%-0.9%, 300 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "MELIGR",
+      "name": "Рапичен цветояд",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "30 дни" }
+      ]
+    },
+    {
+      "eppo": "EVERFO",
+      "name": "Рапична пеперуда",
+      "preparations": [
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "PSYUCH",
+      "name": "Рапична стъблена бълха",
+      "preparations": [
+        { "name": "Коломбо 0,8 МГ", "dose": "1200 г/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "1CICAD",
+      "name": "Цикади (подразред)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "AGRIRE",
+      "name": "Сив червей / Телени червеи (Elateridae)",
+      "preparations": [
+        { "name": "Коломбо 0,8 МГ", "dose": "1200 г/дка", "quarantine": "Не е указан" },
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "1ORTHG",
+      "name": "Скакалци (разред)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "CERICA",
+      "name": "Средиземноморска плодова муха",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "1MYRIOP",
+      "name": "Стоножки (клас)",
+      "preparations": [
+        { "name": "Леброн 0,5 Г", "dose": "1.0-2.0 кг/дка", "quarantine": "Не е указан" }
+      ]
+    },
+    {
+      "eppo": "1CURCF",
+      "name": "Хоботници (семейство)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "OSTRNU",
+      "name": "Царевичен стъблопробивач",
+      "preparations": [
+        { "name": "Алтакор 35 ВГ", "dose": "8-12 г/дка", "quarantine": "3 дни" },
+        { "name": "Метеор", "dose": "60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    },
+    {
+      "eppo": "3MUSHG",
+      "name": "Култивирани гъби (Групов/целеви код)",
+      "preparations": [
+        { "name": "Метеор", "dose": "0.06-0.09%, 60-87 мл/дка", "quarantine": "3 дни" }
+      ]
+    }
+  ],
+  "diseases": [
+    {
+      "eppo": "1ALTEG",
+      "name": "Алтернариоза / Алтернария (род)",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "Не е указан" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "1GLOMG",
+      "name": "Антракноза (род / гъба)",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "1BACTF",
+      "name": "Бактериоза (бактериални болести)",
+      "preparations": [
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "1ERYSF",
+      "name": "Брашнеста мана (разред/семейство)",
+      "preparations": [
+        { "name": "Топаз 100 ЕК", "dose": "≈ 41 мл/дка", "quarantine": "3-14 дни" },
+        { "name": "Куадрис 25 СК", "dose": "≈ 75-100 мл/дка", "quarantine": "21 дни" },
+        { "name": "Кумулус", "dose": "≈ 600-750 г/дка", "quarantine": "5-30 дни" },
+        { "name": "Сяра ВГ", "dose": "≈ 300-600 г/дка", "quarantine": "Зависи от културата" },
+        { "name": "Флинт Макс 75 ВГ", "dose": "≈ 16-20 г/дка", "quarantine": "3-14 дни" },
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "PUCCSH",
+      "name": "Бяла ръжда / Ръжди (Chrysomyxa / др.)",
+      "preparations": [
+        { "name": "Флинт Макс 75 ВГ", "dose": "≈ 22 г/дка", "quarantine": "3-14 дни" },
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "GNOMCO",
+      "name": "Гномония",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "DIDYAP",
+      "name": "Дидимела",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "PHOMVI",
+      "name": "Екскориоза",
+      "preparations": [
+        { "name": "Куадрис 25 СК", "dose": "≈ 75-100 мл/дка", "quarantine": "21 дни" }
+      ]
+    },
+    {
+      "eppo": "1LEPTG",
+      "name": "Кафяви петна / Листни петна",
+      "preparations": [
+        { "name": "Казино Роял", "dose": "150 г/дка", "quarantine": "Не е посочена" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "MONILA",
+      "name": "Кафяво гниене (род Monilinia)",
+      "preparations": [
+        { "name": "Ботрибел", "dose": "≈ 950 мл/дка", "quarantine": "Не е посочена" },
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "1FULVG",
+      "name": "Кладоспориум / Листна плесен",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "1PEROF",
+      "name": "Мана (семейство Peronosporaceae)",
+      "preparations": [
+        { "name": "Куадрис 25 СК", "dose": "≈ 75-100 мл/дка", "quarantine": "21 дни" },
+        { "name": "Профайлър 71,1 ВГ", "dose": "≈ 213 г/дка", "quarantine": "21 дни" },
+        { "name": "Алиет Флаш", "dose": "0,3%", "quarantine": "4 дни" },
+        { "name": "Маестро ВГ", "dose": "≈ 290 г/дка", "quarantine": "15-28 дни" },
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" },
+        { "name": "Арметил-С ВП", "dose": "250 г/дка", "quarantine": "20 дни" },
+        { "name": "Фунгуран ОН 50 ВП", "dose": "150 г/дка*", "quarantine": "14 дни" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "ERWIAM",
+      "name": "Огнен пригор",
+      "preparations": [
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "RHIZSO",
+      "name": "Ризоктония",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "1PUCCF",
+      "name": "Ръжда (семейство Pucciniaceae)",
+      "preparations": [
+        { "name": "Топаз 100 ЕК", "dose": "≈ 41 мл/дка", "quarantine": "3-14 дни" },
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "STEMPT",
+      "name": "Сачмянка",
+      "preparations": [
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "1SEPTG",
+      "name": "Септориоза (род)",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "1PYTHG",
+      "name": "Сечене на разсад (Pythium / др. родове)",
+      "preparations": [
+        { "name": "Фунгуран ОН 50 ВП", "dose": "150 г/дка*", "quarantine": "14 дни" }
+      ]
+    },
+    {
+      "eppo": "BOTRCI",
+      "name": "Сиво гниене",
+      "preparations": [
+        { "name": "Ботрибел", "dose": "≈ 950 мл/дка", "quarantine": "Не е посочена" },
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "SCLESC",
+      "name": "Склеротиния",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "VENTIN",
+      "name": "Струпясване / Черно бакт. струпясване",
+      "preparations": [
+        { "name": "Сяра ВГ", "dose": "≈ 600 г/дка", "quarantine": "Зависи от културата" },
+        { "name": "Флинт Макс 75 ВГ", "dose": "≈ 20 г/дка", "quarantine": "14 дни" },
+        { "name": "Фунгуран ОН 50 ВП", "dose": "≈ 150-250 г/дка", "quarantine": "14 дни" },
+        { "name": "Бордо Микс 20 ВП", "dose": "≈ 375-500 г/дка", "quarantine": "3-21 дни" }
+      ]
+    },
+    {
+      "eppo": "1PHYTG",
+      "name": "Фитофторно гниене (род Phytophthora)",
+      "preparations": [
+        { "name": "Маестро ВГ", "dose": "≈ 290 г/дка", "quarantine": "15-28 дни" }
+      ]
+    },
+    {
+      "eppo": "1FUSAG",
+      "name": "Фузариум (род Fusarium)",
+      "preparations": [
+        { "name": "Сигнум", "dose": "≈ 100-110 г/дка", "quarantine": "3-28 дни" }
+      ]
+    },
+    {
+      "eppo": "GUIGBI",
+      "name": "Черно гниене (по лозата)",
+      "preparations": [
+        { "name": "Куадрис 25 СК", "dose": "≈ 75-100 мл/дка", "quarantine": "21 дни" },
+        { "name": "Ботрибел", "dose": "≈ 950 мл/дка", "quarantine": "Не е посочена" }
+      ]
+    }
+  ]
+}
