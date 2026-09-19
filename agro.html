@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Агро Аптека — Бърз справочник</title>
+<style>
+  :root{
+    --green:#2f7d32;
+    --green-dark:#1b5e20;
+    --green-light:#e8f5e9;
+    --bg:#f4f6f4;
+    --card:#ffffff;
+    --text:#1f2a24;
+    --muted:#6b7a70;
+    --border:#dfe6e0;
+    --amber:#b26a00;
+    --amber-bg:#fff4e0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.5;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:0 16px 64px}
+
+  /* Header */
+  .hero{
+    background:linear-gradient(135deg,var(--green-dark),var(--green));
+    color:#fff;
+    margin:0 -16px 0;
+    padding:28px 24px 26px;
+    border-radius:0 0 18px 18px;
+    box-shadow:0 4px 16px rgba(0,0,0,.12);
+  }
+  .hero h1{margin:0 0 4px;font-size:1.6rem;letter-spacing:.3px}
+  .hero p{margin:0;opacity:.9;font-size:.92rem}
+
+  /* Controls */
+  .controls{
+    position:sticky;top:0;z-index:20;
+    background:rgba(244,246,244,.92);
+    backdrop-filter:blur(8px);
+    padding:14px 0 10px;
+    margin-bottom:14px;
+    border-bottom:1px solid var(--border);
+  }
+  .search-row{display:flex;gap:8px;align-items:center}
+  #search{
+    flex:1;
+    padding:13px 16px;
+    font-size:1rem;
+    border:2px solid var(--border);
+    border-radius:12px;
+    background:#fff;
+    color:var(--text);
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  #search:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(47,125,50,.12)}
+  #search::placeholder{color:#9aa8a0}
+  .btn-ghost{
+    width:44px;height:44px;flex:0 0 44px;
+    border:2px solid var(--border);background:#fff;border-radius:12px;
+    cursor:pointer;font-size:1rem;color:var(--muted);
+    transition:.15s;
+  }
+  .btn-ghost:hover{background:#f0f0f0;color:var(--text)}
+
+  .filter-row{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+    margin-top:10px;
+  }
+  .segmented{display:flex;background:#e9ede9;border-radius:10px;padding:3px;gap:2px}
+  .segmented button{
+    border:0;background:transparent;padding:8px 14px;border-radius:8px;
+    cursor:pointer;font-size:.88rem;font-weight:600;color:var(--muted);
+    transition:.15s;white-space:nowrap;
+  }
+  .segmented button:hover{color:var(--text)}
+  .segmented button.active{background:#fff;color:var(--green-dark);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+  #prepFilter{
+    padding:9px 12px;border-radius:10px;border:2px solid var(--border);
+    background:#fff;font-size:.88rem;color:var(--text);cursor:pointer;
+    max-width:280px;outline:none;
+  }
+  #prepFilter:focus{border-color:var(--green)}
+
+  .meta{margin-top:8px;font-size:.83rem;color:var(--muted)}
+  .meta b{color:var(--green-dark)}
+  .meta .hint{margin-left:8px}
+  kbd{
+    background:#fff;border:1px solid var(--border);border-bottom-width:2px;
+    border-radius:5px;padding:1px 5px;font-size:.75rem;font-family:inherit;
+  }
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    gap:14px;
+    min-height:200px;
+  }
+  @media (max-width:420px){.grid{grid-template-columns:1fr}}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:5px solid var(--green);
+    border-radius:12px;
+    padding:14px 16px 12px;
+    box-shadow:0 1px 3px rgba(0,0,0,.05);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.09)}
+  .card.disease{border-left-color:#8e5cd9}
+
+  .card-top{
+    display:flex;justify-content:space-between;align-items:center;
+    gap:8px;margin-bottom:6px;
+  }
+  .type-tag{
+    font-size:.72rem;font-weight:700;letter-spacing:.4px;
+    text-transform:uppercase;color:var(--green-dark);
+    background:var(--green-light);padding:3px 8px;border-radius:20px;
+  }
+  .card.disease .type-tag{color:#5b2fa8;background:#f0e9fd}
+  .eppo{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.74rem;color:var(--muted);
+    background:#f2f5f2;border:1px solid var(--border);
+    padding:2px 7px;border-radius:6px;white-space:nowrap;
+  }
+  .card h2{
+    margin:0 0 10px;
+    font-size:1.02rem;line-height:1.35;font-weight:700;
+  }
+
+  .preps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .prep{
+    background:#f8faf8;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:8px 10px;
+  }
+  .prep-name{font-weight:700;font-size:.93rem;color:var(--green-dark)}
+  .prep-meta{
+    display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;
+    font-size:.78rem;
+  }
+  .dose{
+    background:#eef4ee;color:#33513a;
+    padding:2px 8px;border-radius:6px;border:1px solid #dbe7dc;
+  }
+  .quar{
+    background:var(--amber-bg);color:var(--amber);
+    padding:2px 8px;border-radius:6px;border:1px solid #f2ddb8;
+    font-weight:600;
+  }
+  .quar.unknown{
+    background:#f3f4f3;color:var(--muted);border-color:var(--border);font-weight:500;
+  }
+
+  mark{background:#ffe98a;color:inherit;border-radius:3px;padding:0 1px}
+
+  /* State screens */
+  .state{
+    grid-column:1/-1;
+    text-align:center;
+    padding:56px 20px;
+    color:var(--muted);
+  }
+  .state .icon{font-size:2.6rem;display:block;margin-bottom:12px;line-height:1}
+  .state h3{margin:0 0 8px;color:var(--text);font-size:1.1rem;font-weight:700}
+  .state p{margin:0 auto;max-width:480px;font-size:.92rem;line-height:1.6}
+  .state code{
+    background:#fff;border:1px solid var(--border);border-radius:6px;
+    padding:2px 7px;font-size:.85rem;
+  }
+  .state .examples{
+    margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  }
+  .state .examples button{
+    background:#fff;border:1px solid var(--border);
+    padding:6px 12px;border-radius:20px;font-size:.82rem;
+    color:var(--green-dark);cursor:pointer;font-weight:600;
+    transition:.15s;
+  }
+  .state .examples button:hover{background:var(--green-light);border-color:var(--green)}
+
+  footer{
+    text-align:center;color:var(--muted);font-size:.78rem;
+    padding:26px 16px 0;line-height:1.7;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>🌿 Агро Аптека</h1>
+    <p>Бърз справочник — вредители, болести и утвърдени препарати (дози и карантина)</p>
+  </header>
+
+  <div class="controls">
+    <div class="search-row">
+      <input id="search" type="search" autocomplete="off" spellcheck="false"
+             placeholder="Търсене: вредител, болест, EPPO код или препарат…">
+      <button id="clear" class="btn-ghost" title="Изчисти търсенето">✕</button>
+    </div>
+
+    <div class="filter-row">
+      <div class="segmented" id="typeFilter">
+        <button data-type="all" class="active">Всички</button>
+        <button data-type="pest">🐛 Вредители</button>
+        <button data-type="disease">🍄 Болести</button>
+      </div>
+      <select id="prepFilter">
+        <option value="all">Всички препарати</option>
+      </select>
+    </div>
+
+    <div class="meta">
+      <span id="metaText">Въведете дума за търсене, за да видите резултати.</span>
+      <span class="hint">· <kbd>/</kbd> фокус · <kbd>Esc</kbd> изчисти</span>
+    </div>
+  </div>
+
+  <main id="results" class="grid"></main>
+
+  <footer>
+    Данните се зареждат от <code>agroapteka.json</code>.<br>
+    Информацията е с справочен характер — винаги проверявайте актуалната регистрация и карантинните срокове.
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   Състояние
+   ============================================================ */
+const state = {
+  q: '',
+  type: 'all',
+  prep: 'all',
+  items: [],          // всички записи след зареждане
+  loaded: false,
+  error: null
+};
+
+const MIN_QUERY_LEN = 2;
+
+/* ============================================================
+   DOM
+   ============================================================ */
+const resultsEl  = document.getElementById('results');
+const searchEl   = document.getElementById('search');
+const clearBtn   = document.getElementById('clear');
+const metaText   = document.getElementById('metaText');
+const typeFilter = document.getElementById('typeFilter');
+const prepFilter = document.getElementById('prepFilter');
+
+/* ============================================================
+   Помощни функции
+   ============================================================ */
+function esc(s){
+  return String(s ?? '').replace(/[&<>"]/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+function escapeRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+function hl(text, q){
+  const raw = String(text ?? '');
+  const tokens = (q || '').toLowerCase().split(/\s+/).filter(Boolean);
+  if (!tokens.length) return esc(raw);
+
+  const re = new RegExp(tokens.map(escapeRe).join('|'), 'gi');
+  let out = '', last = 0, m;
+  while ((m = re.exec(raw)) !== null){
+    if (m[0].length === 0){ re.lastIndex++; continue; }
+    out += esc(raw.slice(last, m.index)) + '<mark>' + esc(m[0]) + '</mark>';
+    last = m.index + m[0].length;
+  }
+  out += esc(raw.slice(last));
+  return out;
+}
+
+function isUnknown(v){
+  return !v || /не е (указан|посочена)/i.test(v);
+}
+
+/* ============================================================
+   Зареждане на JSON
+   ============================================================ */
+async function loadData(){
+  // Проверка за file:// протокол
+  if (location.protocol === 'file:'){
+    state.error = 'file-protocol';
+    return;
+  }
+
+  try {
+    const res = await fetch('agroapteka.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    const out = [];
+    (data.pests    || []).forEach(p => out.push({ ...p, type:'pest',    typeLabel:'Вредител' }));
+    (data.diseases || []).forEach(d => out.push({ ...d, type:'disease', typeLabel:'Болест' }));
+
+    state.items = out;
+    state.loaded = true;
+    buildPrepFilter();
+  } catch (err){
+    state.error = err.message || 'Грешка при зареждане';
+  }
+}
+
+/* ============================================================
+   Филтър с препарати
+   ============================================================ */
+function buildPrepFilter(){
+  const names = new Set();
+  state.items.forEach(it => (it.preparations || []).forEach(p => names.add(p.name)));
+  [...names].sort((a,b) => a.localeCompare(b, 'bg')).forEach(n => {
+    const o = document.createElement('option');
+    o.value = n; o.textContent = n;
+    prepFilter.appendChild(o);
+  });
+}
+
+/* ============================================================
+   Дали има достатъчно основание за показване на резултати
+   ============================================================ */
+function hasSearchIntent(){
+  const q = state.q.trim();
+  return (q.length >= MIN_QUERY_LEN)
+      || (state.prep !== 'all');
+}
+
+/* ============================================================
+   Филтриране
+   ============================================================ */
+function filterItems(){
+  const q = state.q.trim().toLowerCase();
+  const tokens = q ? q.split(/\s+/).filter(Boolean) : [];
+
+  return state.items.filter(it => {
+    if (state.type !== 'all' && it.type !== state.type) return false;
+    if (state.prep !== 'all' && !it.preparations.some(p => p.name === state.prep)) return false;
+
+    if (tokens.length){
+      const hay = [
+        it.eppo,
+        it.name,
+        it.typeLabel,
+        ...it.preparations.flatMap(p => [p.name, p.dose || '', p.quarantine || ''])
+      ].join(' ').toLowerCase();
+      return tokens.every(t => hay.includes(t));
+    }
+    return true;
+  });
+}
+
+/* ============================================================
+   Рендиране
+   ============================================================ */
+function cardHTML(it){
+  const q = state.q.trim();
+
+  const preps = it.preparations.map(p => `
+    <li class="prep">
+      <div class="prep-name">${hl(p.name, q)}</div>
+      <div class="prep-meta">
+        ${p.dose ? `<span class="dose">${hl(p.dose, q)}</span>` : ''}
+        <span class="quar ${isUnknown(p.quarantine) ? 'unknown' : ''}">
+          Карантина: ${hl(p.quarantine || 'не е указана', q)}
+        </span>
+      </div>
+    </li>`).join('');
+
+  return `
+    <article class="card ${it.type}">
+      <div class="card-top">
+        <span class="type-tag">${it.type === 'pest' ? '🐛 Вредител' : '🍄 Болест'}</span>
+        <span class="eppo">${hl(it.eppo, q)}</span>
+      </div>
+      <h2>${hl(it.name, q)}</h2>
+      <ul class="preps">${preps}</ul>
+    </article>`;
+}
+
+function renderIdle(){
+  resultsEl.innerHTML = `
+    <div class="state">
+      <span class="icon">🔎</span>
+      <h3>Започнете търсене</h3>
+      <p>Въведете име на вредител или болест, EPPO код, или изберете препарат от падащото меню, за да видите резултати.</p>
+      <div class="examples">
+        <button data-example="Кораген">Кораген</button>
+        <button data-example="Метеор">Метеор</button>
+        <button data-example="ръжда">ръжда</button>
+        <button data-example="листни въшки">листни въшки</button>
+        <button data-example="1ERYSF">1ERYSF</button>
+      </div>
+    </div>`;
+}
+
+function renderLoading(){
+  resultsEl.innerHTML = `
+    <div class="state">
+      <span class="icon">⏳</span>
+      <h3>Зареждане…</h3>
+      <p>Изтегляне на <code>agroapteka.json</code></p>
+    </div>`;
+}
+
+function renderError(){
+  if (state.error === 'file-protocol'){
+    resultsEl.innerHTML = `
+      <div class="state">
+        <span class="icon">⚠️</span>
+        <h3>Страницата не може да зареди данните</h3>
+        <p>Отворена е директно като файл (<code>file://</code>). Браузърите блокират <code>fetch()</code> към локални файлове.</p>
+        <p style="margin-top:12px">Стартирайте локален сървър в папката с файловете:</p>
+        <p style="margin-top:10px">
+          <code>python -m http.server 8000</code><br>
+          <span style="display:inline-block;margin-top:6px">после отворете</span>
+          <code>http://localhost:8000</code>
+        </p>
+      </div>`;
+  } else {
+    resultsEl.innerHTML = `
+      <div class="state">
+        <span class="icon">❌</span>
+        <h3>Грешка при зареждане на данните</h3>
+        <p>${esc(state.error || 'Неизвестна грешка')}</p>
+        <p style="margin-top:10px">Проверете дали <code>agroapteka.json</code> е в същата папка и е валиден JSON.</p>
+      </div>`;
+  }
+}
+
+function render(){
+  if (state.error)       return renderError();
+  if (!state.loaded)     return renderLoading();
+  if (!hasSearchIntent()) return renderIdle();
+
+  const items = filterItems();
+
+  metaText.innerHTML = `Показани <b>${items.length}</b> от <b>${state.items.length}</b> записа`;
+
+  if (!items.length){
+    resultsEl.innerHTML = `
+      <div class="state">
+        <span class="icon">🔍</span>
+        <h3>Няма намерени резултати</h3>
+        <p>Опитайте с друго име, EPPO код или препарат.</p>
+      </div>`;
+    return;
+  }
+
+  resultsEl.innerHTML = items.map(cardHTML).join('');
+}
+
+/* ============================================================
+   Събития
+   ============================================================ */
+let debounce;
+searchEl.addEventListener('input', e => {
+  clearTimeout(debounce);
+  debounce = setTimeout(() => {
+    state.q = e.target.value;
+    render();
+  }, 120);
+});
+
+clearBtn.addEventListener('click', () => {
+  searchEl.value = '';
+  state.q = '';
+  searchEl.focus();
+  render();
+});
+
+typeFilter.addEventListener('click', e => {
+  const btn = e.target.closest('button[data-type]');
+  if (!btn) return;
+  typeFilter.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.type = btn.dataset.type;
+  render();
+});
+
+prepFilter.addEventListener('change', e => {
+  state.prep = e.target.value;
+  render();
+});
+
+// Бутони с примери
+resultsEl.addEventListener('click', e => {
+  const btn = e.target.closest('button[data-example]');
+  if (!btn) return;
+  searchEl.value = btn.dataset.example;
+  state.q = btn.dataset.example;
+  searchEl.focus();
+  render();
+});
+
+// Клавиатурни преки пътища
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== searchEl){
+    e.preventDefault();
+    searchEl.focus();
+    searchEl.select();
+  }
+  if (e.key === 'Escape' && document.activeElement === searchEl){
+    searchEl.value = '';
+    state.q = '';
+    render();
+  }
+});
+
+/* ============================================================
+   Стартиране
+   ============================================================ */
+renderLoading();
+loadData().then(render);
+</script>
+</body>
+</html>
