@@ -16,6 +16,9 @@
     --border:#dfe6e0;
     --amber:#b26a00;
     --amber-bg:#fff4e0;
+    --purple:#5b2fa8;
+    --purple-bg:#f0e9fd;
+    --purple-light:#e0d3fb;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -28,7 +31,7 @@
   }
   .wrap{max-width:1200px;margin:0 auto;padding:0 16px 64px}
 
-  /* Header */
+  /* ---------- Header ---------- */
   .hero{
     background:linear-gradient(135deg,var(--green-dark),var(--green));
     color:#fff;
@@ -40,29 +43,91 @@
   .hero h1{margin:0 0 4px;font-size:1.6rem;letter-spacing:.3px}
   .hero p{margin:0;opacity:.9;font-size:.92rem}
 
-  /* Controls */
+  /* ---------- Controls ---------- */
   .controls{
-    position:sticky;top:0;z-index:20;
-    background:rgba(244,246,244,.92);
+    position:sticky;top:0;z-index:30;
+    background:rgba(244,246,244,.94);
     backdrop-filter:blur(8px);
     padding:14px 0 10px;
     margin-bottom:14px;
     border-bottom:1px solid var(--border);
   }
+
+  /* Две падащи менюта */
+  .select-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  @media (max-width:640px){
+    .select-row{grid-template-columns:1fr}
+  }
+
+  .select-wrap{position:relative}
+  .select-wrap::before{
+    content:"";
+    position:absolute;
+    left:14px;top:50%;transform:translateY(-50%);
+    width:4px;height:22px;border-radius:2px;
+    background:var(--green);
+    pointer-events:none;
+  }
+  .select-wrap.disease::before{background:var(--purple)}
+
+  select{
+    width:100%;
+    padding:12px 42px 12px 26px;
+    font-size:.95rem;
+    font-family:inherit;
+    font-weight:600;
+    color:var(--text);
+    border:2px solid var(--border);
+    border-radius:12px;
+    background:#fff;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7a70' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    appearance:none;
+    -webkit-appearance:none;
+    cursor:pointer;
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+    text-overflow:ellipsis;
+  }
+  select:hover{border-color:#c8d2cb}
+  select:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 4px rgba(47,125,50,.12);
+  }
+  .select-wrap.disease select:focus{
+    border-color:var(--purple);
+    box-shadow:0 0 0 4px rgba(91,47,168,.12);
+  }
+  select option{padding:6px}
+
+  /* Търсене */
   .search-row{display:flex;gap:8px;align-items:center}
+  .search-box{position:relative;flex:1}
+  .search-icon{
+    position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    font-size:1rem;color:#9aa8a0;pointer-events:none;
+  }
   #search{
-    flex:1;
-    padding:13px 16px;
-    font-size:1rem;
+    width:100%;
+    padding:12px 16px 12px 42px;
+    font-size:.95rem;
     border:2px solid var(--border);
     border-radius:12px;
     background:#fff;
     color:var(--text);
     outline:none;
     transition:border-color .15s, box-shadow .15s;
+    font-family:inherit;
   }
   #search:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(47,125,50,.12)}
   #search::placeholder{color:#9aa8a0}
+
   .btn-ghost{
     width:44px;height:44px;flex:0 0 44px;
     border:2px solid var(--border);background:#fff;border-radius:12px;
@@ -71,27 +136,7 @@
   }
   .btn-ghost:hover{background:#f0f0f0;color:var(--text)}
 
-  .filter-row{
-    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-    margin-top:10px;
-  }
-  .segmented{display:flex;background:#e9ede9;border-radius:10px;padding:3px;gap:2px}
-  .segmented button{
-    border:0;background:transparent;padding:8px 14px;border-radius:8px;
-    cursor:pointer;font-size:.88rem;font-weight:600;color:var(--muted);
-    transition:.15s;white-space:nowrap;
-  }
-  .segmented button:hover{color:var(--text)}
-  .segmented button.active{background:#fff;color:var(--green-dark);box-shadow:0 1px 3px rgba(0,0,0,.12)}
-
-  #prepFilter{
-    padding:9px 12px;border-radius:10px;border:2px solid var(--border);
-    background:#fff;font-size:.88rem;color:var(--text);cursor:pointer;
-    max-width:280px;outline:none;
-  }
-  #prepFilter:focus{border-color:var(--green)}
-
-  .meta{margin-top:8px;font-size:.83rem;color:var(--muted)}
+  .meta{margin-top:10px;font-size:.83rem;color:var(--muted)}
   .meta b{color:var(--green-dark)}
   .meta .hint{margin-left:8px}
   kbd{
@@ -99,7 +144,7 @@
     border-radius:5px;padding:1px 5px;font-size:.75rem;font-family:inherit;
   }
 
-  /* Grid */
+  /* ---------- Grid ---------- */
   .grid{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
@@ -118,7 +163,7 @@
     transition:transform .12s, box-shadow .12s;
   }
   .card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.09)}
-  .card.disease{border-left-color:#8e5cd9}
+  .card.disease{border-left-color:var(--purple)}
 
   .card-top{
     display:flex;justify-content:space-between;align-items:center;
@@ -129,7 +174,7 @@
     text-transform:uppercase;color:var(--green-dark);
     background:var(--green-light);padding:3px 8px;border-radius:20px;
   }
-  .card.disease .type-tag{color:#5b2fa8;background:#f0e9fd}
+  .card.disease .type-tag{color:var(--purple);background:var(--purple-bg)}
   .eppo{
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     font-size:.74rem;color:var(--muted);
@@ -141,6 +186,11 @@
     font-size:1.02rem;line-height:1.35;font-weight:700;
   }
 
+  .preps-label{
+    font-size:.72rem;font-weight:700;letter-spacing:.4px;
+    text-transform:uppercase;color:var(--muted);
+    margin:0 0 6px;
+  }
   .preps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
   .prep{
     background:#f8faf8;
@@ -168,30 +218,29 @@
 
   mark{background:#ffe98a;color:inherit;border-radius:3px;padding:0 1px}
 
-  /* State screens */
+  /* ---------- State screens ---------- */
   .state{
-    grid-column:1/-1;
-    text-align:center;
-    padding:56px 20px;
-    color:var(--muted);
+    grid-column:1/-1;text-align:center;padding:56px 20px;color:var(--muted);
   }
   .state .icon{font-size:2.6rem;display:block;margin-bottom:12px;line-height:1}
   .state h3{margin:0 0 8px;color:var(--text);font-size:1.1rem;font-weight:700}
-  .state p{margin:0 auto;max-width:480px;font-size:.92rem;line-height:1.6}
+  .state p{margin:0 auto;max-width:520px;font-size:.92rem;line-height:1.6}
   .state code{
     background:#fff;border:1px solid var(--border);border-radius:6px;
     padding:2px 7px;font-size:.85rem;
   }
   .state .examples{
-    margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+    margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
   }
   .state .examples button{
     background:#fff;border:1px solid var(--border);
-    padding:6px 12px;border-radius:20px;font-size:.82rem;
+    padding:8px 14px;border-radius:20px;font-size:.85rem;
     color:var(--green-dark);cursor:pointer;font-weight:600;
     transition:.15s;
   }
   .state .examples button:hover{background:var(--green-light);border-color:var(--green)}
+  .state .examples button.disease{color:var(--purple)}
+  .state .examples button.disease:hover{background:var(--purple-light);border-color:var(--purple)}
 
   footer{
     text-align:center;color:var(--muted);font-size:.78rem;
@@ -204,29 +253,34 @@
 
   <header class="hero">
     <h1>🌿 Агро Аптека</h1>
-    <p>Бърз справочник — вредители, болести и утвърдени препарати (дози и карантина)</p>
+    <p>Изберете <b>вредител</b> или <b>болест</b> от менютата, за да видите утвърдените препарати с дози и карантина</p>
   </header>
 
   <div class="controls">
-    <div class="search-row">
-      <input id="search" type="search" autocomplete="off" spellcheck="false"
-             placeholder="Търсене: вредител, болест, EPPO код или препарат…">
-      <button id="clear" class="btn-ghost" title="Изчисти търсенето">✕</button>
+    <div class="select-row">
+      <div class="select-wrap">
+        <select id="pestSelect" aria-label="Избор на вредител">
+          <option value="">🐛 Вредител…</option>
+        </select>
+      </div>
+      <div class="select-wrap disease">
+        <select id="diseaseSelect" aria-label="Избор на болест">
+          <option value="">🍄 Болест…</option>
+        </select>
+      </div>
     </div>
 
-    <div class="filter-row">
-      <div class="segmented" id="typeFilter">
-        <button data-type="all" class="active">Всички</button>
-        <button data-type="pest">🐛 Вредители</button>
-        <button data-type="disease">🍄 Болести</button>
+    <div class="search-row">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input id="search" type="search" autocomplete="off" spellcheck="false"
+               placeholder="Допълнително търсене (препарат, доза, EPPO код)…">
       </div>
-      <select id="prepFilter">
-        <option value="all">Всички препарати</option>
-      </select>
+      <button id="clear" class="btn-ghost" title="Изчисти всичко">✕</button>
     </div>
 
     <div class="meta">
-      <span id="metaText">Въведете дума за търсене, за да видите резултати.</span>
+      <span id="metaText">Изберете от менютата или въведете текст за търсене.</span>
       <span class="hint">· <kbd>/</kbd> фокус · <kbd>Esc</kbd> изчисти</span>
     </div>
   </div>
@@ -245,24 +299,22 @@
    ============================================================ */
 const state = {
   q: '',
-  type: 'all',
-  prep: 'all',
-  items: [],          // всички записи след зареждане
+  pest: '',      // '' | 'all' | конкретен EPPO код
+  disease: '',   // '' | 'all' | конкретен EPPO код
+  items: [],
   loaded: false,
   error: null
 };
 
-const MIN_QUERY_LEN = 2;
-
 /* ============================================================
    DOM
    ============================================================ */
-const resultsEl  = document.getElementById('results');
-const searchEl   = document.getElementById('search');
-const clearBtn   = document.getElementById('clear');
-const metaText   = document.getElementById('metaText');
-const typeFilter = document.getElementById('typeFilter');
-const prepFilter = document.getElementById('prepFilter');
+const resultsEl   = document.getElementById('results');
+const searchEl    = document.getElementById('search');
+const clearBtn    = document.getElementById('clear');
+const metaText    = document.getElementById('metaText');
+const pestSelect  = document.getElementById('pestSelect');
+const diseaseSelect = document.getElementById('diseaseSelect');
 
 /* ============================================================
    Помощни функции
@@ -277,7 +329,6 @@ function hl(text, q){
   const raw = String(text ?? '');
   const tokens = (q || '').toLowerCase().split(/\s+/).filter(Boolean);
   if (!tokens.length) return esc(raw);
-
   const re = new RegExp(tokens.map(escapeRe).join('|'), 'gi');
   let out = '', last = 0, m;
   while ((m = re.exec(raw)) !== null){
@@ -297,12 +348,10 @@ function isUnknown(v){
    Зареждане на JSON
    ============================================================ */
 async function loadData(){
-  // Проверка за file:// протокол
   if (location.protocol === 'file:'){
     state.error = 'file-protocol';
     return;
   }
-
   try {
     const res = await fetch('agroapteka.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -312,34 +361,48 @@ async function loadData(){
     (data.pests    || []).forEach(p => out.push({ ...p, type:'pest',    typeLabel:'Вредител' }));
     (data.diseases || []).forEach(d => out.push({ ...d, type:'disease', typeLabel:'Болест' }));
 
+    out.sort((a,b) => a.name.localeCompare(b.name, 'bg'));
     state.items = out;
     state.loaded = true;
-    buildPrepFilter();
+
+    buildDropdowns();
   } catch (err){
     state.error = err.message || 'Грешка при зареждане';
   }
 }
 
 /* ============================================================
-   Филтър с препарати
+   Падащи менюта — вредители и болести
    ============================================================ */
-function buildPrepFilter(){
-  const names = new Set();
-  state.items.forEach(it => (it.preparations || []).forEach(p => names.add(p.name)));
-  [...names].sort((a,b) => a.localeCompare(b, 'bg')).forEach(n => {
-    const o = document.createElement('option');
-    o.value = n; o.textContent = n;
-    prepFilter.appendChild(o);
-  });
+function buildDropdowns(){
+  const pests = state.items
+    .filter(it => it.type === 'pest')
+    .sort((a,b) => a.name.localeCompare(b.name, 'bg'));
+
+  const diseases = state.items
+    .filter(it => it.type === 'disease')
+    .sort((a,b) => a.name.localeCompare(b.name, 'bg'));
+
+  pestSelect.innerHTML = `
+    <option value="">🐛 Изберете вредител…</option>
+    <option value="all">📋 Всички вредители (${pests.length})</option>
+    ${pests.map(p => `<option value="${esc(p.eppo)}">${esc(p.name)}</option>`).join('')}
+  `;
+
+  diseaseSelect.innerHTML = `
+    <option value="">🍄 Изберете болест…</option>
+    <option value="all">📋 Всички болести (${diseases.length})</option>
+    ${diseases.map(d => `<option value="${esc(d.eppo)}">${esc(d.name)}</option>`).join('')}
+  `;
 }
 
 /* ============================================================
-   Дали има достатъчно основание за показване на резултати
+   Дали има намерение за търсене
    ============================================================ */
 function hasSearchIntent(){
-  const q = state.q.trim();
-  return (q.length >= MIN_QUERY_LEN)
-      || (state.prep !== 'all');
+  return state.q.trim().length >= 1
+      || state.pest !== ''
+      || state.disease !== '';
 }
 
 /* ============================================================
@@ -349,20 +412,29 @@ function filterItems(){
   const q = state.q.trim().toLowerCase();
   const tokens = q ? q.split(/\s+/).filter(Boolean) : [];
 
-  return state.items.filter(it => {
-    if (state.type !== 'all' && it.type !== state.type) return false;
-    if (state.prep !== 'all' && !it.preparations.some(p => p.name === state.prep)) return false;
+  // 1) Основен филтър по избор от падащите менюта
+  let pool;
+  if (state.pest !== '' && state.pest !== 'all'){
+    pool = state.items.filter(it => it.type === 'pest' && it.eppo === state.pest);
+  } else if (state.disease !== '' && state.disease !== 'all'){
+    pool = state.items.filter(it => it.type === 'disease' && it.eppo === state.disease);
+  } else if (state.pest === 'all'){
+    pool = state.items.filter(it => it.type === 'pest');
+  } else if (state.disease === 'all'){
+    pool = state.items.filter(it => it.type === 'disease');
+  } else {
+    pool = state.items;
+  }
 
-    if (tokens.length){
-      const hay = [
-        it.eppo,
-        it.name,
-        it.typeLabel,
-        ...it.preparations.flatMap(p => [p.name, p.dose || '', p.quarantine || ''])
-      ].join(' ').toLowerCase();
-      return tokens.every(t => hay.includes(t));
-    }
-    return true;
+  // 2) Допълнителен текстов филтър
+  if (!tokens.length) return pool;
+
+  return pool.filter(it => {
+    const hay = [
+      it.eppo, it.name, it.typeLabel,
+      ...it.preparations.flatMap(p => [p.name, p.dose || '', p.quarantine || ''])
+    ].join(' ').toLowerCase();
+    return tokens.every(t => hay.includes(t));
   });
 }
 
@@ -384,12 +456,13 @@ function cardHTML(it){
     </li>`).join('');
 
   return `
-    <article class="card ${it.type}">
+    <article class="card ${it.type}" data-eppo="${esc(it.eppo)}">
       <div class="card-top">
         <span class="type-tag">${it.type === 'pest' ? '🐛 Вредител' : '🍄 Болест'}</span>
         <span class="eppo">${hl(it.eppo, q)}</span>
       </div>
       <h2>${hl(it.name, q)}</h2>
+      <p class="preps-label">Утвърдени препарати:</p>
       <ul class="preps">${preps}</ul>
     </article>`;
 }
@@ -397,15 +470,16 @@ function cardHTML(it){
 function renderIdle(){
   resultsEl.innerHTML = `
     <div class="state">
-      <span class="icon">🔎</span>
-      <h3>Започнете търсене</h3>
-      <p>Въведете име на вредител или болест, EPPO код, или изберете препарат от падащото меню, за да видите резултати.</p>
+      <span class="icon">🌱</span>
+      <h3>Изберете вредител или болест</h3>
+      <p>Използвайте падащите менюта по-горе, за да изберете конкретен вредител или болест. Можете и директно да въведете текст за търсене.</p>
       <div class="examples">
-        <button data-example="Кораген">Кораген</button>
-        <button data-example="Метеор">Метеор</button>
-        <button data-example="ръжда">ръжда</button>
-        <button data-example="листни въшки">листни въшки</button>
-        <button data-example="1ERYSF">1ERYSF</button>
+        <button data-pest="LEPTDE">🐛 Колорадски бръмбар</button>
+        <button data-pest="1APHIF">🐛 Листни въшки</button>
+        <button data-pest="LOBEBO">🐛 Гроздови молци</button>
+        <button data-disease="1ERYSF" class="disease">🍄 Брашнеста мана</button>
+        <button data-disease="1PEROF" class="disease">🍄 Мана</button>
+        <button data-disease="VENTIN" class="disease">🍄 Струпясване</button>
       </div>
     </div>`;
 }
@@ -445,20 +519,26 @@ function renderError(){
 }
 
 function render(){
-  if (state.error)       return renderError();
-  if (!state.loaded)     return renderLoading();
+  if (state.error)   return renderError();
+  if (!state.loaded) return renderLoading();
   if (!hasSearchIntent()) return renderIdle();
 
   const items = filterItems();
 
-  metaText.innerHTML = `Показани <b>${items.length}</b> от <b>${state.items.length}</b> записа`;
+  // Мета текст — контекстуален
+  if (items.length === 1){
+    const it = items[0];
+    metaText.innerHTML = `Показан <b>1</b> запис — <b>${esc(it.name)}</b>`;
+  } else {
+    metaText.innerHTML = `Показани <b>${items.length}</b> записа от общо <b>${state.items.length}</b>`;
+  }
 
   if (!items.length){
     resultsEl.innerHTML = `
       <div class="state">
         <span class="icon">🔍</span>
         <h3>Няма намерени резултати</h3>
-        <p>Опитайте с друго име, EPPO код или препарат.</p>
+        <p>Опитайте с друг вредител, болест или препарат.</p>
       </div>`;
     return;
   }
@@ -478,35 +558,56 @@ searchEl.addEventListener('input', e => {
   }, 120);
 });
 
+// Избор на вредител — изчиства избора на болест
+pestSelect.addEventListener('change', () => {
+  state.pest = pestSelect.value;
+  if (state.pest !== ''){
+    state.disease = '';
+    diseaseSelect.value = '';
+  }
+  render();
+});
+
+// Избор на болест — изчиства избора на вредител
+diseaseSelect.addEventListener('change', () => {
+  state.disease = diseaseSelect.value;
+  if (state.disease !== ''){
+    state.pest = '';
+    pestSelect.value = '';
+  }
+  render();
+});
+
 clearBtn.addEventListener('click', () => {
   searchEl.value = '';
   state.q = '';
+  state.pest = '';
+  state.disease = '';
+  pestSelect.value = '';
+  diseaseSelect.value = '';
   searchEl.focus();
   render();
 });
 
-typeFilter.addEventListener('click', e => {
-  const btn = e.target.closest('button[data-type]');
-  if (!btn) return;
-  typeFilter.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  state.type = btn.dataset.type;
-  render();
-});
-
-prepFilter.addEventListener('change', e => {
-  state.prep = e.target.value;
-  render();
-});
-
-// Бутони с примери
+// Примери от idle екрана
 resultsEl.addEventListener('click', e => {
-  const btn = e.target.closest('button[data-example]');
-  if (!btn) return;
-  searchEl.value = btn.dataset.example;
-  state.q = btn.dataset.example;
-  searchEl.focus();
-  render();
+  const pestBtn = e.target.closest('button[data-pest]');
+  if (pestBtn){
+    state.pest = pestBtn.dataset.pest;
+    state.disease = '';
+    pestSelect.value = state.pest;
+    diseaseSelect.value = '';
+    render();
+    return;
+  }
+  const disBtn = e.target.closest('button[data-disease]');
+  if (disBtn){
+    state.disease = disBtn.dataset.disease;
+    state.pest = '';
+    diseaseSelect.value = state.disease;
+    pestSelect.value = '';
+    render();
+  }
 });
 
 // Клавиатурни преки пътища
